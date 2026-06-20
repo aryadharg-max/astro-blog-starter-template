@@ -196,6 +196,55 @@
         border-color: var(--text);
       }
 
+      .timing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .time-field {
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--bg);
+      }
+
+      .time-field label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--subtle);
+        font-size: 0.74rem;
+        font-weight: 750;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .time-field input {
+        width: 100%;
+        min-height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--surface);
+        color: var(--text);
+        font: inherit;
+        font-weight: 700;
+        padding: 0 12px;
+      }
+
+      .toggle-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-top: 16px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      .toggle-row input {
+        margin-top: 5px;
+      }
+
       .status-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -224,6 +273,10 @@
         font-size: 1rem;
       }
 
+      .countdown-text {
+        color: var(--accent);
+      }
+
       .traffic-card {
         display: grid;
         place-items: center;
@@ -245,6 +298,10 @@
         background: #3a3a3a;
         border: 7px solid #0d0d0d;
         opacity: 0.3;
+        transition:
+          opacity 160ms ease,
+          background 160ms ease,
+          box-shadow 160ms ease;
       }
 
       .light:last-child {
@@ -330,8 +387,8 @@
           <h1>Traffic light control.</h1>
           <p class="lead">
             A dedicated control page for the ESP8266 / NodeMCU traffic light
-            system. This page is separate from the portfolio so the hardware
-            interface stays clean, focused, and easy to understand.
+            system. Auto mode begins with a 1.5 second startup check where all
+            lights turn on before the normal cycle starts.
           </p>
         </div>
       </section>
@@ -342,9 +399,10 @@
             <div class="card">
               <h2>Manual control</h2>
               <p>
-                These buttons currently control the on-screen preview only. In
-                the next steps, we will connect them to a Cloudflare backend and
-                then to the NodeMCU.
+                Use the buttons below to control the light preview. Manual timed
+                mode is on by default: the selected light stays on for its set
+                duration, then the system returns to Auto mode after the 1.5
+                second startup check.
               </p>
 
               <div class="button-grid">
@@ -355,10 +413,40 @@
                 <button class="control-button" data-light="auto">Auto Mode</button>
               </div>
 
+              <div class="timing-grid">
+                <div class="time-field">
+                  <label for="redDuration">Red Time</label>
+                  <input id="redDuration" type="number" min="1" max="120" value="10" />
+                </div>
+
+                <div class="time-field">
+                  <label for="yellowDuration">Yellow Time</label>
+                  <input id="yellowDuration" type="number" min="1" max="120" value="5" />
+                </div>
+
+                <div class="time-field">
+                  <label for="greenDuration">Green Time</label>
+                  <input id="greenDuration" type="number" min="1" max="120" value="15" />
+                </div>
+              </div>
+
+              <label class="toggle-row">
+                <input id="manualTimedReturn" type="checkbox" checked />
+                <span>
+                  Manual timed mode: after a manual light finishes its timer,
+                  return to Auto mode.
+                </span>
+              </label>
+
               <div class="status-grid">
                 <div class="status-box">
                   <span>Current Mode</span>
-                  <strong id="trafficMode">All Off</strong>
+                  <strong id="trafficMode">Starting</strong>
+                </div>
+
+                <div class="status-box">
+                  <span>Timer</span>
+                  <strong id="trafficTimer" class="countdown-text">—</strong>
                 </div>
 
                 <div class="status-box">
@@ -401,59 +489,214 @@
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
 
+      const STARTUP_CHECK_MS = 1500;
+
       const buttons = document.querySelectorAll("[data-light]");
       const modeText = document.getElementById("trafficMode");
+      const timerText = document.getElementById("trafficTimer");
+      const connectionText = document.getElementById("trafficConnection");
+
       const redLight = document.getElementById("lightRed");
       const yellowLight = document.getElementById("lightYellow");
       const greenLight = document.getElementById("lightGreen");
 
-      function clearPreview() {
+      const redDurationInput = document.getElementById("redDuration");
+      const yellowDurationInput = document.getElementById("yellowDuration");
+      const greenDurationInput = document.getElementById("greenDuration");
+      const manualTimedReturn = document.getElementById("manualTimedReturn");
+
+      let autoTimer = null;
+      let countdownTimer = null;
+      let manualReturnTimer = null;
+      let autoIndex = 0;
+
+      const autoCycle = ["red", "yellow", "green"];
+
+      function getSeconds(input, fallback) {
+        const value = Number(input.value);
+
+        if (!Number.isFinite(value)) {
+          return fallback;
+        }
+
+        return Math.min(Math.max(value, 1), 120);
+      }
+
+      function getDuration(mode) {
+        if (mode === "red") return getSeconds(redDurationInput, 10) * 1000;
+        if (mode === "yellow") return getSeconds(yellowDurationInput, 5) * 1000;
+        if (mode === "green") return getSeconds(greenDurationInput, 15) * 1000;
+        return 0;
+      }
+
+      function labelFor(mode) {
+        if (mode === "red") return "Red";
+        if (mode === "yellow") return "Yellow";
+        if (mode === "green") return "Green";
+        if (mode === "auto") return "Auto Mode";
+        if (mode === "off") return "All Off";
+        return "Unknown";
+      }
+
+      function clearTimers() {
+        clearTimeout(autoTimer);
+        clearTimeout(manualReturnTimer);
+        clearInterval(countdownTimer);
+
+        autoTimer = null;
+        manualReturnTimer = null;
+        countdownTimer = null;
+      }
+
+      function clearLights() {
         redLight.classList.remove("on");
         yellowLight.classList.remove("on");
         greenLight.classList.remove("on");
+      }
+
+      function allLightsOn() {
+        redLight.classList.add("on");
+        yellowLight.classList.add("on");
+        greenLight.classList.add("on");
+      }
+
+      function clearActiveButtons() {
         buttons.forEach((button) => button.classList.remove("is-active"));
       }
 
-      function setPreview(mode) {
-        clearPreview();
+      function setActiveButton(mode) {
+        clearActiveButtons();
 
         const activeButton = document.querySelector(`[data-light="${mode}"]`);
-        if (activeButton) activeButton.classList.add("is-active");
 
-        if (mode === "red") {
-          redLight.classList.add("on");
-          modeText.textContent = "Red";
+        if (activeButton) {
+          activeButton.classList.add("is-active");
+        }
+      }
+
+      function showOnly(mode) {
+        clearLights();
+
+        if (mode === "red") redLight.classList.add("on");
+        if (mode === "yellow") yellowLight.classList.add("on");
+        if (mode === "green") greenLight.classList.add("on");
+      }
+
+      function startCountdown(label, durationMs) {
+        clearInterval(countdownTimer);
+
+        const endTime = Date.now() + durationMs;
+
+        function updateCountdown() {
+          const remainingMs = Math.max(0, endTime - Date.now());
+          const remainingSeconds = Math.ceil(remainingMs / 1000);
+          timerText.textContent = `${label}: ${remainingSeconds}s`;
         }
 
-        if (mode === "yellow") {
-          yellowLight.classList.add("on");
-          modeText.textContent = "Yellow";
+        updateCountdown();
+        countdownTimer = setInterval(updateCountdown, 250);
+      }
+
+      function startStartupCountdown() {
+        clearInterval(countdownTimer);
+
+        const endTime = Date.now() + STARTUP_CHECK_MS;
+
+        function updateStartupCountdown() {
+          const remainingMs = Math.max(0, endTime - Date.now());
+          const remainingSeconds = (remainingMs / 1000).toFixed(1);
+          timerText.textContent = `Startup check: ${remainingSeconds}s`;
         }
 
-        if (mode === "green") {
-          greenLight.classList.add("on");
-          modeText.textContent = "Green";
-        }
+        updateStartupCountdown();
+        countdownTimer = setInterval(updateStartupCountdown, 100);
+      }
+
+      function startAutoWithCheck() {
+        clearTimers();
+
+        setActiveButton("auto");
+        clearLights();
+        allLightsOn();
+
+        modeText.textContent = "Startup Check";
+        connectionText.textContent = "Auto preview";
+        startStartupCountdown();
+
+        autoTimer = setTimeout(() => {
+          clearInterval(countdownTimer);
+          autoIndex = 0;
+          runAutoStep();
+        }, STARTUP_CHECK_MS);
+      }
+
+      function runAutoStep() {
+        const mode = autoCycle[autoIndex];
+        const duration = getDuration(mode);
+
+        setActiveButton("auto");
+        showOnly(mode);
+
+        modeText.textContent = `Auto — ${labelFor(mode)}`;
+        connectionText.textContent = "Auto preview";
+        startCountdown(labelFor(mode), duration);
+
+        autoTimer = setTimeout(() => {
+          autoIndex = (autoIndex + 1) % autoCycle.length;
+          runAutoStep();
+        }, duration);
+      }
+
+      function setManualMode(mode) {
+        clearTimers();
 
         if (mode === "off") {
+          clearLights();
+          setActiveButton("off");
           modeText.textContent = "All Off";
+          timerText.textContent = "Hold";
+          connectionText.textContent = "Website preview";
+          return;
         }
 
-        if (mode === "auto") {
-          redLight.classList.add("on");
-          yellowLight.classList.add("on");
-          greenLight.classList.add("on");
-          modeText.textContent = "Auto Mode";
+        showOnly(mode);
+        setActiveButton(mode);
+
+        modeText.textContent = `Manual — ${labelFor(mode)}`;
+        connectionText.textContent = "Manual preview";
+
+        if (manualTimedReturn.checked) {
+          const duration = getDuration(mode);
+          startCountdown(`Manual ${labelFor(mode)}`, duration);
+
+          manualReturnTimer = setTimeout(() => {
+            startAutoWithCheck();
+          }, duration);
+        } else {
+          timerText.textContent = "Hold until changed";
         }
       }
 
       buttons.forEach((button) => {
         button.addEventListener("click", () => {
-          setPreview(button.dataset.light);
+          const mode = button.dataset.light;
+
+          if (mode === "auto") {
+            startAutoWithCheck();
+            return;
+          }
+
+          setManualMode(mode);
         });
       });
 
-      setPreview("off");
+      [redDurationInput, yellowDurationInput, greenDurationInput].forEach((input) => {
+        input.addEventListener("change", () => {
+          input.value = getSeconds(input, Number(input.defaultValue));
+        });
+      });
+
+      startAutoWithCheck();
     </script>
   </body>
 </html>
