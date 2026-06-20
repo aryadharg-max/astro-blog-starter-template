@@ -1,50 +1,1135 @@
----
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
----
-
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aryadhar Gupta — Driver • Builder • Creator</title>
+    <meta
+      name="description"
+      content="Portfolio of Aryadhar Gupta — motorsport driver, builder, engineering thinker, CAD user, IoT maker, and climate activist."
+    />
+    <meta name="theme-color" content="#07111f" />
+
+    <style>
+      :root {
+        --bg: #07111f;
+        --bg-soft: #0b1628;
+        --bg-card: rgba(255, 255, 255, 0.055);
+        --bg-card-strong: rgba(255, 255, 255, 0.085);
+        --text: #eef6ff;
+        --muted: #aab9cf;
+        --subtle: #71839c;
+        --line: rgba(255, 255, 255, 0.11);
+        --accent: #67e8f9;
+        --accent-2: #38bdf8;
+        --accent-3: #a7f3d0;
+        --danger: #f87171;
+        --maxw: 1160px;
+        --radius: 22px;
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 34rem),
+          radial-gradient(circle at 80% 12%, rgba(167, 243, 208, 0.10), transparent 28rem),
+          linear-gradient(180deg, #07111f 0%, #08101e 48%, #050a13 100%);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .wrap {
+        width: min(100% - 32px, var(--maxw));
+        margin-inline: auto;
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(18px) saturate(1.3);
+        background: rgba(7, 17, 31, 0.72);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-inner {
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #03111c;
+        box-shadow: 0 0 0 8px rgba(103, 232, 249, 0.08);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+
+      .nav-links a {
+        text-decoration: none;
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      .section {
+        padding: 86px 0;
+      }
+
+      .hero {
+        padding: 92px 0 64px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.22fr 0.78fr;
+        gap: 32px;
+        align-items: stretch;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        border: 1px solid rgba(103, 232, 249, 0.24);
+        border-radius: 999px;
+        background: rgba(103, 232, 249, 0.07);
+        color: #c8f8ff;
+        font-size: 0.88rem;
+        font-weight: 650;
+      }
+
+      .eyebrow-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 18px rgba(103, 232, 249, 0.8);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin-bottom: 18px;
+        font-size: clamp(3rem, 7vw, 6.4rem);
+        line-height: 0.92;
+        letter-spacing: -0.075em;
+      }
+
+      .hero-subtitle {
+        max-width: 780px;
+        color: var(--muted);
+        font-size: clamp(1.05rem, 2vw, 1.28rem);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 30px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 46px;
+        padding: 0 18px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.055);
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 700;
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease,
+          background 180ms ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        border-color: rgba(103, 232, 249, 0.42);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .btn-primary {
+        border-color: transparent;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #03111c;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.035)),
+          rgba(255, 255, 255, 0.04);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-panel {
+        padding: 24px;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .hero-panel::before {
+        content: "";
+        position: absolute;
+        inset: -35% -35% auto auto;
+        width: 260px;
+        height: 260px;
+        border-radius: 999px;
+        background: rgba(103, 232, 249, 0.14);
+        filter: blur(10px);
+      }
+
+      .focus-label {
+        color: var(--subtle);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-weight: 800;
+      }
+
+      .focus-title {
+        margin: 10px 0 8px;
+        font-size: 1.3rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+      }
+
+      .focus-text {
+        color: var(--muted);
+      }
+
+      .mini-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .mini-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 12px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .mini-item span:first-child {
+        color: var(--muted);
+      }
+
+      .mini-item span:last-child {
+        text-align: right;
+        font-weight: 750;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 28px;
+      }
+
+      .section-kicker {
+        color: var(--accent);
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-size: 0.78rem;
+      }
+
+      h2 {
+        margin: 6px 0 0;
+        font-size: clamp(2rem, 4vw, 3.3rem);
+        line-height: 1;
+        letter-spacing: -0.055em;
+      }
+
+      .section-note {
+        max-width: 440px;
+        color: var(--muted);
+      }
+
+      .cred-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 12px;
+        margin-top: 38px;
+      }
+
+      .cred-card {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.045);
+      }
+
+      .cred-card strong {
+        display: block;
+        font-size: 1.05rem;
+        line-height: 1.2;
+      }
+
+      .cred-card span {
+        display: block;
+        margin-top: 6px;
+        color: var(--subtle);
+        font-size: 0.88rem;
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 22px;
+      }
+
+      .large-card {
+        padding: 28px;
+      }
+
+      .large-card p {
+        color: var(--muted);
+      }
+
+      .quote-card {
+        min-height: 100%;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .quote-mark {
+        color: var(--accent);
+        font-size: 3.4rem;
+        line-height: 1;
+      }
+
+      .quote-card blockquote {
+        margin: 0;
+        font-size: 1.55rem;
+        line-height: 1.18;
+        letter-spacing: -0.035em;
+        font-weight: 800;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .tag {
+        display: inline-flex;
+        padding: 6px 10px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.045);
+        color: #dce9f8;
+        font-size: 0.84rem;
+        font-weight: 650;
+      }
+
+      .grid-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+
+      .cap-card {
+        padding: 22px;
+        min-height: 250px;
+      }
+
+      .icon {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background: rgba(103, 232, 249, 0.11);
+        border: 1px solid rgba(103, 232, 249, 0.2);
+        color: var(--accent);
+        font-weight: 900;
+      }
+
+      .cap-card h3,
+      .project-card h3 {
+        margin: 18px 0 8px;
+        font-size: 1.18rem;
+        letter-spacing: -0.025em;
+      }
+
+      .cap-card p,
+      .project-card p,
+      .timeline-card p,
+      .press-card p {
+        color: var(--muted);
+      }
+
+      .project-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .project-card {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        min-height: 360px;
+      }
+
+      .project-top {
+        height: 126px;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        background:
+          radial-gradient(circle at 25% 20%, rgba(103, 232, 249, 0.28), transparent 10rem),
+          radial-gradient(circle at 80% 85%, rgba(167, 243, 208, 0.16), transparent 8rem),
+          rgba(255, 255, 255, 0.04);
+        display: flex;
+        align-items: end;
+        padding: 16px;
+        color: rgba(238, 246, 255, 0.8);
+        font-size: 0.82rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+
+      .project-card .tag-row {
+        margin-top: auto;
+      }
+
+      .project-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .text-link {
+        color: #c8f8ff;
+        text-underline-offset: 4px;
+        font-weight: 750;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 14px;
+      }
+
+      .timeline-card {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .year {
+        color: var(--accent);
+        font-weight: 900;
+        font-size: 1.2rem;
+      }
+
+      .timeline-card h3 {
+        margin: 0 0 5px;
+      }
+
+      .press-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .press-card {
+        padding: 24px;
+      }
+
+      .press-links {
+        display: grid;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .media-placeholder {
+        min-height: 280px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 34px;
+        border: 1px dashed rgba(103, 232, 249, 0.28);
+        border-radius: var(--radius);
+        background: rgba(103, 232, 249, 0.045);
+      }
+
+      .media-placeholder strong {
+        display: block;
+        font-size: 1.4rem;
+        letter-spacing: -0.03em;
+      }
+
+      .media-placeholder span {
+        display: block;
+        max-width: 560px;
+        margin-top: 8px;
+        color: var(--muted);
+      }
+
+      .contact-card {
+        padding: 28px;
+        display: grid;
+        grid-template-columns: 1fr 1.15fr;
+        gap: 26px;
+        align-items: start;
+      }
+
+      .contact-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .contact-item {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.035);
+      }
+
+      .contact-item span {
+        display: block;
+        color: var(--subtle);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 850;
+      }
+
+      .contact-item a,
+      .contact-item strong {
+        display: inline-block;
+        margin-top: 5px;
+        color: var(--text);
+        font-weight: 750;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 28px 0;
+        color: var(--subtle);
+        font-size: 0.92rem;
+      }
+
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .about-grid,
+        .contact-card {
+          grid-template-columns: 1fr;
+        }
+
+        .cred-grid,
+        .grid-4,
+        .project-grid,
+        .press-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .nav-inner {
+          height: auto;
+          padding: 14px 0;
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .nav-links {
+          width: 100%;
+          overflow-x: auto;
+          padding-bottom: 2px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .section {
+          padding: 62px 0;
+        }
+
+        .hero {
+          padding-top: 58px;
+        }
+
+        .cred-grid,
+        .grid-4,
+        .project-grid,
+        .press-grid,
+        .contact-list {
+          grid-template-columns: 1fr;
+        }
+
+        .timeline-card {
+          grid-template-columns: 1fr;
+        }
+
+        h1 {
+          font-size: clamp(2.8rem, 17vw, 4.2rem);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="nav">
+      <div class="wrap nav-inner">
+        <a class="brand" href="#top" aria-label="Aryadhar Gupta homepage">
+          <span class="brand-mark">AG</span>
+          <span>Aryadhar Gupta</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#about">About</a>
+          <a href="#capabilities">Capabilities</a>
+          <a href="#projects">Projects</a>
+          <a href="#experience">Experience</a>
+          <a href="#press">Press</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              Driver • Builder • Creator
+            </div>
+
+            <h1>Engineering speed into real-world systems.</h1>
+
+            <p class="hero-subtitle">
+              I work at the intersection of motorsport, mechanical systems,
+              CAD, connected hardware, and climate-focused leadership. My work
+              combines track experience, hands-on building, and practical
+              engineering execution.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#projects">View Projects</a>
+              <a class="btn" href="#contact">Work With Me</a>
+            </div>
+
+            <div class="cred-grid" aria-label="Key highlights">
+              <div class="cred-card">
+                <strong>F4 Testing</strong>
+                <span>Driver development</span>
+              </div>
+              <div class="cred-card">
+                <strong>Drift Instructor</strong>
+                <span>BAD BOI DRIFTS</span>
+              </div>
+              <div class="cred-card">
+                <strong>UNO Minda</strong>
+                <span>Product Integration</span>
+              </div>
+              <div class="cred-card">
+                <strong>2nd @ BIC</strong>
+                <span>Autocross result</span>
+              </div>
+              <div class="cred-card">
+                <strong>CAD Since 2016</strong>
+                <span>Design & prototyping</span>
+              </div>
+              <div class="cred-card">
+                <strong>Mensa Member</strong>
+                <span>Analytical problem solving</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="panel hero-panel">
+            <div>
+              <div class="focus-label">Current Focus</div>
+              <div class="focus-title">Motorsport credibility + engineered project portfolio</div>
+              <p class="focus-text">
+                Building a professional public profile around driving,
+                technical execution, hands-on systems, and long-term racing
+                opportunities.
+              </p>
+            </div>
+
+            <div class="mini-list">
+              <div class="mini-item">
+                <span>Base</span>
+                <span>Delhi, India</span>
+              </div>
+              <div class="mini-item">
+                <span>Strength</span>
+                <span>Driver + builder mindset</span>
+              </div>
+              <div class="mini-item">
+                <span>Approach</span>
+                <span>Fast learning, clean execution</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">About</div>
+              <h2>Built from curiosity, refined through execution.</h2>
+            </div>
+            <p class="section-note">
+              A concise profile for sponsors, collaborators, teams, and anyone
+              evaluating the quality of the work behind the name.
+            </p>
+          </div>
+
+          <div class="about-grid">
+            <article class="panel large-card">
+              <p>
+                I started as a hands-on builder: RC models, cars, boats, planes,
+                drones, mechanics, and workshop experiments. That early
+                curiosity grew into CAD design, aeromodelling, coding, IoT
+                systems, automotive restoration, and motorsport.
+              </p>
+
+              <p>
+                Today, my profile combines driving experience with technical
+                depth: Formula-4 testing, drift instruction, autocross
+                competition, product integration work, and self-built hardware
+                projects. I care about building things that work — not just
+                concepts that look good on paper.
+              </p>
+
+              <div class="tag-row">
+                <span class="tag">Motorsport</span>
+                <span class="tag">CAD</span>
+                <span class="tag">IoT</span>
+                <span class="tag">Automotive</span>
+                <span class="tag">Climate Advocacy</span>
+                <span class="tag">Product Thinking</span>
+              </div>
+            </article>
+
+            <aside class="panel quote-card">
+              <div class="quote-mark">“</div>
+              <blockquote>
+                The common thread is simple: understand the machine, improve the
+                system, and make it perform.
+              </blockquote>
+              <p class="focus-text" style="margin-top: 28px;">
+                This website is being built as a professional base for racing,
+                engineering, portfolio work, and future collaborations.
+              </p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section id="capabilities" class="section">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Capabilities</div>
+              <h2>Where I create value.</h2>
+            </div>
+          </div>
+
+          <div class="grid-4">
+            <article class="panel cap-card">
+              <div class="icon">01</div>
+              <h3>Motorsport & Driver Development</h3>
+              <p>
+                Formula-4 testing, drift instruction, autocross competition, sim
+                training, car control, and performance-focused iteration.
+              </p>
+            </article>
+
+            <article class="panel cap-card">
+              <div class="icon">02</div>
+              <h3>Mechanical & Automotive Work</h3>
+              <p>
+                Hands-on restoration, diagnostics, powertrain understanding, and
+                practical workshop execution across real vehicles and RC builds.
+              </p>
+            </article>
+
+            <article class="panel cap-card">
+              <div class="icon">03</div>
+              <h3>CAD, Prototyping & Fabrication</h3>
+              <p>
+                Self-taught CAD since 2016 with experience across brackets,
+                mechanisms, housings, airframes, and functional prototypes.
+              </p>
+            </article>
+
+            <article class="panel cap-card">
+              <div class="icon">04</div>
+              <h3>Software, IoT & Control Systems</h3>
+              <p>
+                Self-taught coding since 2023, building web interfaces,
+                ESP8266/Arduino projects, automation logic, and physical-device
+                control systems.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Selected Work</div>
+              <h2>Projects that prove the mindset.</h2>
+            </div>
+            <p class="section-note">
+              Media and detailed case studies will be added later. For now,
+              this section stays clean and text-first.
+            </p>
+          </div>
+
+          <div class="project-grid">
+            <article class="panel project-card">
+              <div class="project-top">Connected Hardware</div>
+              <h3>NodeMCU Traffic Light Controller</h3>
+              <p>
+                ESP8266-controlled traffic light system using AC relays, web UI
+                controls, persistent timing logic, and planned audio-reactive
+                behavior over Wi-Fi.
+              </p>
+              <div class="tag-row">
+                <span class="tag">ESP8266</span>
+                <span class="tag">Web UI</span>
+                <span class="tag">Relays</span>
+                <span class="tag">IoT</span>
+              </div>
+              <div class="project-links">
+                <a class="text-link" target="_blank" rel="noopener" href="https://aryadharg-max.github.io/traffic-light-control/">Live demo</a>
+                <a class="text-link" target="_blank" rel="noopener" href="https://github.com/aryadharg-max/traffic-light-control">GitHub</a>
+              </div>
+            </article>
+
+            <article class="panel project-card">
+              <div class="project-top">Automotive</div>
+              <h3>Lexus GS300 / 2JZ Work</h3>
+              <p>
+                Hands-on automotive project work focused on mechanical
+                reliability, diagnostics, restoration planning, and clean
+                execution around the 2JZ platform.
+              </p>
+              <div class="tag-row">
+                <span class="tag">2JZ</span>
+                <span class="tag">Diagnostics</span>
+                <span class="tag">Restoration</span>
+                <span class="tag">Mechanical</span>
+              </div>
+            </article>
+
+            <article class="panel project-card">
+              <div class="project-top">Aero + RC</div>
+              <h3>Aeromodelling & RC Prototyping</h3>
+              <p>
+                RC aircraft and vehicle builds involving airframe design, weight
+                balance, powertrain integration, control surfaces, and iterative
+                testing.
+              </p>
+              <div class="tag-row">
+                <span class="tag">RC</span>
+                <span class="tag">Airframes</span>
+                <span class="tag">Powertrain</span>
+                <span class="tag">Testing</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" class="section">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Timeline</div>
+              <h2>Experience and development path.</h2>
+            </div>
+          </div>
+
+          <div class="timeline">
+            <article class="panel timeline-card">
+              <div class="year">2013+</div>
+              <div>
+                <h3>Early engineering curiosity</h3>
+                <p>
+                  Built the foundation through dismantling, repairing,
+                  experimenting, RC models, workshop tinkering, and mechanical
+                  curiosity.
+                </p>
+              </div>
+            </article>
+
+            <article class="panel timeline-card">
+              <div class="year">2016</div>
+              <div>
+                <h3>CAD and design proficiency</h3>
+                <p>
+                  Began self-learning CAD and applying it to functional parts,
+                  assemblies, brackets, models, and prototyping work.
+                </p>
+              </div>
+            </article>
+
+            <article class="panel timeline-card">
+              <div class="year">2018</div>
+              <div>
+                <h3>Climate activism</h3>
+                <p>
+                  Participated in youth climate action in Delhi-NCR, helping
+                  bring attention to air pollution, climate responsibility, and
+                  long-term sustainability.
+                </p>
+              </div>
+            </article>
+
+            <article class="panel timeline-card">
+              <div class="year">2023</div>
+              <div>
+                <h3>Coding and connected systems</h3>
+                <p>
+                  Started building software, web interfaces, microcontroller
+                  projects, and physical-device control systems.
+                </p>
+              </div>
+            </article>
+
+            <article class="panel timeline-card">
+              <div class="year">2024</div>
+              <div>
+                <h3>Automotive and motorsport growth</h3>
+                <p>
+                  Expanded hands-on automotive work, simulator training, drift
+                  development, and competitive driving preparation.
+                </p>
+              </div>
+            </article>
+
+            <article class="panel timeline-card">
+              <div class="year">2025</div>
+              <div>
+                <h3>UNO Minda — Product Integration & Market Analysis</h3>
+                <p>
+                  Worked at the intersection of product, engineering, market
+                  understanding, and practical business outcomes.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="press" class="section">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Activism & Media</div>
+              <h2>Public work beyond the workshop.</h2>
+            </div>
+          </div>
+
+          <div class="press-grid">
+            <article class="panel press-card">
+              <h3>Climate activism</h3>
+              <p>
+                Youth climate action in Delhi-NCR, focused on air pollution,
+                climate urgency, and public awareness.
+              </p>
+
+              <div class="press-links">
+                <a class="text-link" target="_blank" rel="noopener" href="https://www.indiatoday.in/mail-today/story/students-in-delhi-ncr-join-climate-change-stir-1479304-2019-03-16">India Today coverage</a>
+                <a class="text-link" target="_blank" rel="noopener" href="https://timesofindia.indiatimes.com/city/gurgaon/hundreds-of-ncr-school-students-join-global-protest-to-halt-climate-breakdown/articleshow/68434003.cms">Times of India coverage</a>
+                <a class="text-link" target="_blank" rel="noopener" href="https://www.hindustantimes.com/gurgaon/mar-13-500-students-to-protest-inaction-on-climate-crisis-/story-5VY5elJRzTJV4VOuAwm6CP.html">Hindustan Times coverage</a>
+              </div>
+            </article>
+
+            <article class="panel press-card">
+              <h3>Reputation signals</h3>
+              <p>
+                Motorsport involvement, technical projects, international
+                robotics/STEM experience, climate advocacy, and product-facing
+                internship experience combine into a profile that is both
+                technical and public-facing.
+              </p>
+
+              <div class="tag-row">
+                <span class="tag">WRO</span>
+                <span class="tag">F1 in Schools</span>
+                <span class="tag">Climate</span>
+                <span class="tag">Motorsport</span>
+                <span class="tag">Engineering</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="media" class="section">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="section-kicker">Media</div>
+              <h2>Gallery coming later.</h2>
+            </div>
+          </div>
+
+          <div class="media-placeholder">
+            <div>
+              <strong>No images or videos added yet.</strong>
+              <span>
+                This section is intentionally clean for now. Once your media
+                files are ready, we can add portraits, workshop clips, car
+                photos, project images, and motorsport footage without changing
+                the core website structure.
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="wrap">
+          <div class="panel contact-card">
+            <div>
+              <div class="section-kicker">Contact</div>
+              <h2>Let’s build the next step.</h2>
+              <p class="section-note" style="margin-top: 16px;">
+                Open to racing conversations, technical collaborations,
+                sponsorship opportunities, engineering projects, and meaningful
+                creative work.
+              </p>
+
+              <div class="hero-actions">
+                <a class="btn btn-primary" href="mailto:aryadharg@gmail.com">Email Me</a>
+                <a class="btn" target="_blank" rel="noopener" href="https://instagram.com/gunshots2005">Instagram</a>
+              </div>
+            </div>
+
+            <div class="contact-list">
+              <div class="contact-item">
+                <span>Email</span>
+                <a href="mailto:aryadharg@gmail.com">aryadharg@gmail.com</a>
+              </div>
+
+              <div class="contact-item">
+                <span>Phone</span>
+                <a href="tel:+919560082697">+91 95600 82697</a>
+              </div>
+
+              <div class="contact-item">
+                <span>GitHub</span>
+                <a target="_blank" rel="noopener" href="https://github.com/aryadharg-max">@aryadharg-max</a>
+              </div>
+
+              <div class="contact-item">
+                <span>Instagram</span>
+                <a target="_blank" rel="noopener" href="https://instagram.com/gunshots2005">@gunshots2005</a>
+              </div>
+
+              <div class="contact-item">
+                <span>LinkedIn</span>
+                <strong>Add link later</strong>
+              </div>
+
+              <div class="contact-item">
+                <span>Location</span>
+                <strong>Delhi, India</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap footer-inner">
+        <span>© <span id="year"></span> Aryadhar Gupta</span>
+        <span>Driver • Builder • Creator</span>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
 </html>
