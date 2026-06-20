@@ -1,31 +1,38 @@
+---
+---
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Traffic Light Control — Aryadhar Gupta</title>
-    <meta
-      name="description"
-      content="Control page for Aryadhar Gupta's NodeMCU traffic light system."
-    />
-    <meta name="theme-color" content="#f6f4ef" />
+    <title>Traffic Light Control Centre | Aryadhar Gupta</title>
 
     <style>
       :root {
         --bg: #f6f4ef;
         --surface: #ffffff;
-        --surface-soft: #f0ede6;
-        --text: #171717;
-        --muted: #5f6268;
-        --subtle: #8a8d93;
-        --line: #dedbd3;
+        --surface-2: #fdfbf7;
+        --text: #151515;
+        --muted: #6b675f;
+        --line: rgba(20, 20, 20, 0.11);
         --accent: #12355b;
-        --red: #dc2626;
-        --yellow: #eab308;
-        --green: #16a34a;
-        --max: 980px;
-        --radius: 18px;
+        --accent-2: #0b223b;
+        --danger: #b42318;
+        --danger-soft: #fff0ed;
+        --ok: #137333;
+        --ok-soft: #eaf7ee;
+        --warn: #946200;
+        --warn-soft: #fff6d8;
+        --red: #e53935;
+        --yellow: #ffbf1f;
+        --green: #21a467;
+        --black: #141414;
+        --radius-xl: 28px;
+        --radius-lg: 20px;
+        --radius-md: 14px;
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.08);
+        --shadow-soft: 0 12px 40px rgba(0, 0, 0, 0.06);
       }
 
       * {
@@ -38,765 +45,1605 @@
 
       body {
         margin: 0;
-        background: var(--bg);
+        background:
+          radial-gradient(circle at top left, rgba(18, 53, 91, 0.08), transparent 32rem),
+          radial-gradient(circle at bottom right, rgba(33, 164, 103, 0.08), transparent 30rem),
+          var(--bg);
         color: var(--text);
         font-family:
           Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", Arial, sans-serif;
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
+          "Segoe UI", sans-serif;
+        min-height: 100vh;
       }
 
       a {
         color: inherit;
+        text-decoration: none;
       }
 
-      p,
-      h1,
-      h2,
-      h3 {
-        margin-top: 0;
+      button,
+      input {
+        font: inherit;
       }
 
-      p:last-child {
-        margin-bottom: 0;
-      }
-
-      .wrap {
-        width: min(calc(100% - 32px), var(--max));
+      .page {
+        width: min(1380px, calc(100% - 32px));
         margin: 0 auto;
+        padding: 24px 0 52px;
       }
 
-      .site-header {
-        border-bottom: 1px solid var(--line);
-        background: rgba(246, 244, 239, 0.94);
-        backdrop-filter: blur(14px);
-      }
-
-      .nav {
-        min-height: 72px;
+      .topbar {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 24px;
+        gap: 18px;
+        margin-bottom: 22px;
       }
 
       .brand {
-        display: inline-flex;
+        display: flex;
         align-items: center;
         gap: 12px;
-        text-decoration: none;
-        font-weight: 700;
-        letter-spacing: -0.02em;
       }
 
-      .brand-mark {
-        width: 36px;
-        height: 36px;
+      .mark {
+        width: 46px;
+        height: 46px;
+        border-radius: 16px;
+        background: var(--accent);
+        color: white;
         display: grid;
         place-items: center;
-        border-radius: 50%;
-        background: var(--text);
-        color: var(--bg);
-        font-size: 0.82rem;
         font-weight: 800;
+        letter-spacing: -0.05em;
+      }
+
+      .brand small {
+        display: block;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+
+      .top-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .pill,
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(16px);
+        border-radius: 999px;
+        padding: 10px 14px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .pill strong,
+      .chip strong {
+        color: var(--text);
       }
 
       .back-link {
-        color: var(--muted);
-        text-decoration: none;
-        font-size: 0.95rem;
-      }
-
-      .back-link:hover {
-        color: var(--text);
+        color: var(--accent);
+        font-weight: 700;
       }
 
       .hero {
-        padding: 76px 0 42px;
+        background: rgba(255, 255, 255, 0.76);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        padding: clamp(22px, 4vw, 44px);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        position: relative;
       }
 
-      .kicker {
-        margin-bottom: 12px;
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -10% -40% auto;
+        width: 460px;
+        height: 460px;
+        border-radius: 50%;
+        background: rgba(18, 53, 91, 0.06);
+        pointer-events: none;
+      }
+
+      .hero-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1.28fr 0.72fr;
+        gap: 32px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 14px;
         color: var(--accent);
-        font-size: 0.78rem;
-        font-weight: 750;
-        letter-spacing: 0.14em;
+        font-size: 13px;
+        font-weight: 800;
         text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 999px;
+        background: var(--ok);
+        box-shadow: 0 0 0 6px rgba(19, 115, 51, 0.1);
       }
 
       h1 {
+        margin: 0;
+        max-width: 850px;
+        font-size: clamp(38px, 7vw, 82px);
+        line-height: 0.92;
+        letter-spacing: -0.075em;
+      }
+
+      .hero p {
         max-width: 760px;
-        margin-bottom: 18px;
-        font-size: clamp(2.5rem, 7vw, 5rem);
-        line-height: 0.98;
-        letter-spacing: -0.065em;
-      }
-
-      .lead {
-        max-width: 680px;
+        margin: 18px 0 0;
         color: var(--muted);
-        font-size: clamp(1.02rem, 2vw, 1.18rem);
+        font-size: clamp(15px, 2vw, 18px);
+        line-height: 1.7;
       }
 
-      .control-shell {
-        padding: 0 0 80px;
-      }
-
-      .control-grid {
+      .status-stack {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 260px;
-        gap: 18px;
-        align-items: stretch;
-      }
-
-      .card {
-        padding: 26px;
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        background: var(--surface);
-      }
-
-      .card h2 {
-        margin-bottom: 8px;
-        font-size: 1.25rem;
-        letter-spacing: -0.025em;
-      }
-
-      .card p {
-        color: var(--muted);
-      }
-
-      .button-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
         gap: 12px;
-        margin-top: 24px;
       }
 
-      .control-button {
-        min-height: 50px;
+      .status-card {
         border: 1px solid var(--line);
-        border-radius: 999px;
-        background: var(--surface-soft);
-        color: var(--text);
-        font: inherit;
-        font-weight: 700;
-        cursor: pointer;
+        background: rgba(255, 255, 255, 0.82);
+        border-radius: var(--radius-lg);
+        padding: 18px;
+        box-shadow: var(--shadow-soft);
       }
 
-      .control-button:hover {
-        border-color: var(--text);
+      .status-card span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      .status-card strong {
+        display: block;
+        font-size: 22px;
+        letter-spacing: -0.04em;
+      }
+
+      .main-grid {
+        display: grid;
+        grid-template-columns: 0.92fr 1.08fr 0.78fr;
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.82);
+        border-radius: var(--radius-xl);
+        padding: 20px;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .panel-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 16px;
+      }
+
+      .panel-title {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: -0.035em;
+      }
+
+      .panel-subtitle {
+        margin: 5px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .lock-panel {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .input-group {
+        display: grid;
+        gap: 7px;
+      }
+
+      label {
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      input[type="number"],
+      input[type="password"],
+      input[type="text"] {
+        width: 100%;
+        border: 1px solid var(--line);
         background: var(--surface);
+        border-radius: 14px;
+        padding: 13px 14px;
+        color: var(--text);
+        outline: none;
+        transition: 0.18s ease;
       }
 
-      .control-button.is-active {
-        background: var(--text);
-        color: var(--bg);
-        border-color: var(--text);
+      input:focus {
+        border-color: rgba(18, 53, 91, 0.38);
+        box-shadow: 0 0 0 4px rgba(18, 53, 91, 0.08);
+      }
+
+      .btn {
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--text);
+        border-radius: 15px;
+        padding: 13px 16px;
+        cursor: pointer;
+        font-weight: 800;
+        transition:
+          transform 0.18s ease,
+          box-shadow 0.18s ease,
+          border-color 0.18s ease,
+          background 0.18s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        min-height: 48px;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+        border-color: rgba(18, 53, 91, 0.25);
+      }
+
+      .btn:active {
+        transform: translateY(0);
+      }
+
+      .btn.primary {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+      }
+
+      .btn.dark {
+        background: var(--black);
+        color: white;
+        border-color: var(--black);
+      }
+
+      .btn.danger {
+        background: var(--danger);
+        color: white;
+        border-color: var(--danger);
+      }
+
+      .btn.ghost {
+        background: transparent;
+      }
+
+      .btn.small {
+        min-height: 40px;
+        padding: 10px 13px;
+        font-size: 13px;
+      }
+
+      .btn.full {
+        width: 100%;
+      }
+
+      .btn[disabled] {
+        opacity: 0.52;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .mode-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .mode-btn {
+        min-height: 86px;
+        justify-content: flex-start;
+        padding: 16px;
+        text-align: left;
+      }
+
+      .mode-dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+        background: var(--line);
+      }
+
+      .mode-btn.red .mode-dot {
+        background: var(--red);
+      }
+
+      .mode-btn.yellow .mode-dot {
+        background: var(--yellow);
+      }
+
+      .mode-btn.green .mode-dot {
+        background: var(--green);
+      }
+
+      .mode-btn.off .mode-dot {
+        background: #111;
+      }
+
+      .mode-btn.auto .mode-dot {
+        background: linear-gradient(135deg, var(--red), var(--yellow), var(--green));
+      }
+
+      .mode-copy {
+        display: grid;
+        gap: 3px;
+      }
+
+      .mode-copy small {
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .emergency {
+        margin-top: 10px;
       }
 
       .timing-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
-        gap: 12px;
-        margin-top: 22px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
       }
 
-      .time-field {
-        padding: 14px;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        background: var(--bg);
-      }
-
-      .time-field label {
-        display: block;
-        margin-bottom: 6px;
-        color: var(--subtle);
-        font-size: 0.74rem;
-        font-weight: 750;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-
-      .time-field input {
-        width: 100%;
-        min-height: 42px;
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        background: var(--surface);
-        color: var(--text);
-        font: inherit;
-        font-weight: 700;
-        padding: 0 12px;
+      .preset-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-top: 14px;
       }
 
       .toggle-row {
         display: flex;
         align-items: flex-start;
         gap: 10px;
-        margin-top: 16px;
-        color: var(--muted);
-        font-size: 0.94rem;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 13px;
+        background: var(--surface-2);
+        margin-top: 14px;
       }
 
       .toggle-row input {
-        margin-top: 5px;
+        margin-top: 3px;
       }
 
-      .status-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 12px;
-        margin-top: 18px;
-      }
-
-      .status-box {
-        padding: 15px;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        background: var(--bg);
-      }
-
-      .status-box span {
+      .toggle-row strong {
         display: block;
-        margin-bottom: 4px;
-        color: var(--subtle);
-        font-size: 0.74rem;
-        font-weight: 750;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
+        font-size: 13px;
       }
 
-      .status-box strong {
-        font-size: 1rem;
+      .toggle-row small {
+        display: block;
+        color: var(--muted);
+        margin-top: 3px;
+        line-height: 1.4;
       }
 
-      .countdown-text {
-        color: var(--accent);
-      }
-
-      .traffic-card {
+      .traffic-wrap {
         display: grid;
         place-items: center;
+        min-height: 520px;
       }
 
       .traffic-light {
-        width: 154px;
-        padding: 18px;
-        border-radius: 42px;
-        background: #171717;
-        border: 1px solid #050505;
+        width: min(260px, 90%);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent),
+          #101010;
+        border-radius: 44px;
+        padding: 28px;
+        box-shadow:
+          inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+          0 40px 90px rgba(0, 0, 0, 0.22);
+        display: grid;
+        gap: 24px;
+        position: relative;
       }
 
-      .light {
-        width: 92px;
-        height: 92px;
-        margin: 0 auto 16px;
+      .traffic-light::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -110px;
+        transform: translateX(-50%);
+        width: 34px;
+        height: 110px;
+        background: #151515;
+        border-radius: 0 0 18px 18px;
+      }
+
+      .lamp {
+        aspect-ratio: 1;
         border-radius: 50%;
-        background: #3a3a3a;
-        border: 7px solid #0d0d0d;
-        opacity: 0.3;
+        background: #2c2c2c;
+        box-shadow:
+          inset 0 10px 20px rgba(255, 255, 255, 0.08),
+          inset 0 -12px 22px rgba(0, 0, 0, 0.35);
+        position: relative;
+        opacity: 0.32;
         transition:
-          opacity 160ms ease,
-          background 160ms ease,
-          box-shadow 160ms ease;
+          opacity 0.2s ease,
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
       }
 
-      .light:last-child {
-        margin-bottom: 0;
+      .lamp::after {
+        content: "";
+        position: absolute;
+        inset: 16%;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.18);
+        filter: blur(3px);
       }
 
-      .light.red.on {
+      .lamp.red {
         background: var(--red);
-        opacity: 1;
-        box-shadow: 0 0 26px rgba(220, 38, 38, 0.5);
       }
 
-      .light.yellow.on {
+      .lamp.yellow {
         background: var(--yellow);
-        opacity: 1;
-        box-shadow: 0 0 26px rgba(234, 179, 8, 0.5);
       }
 
-      .light.green.on {
+      .lamp.green {
         background: var(--green);
+      }
+
+      .lamp.on {
         opacity: 1;
-        box-shadow: 0 0 26px rgba(22, 163, 74, 0.5);
+        transform: scale(1.025);
       }
 
-      .note {
-        margin-top: 18px;
-        color: var(--muted);
-        font-size: 0.94rem;
+      .lamp.red.on {
+        box-shadow:
+          0 0 42px rgba(229, 57, 53, 0.72),
+          0 0 100px rgba(229, 57, 53, 0.34);
       }
 
-      footer {
-        padding: 28px 0;
-        border-top: 1px solid var(--line);
-        color: var(--muted);
-        font-size: 0.92rem;
+      .lamp.yellow.on {
+        box-shadow:
+          0 0 42px rgba(255, 191, 31, 0.82),
+          0 0 100px rgba(255, 191, 31, 0.36);
       }
 
-      .footer-inner {
+      .lamp.green.on {
+        box-shadow:
+          0 0 42px rgba(33, 164, 103, 0.72),
+          0 0 100px rgba(33, 164, 103, 0.3);
+      }
+
+      .phase-card {
+        width: 100%;
+        margin-top: 28px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: 16px;
+        background: var(--surface-2);
+      }
+
+      .phase-top {
         display: flex;
-        flex-wrap: wrap;
         justify-content: space-between;
-        gap: 12px;
+        gap: 10px;
+        margin-bottom: 10px;
       }
 
-      @media (max-width: 760px) {
-        .nav {
-          align-items: flex-start;
-          flex-direction: column;
-          padding: 14px 0;
-        }
+      .phase-top strong {
+        letter-spacing: -0.03em;
+      }
 
-        .hero {
-          padding: 56px 0 34px;
-        }
+      .phase-top span {
+        color: var(--muted);
+        font-size: 13px;
+      }
 
-        .control-grid {
+      .bar {
+        height: 10px;
+        background: rgba(0, 0, 0, 0.08);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        width: 0%;
+        height: 100%;
+        border-radius: 999px;
+        background: var(--accent);
+        transition: width 0.2s linear;
+      }
+
+      .mini-bars {
+        display: grid;
+        grid-template-columns: var(--r, 10fr) var(--y, 5fr) var(--g, 15fr);
+        height: 8px;
+        overflow: hidden;
+        border-radius: 999px;
+        margin-top: 12px;
+      }
+
+      .mini-bars span:nth-child(1) {
+        background: var(--red);
+      }
+
+      .mini-bars span:nth-child(2) {
+        background: var(--yellow);
+      }
+
+      .mini-bars span:nth-child(3) {
+        background: var(--green);
+      }
+
+      .side-stack {
+        display: grid;
+        gap: 18px;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .metric {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 14px;
+        background: var(--surface-2);
+      }
+
+      .metric span {
+        color: var(--muted);
+        display: block;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 7px;
+      }
+
+      .metric strong {
+        font-size: 18px;
+        letter-spacing: -0.035em;
+      }
+
+      .log {
+        display: grid;
+        gap: 8px;
+        max-height: 280px;
+        overflow: auto;
+        padding-right: 3px;
+      }
+
+      .log-item {
+        border: 1px solid var(--line);
+        background: var(--surface-2);
+        border-radius: 14px;
+        padding: 11px;
+        display: grid;
+        gap: 4px;
+      }
+
+      .log-item strong {
+        font-size: 13px;
+      }
+
+      .log-item span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .diagnostics {
+        margin-top: 18px;
+      }
+
+      details {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.78);
+        overflow: hidden;
+      }
+
+      summary {
+        cursor: pointer;
+        padding: 16px 18px;
+        font-weight: 800;
+      }
+
+      pre {
+        margin: 0;
+        padding: 18px;
+        overflow: auto;
+        background: #111;
+        color: #e9e9e9;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .toast {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        background: #111;
+        color: white;
+        padding: 14px 16px;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        transform: translateY(18px);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.22s ease;
+        z-index: 50;
+        max-width: 360px;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .status-ok {
+        color: var(--ok);
+      }
+
+      .status-warn {
+        color: var(--warn);
+      }
+
+      .status-bad {
+        color: var(--danger);
+      }
+
+      @media (max-width: 1120px) {
+        .hero-grid,
+        .main-grid {
           grid-template-columns: 1fr;
         }
 
-        .card {
-          padding: 20px;
+        .traffic-wrap {
+          min-height: auto;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .page {
+          width: min(100% - 20px, 1380px);
+          padding-top: 12px;
+        }
+
+        .topbar,
+        .panel-header,
+        .phase-top {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .mode-grid,
+        .timing-grid,
+        .preset-grid,
+        .metric-grid,
+        .lock-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          border-radius: 22px;
+        }
+
+        .panel {
+          border-radius: 22px;
+        }
+
+        .traffic-light {
+          width: 220px;
         }
       }
     </style>
   </head>
 
   <body>
-    <header class="site-header">
-      <div class="wrap nav">
-        <a class="brand" href="/" aria-label="Back to Aryadhar Gupta homepage">
-          <span class="brand-mark">AG</span>
-          <span>Aryadhar Gupta</span>
+    <div class="page">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <div class="mark">AG</div>
+          <div>
+            <strong>Aryadhar Gupta</strong>
+            <small>Connected hardware control</small>
+          </div>
         </a>
 
-        <a class="back-link" href="/">Back to portfolio</a>
-      </div>
-    </header>
-
-    <main>
-      <section class="hero">
-        <div class="wrap">
-          <div class="kicker">NodeMCU System</div>
-          <h1>Traffic light control.</h1>
-          <p class="lead">
-            A dedicated control page for the ESP8266 / NodeMCU traffic light
-            system. Auto mode begins with a 1.5 second startup check where all
-            lights turn on before the normal cycle starts.
-          </p>
+        <div class="top-actions">
+          <span class="pill">Backend: <strong id="backendText">Checking</strong></span>
+          <span class="pill">Operator: <strong id="armText">Locked</strong></span>
+          <a class="pill back-link" href="/">← Back to portfolio</a>
         </div>
-      </section>
+      </header>
 
-      <section class="control-shell">
-        <div class="wrap">
-          <div class="control-grid">
-            <div class="card">
-              <h2>Manual control</h2>
-              <p>
-                Use the buttons below to control the light preview. Manual timed
-                mode is on by default: the selected light stays on for its set
-                duration, then the system returns to Auto mode after the 1.5
-                second startup check.
-              </p>
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow"><span class="dot"></span> Live Control Centre</p>
+            <h1>Traffic Light Command System</h1>
+            <p>
+              A public-domain control interface connected to a Cloudflare Worker backend and a
+              NodeMCU-controlled relay system. Designed for clean manual control, automatic cycling,
+              diagnostics, and safe operation.
+            </p>
+          </div>
 
-              <div class="button-grid">
-                <button class="control-button" data-light="red">Red</button>
-                <button class="control-button" data-light="yellow">Yellow</button>
-                <button class="control-button" data-light="green">Green</button>
-                <button class="control-button" data-light="off">All Off</button>
-                <button class="control-button" data-light="auto">Auto Mode</button>
-              </div>
-
-              <div class="timing-grid">
-                <div class="time-field">
-                  <label for="redDuration">Red Time</label>
-                  <input id="redDuration" type="number" min="1" max="120" value="10" />
-                </div>
-
-                <div class="time-field">
-                  <label for="yellowDuration">Yellow Time</label>
-                  <input id="yellowDuration" type="number" min="1" max="120" value="5" />
-                </div>
-
-                <div class="time-field">
-                  <label for="greenDuration">Green Time</label>
-                  <input id="greenDuration" type="number" min="1" max="120" value="15" />
-                </div>
-              </div>
-
-              <label class="toggle-row">
-                <input id="manualTimedReturn" type="checkbox" checked />
-                <span>
-                  Manual timed mode: after a manual light finishes its timer,
-                  return to Auto mode.
-                </span>
-              </label>
-
-              <div class="status-grid">
-                <div class="status-box">
-                  <span>Current Mode</span>
-                  <strong id="trafficMode">Starting</strong>
-                </div>
-
-                <div class="status-box">
-                  <span>Timer</span>
-                  <strong id="trafficTimer" class="countdown-text">—</strong>
-                </div>
-
-                <div class="status-box">
-                  <span>Connection</span>
-                  <strong id="trafficConnection">Website preview</strong>
-                </div>
-
-                <div class="status-box">
-                  <span>Hardware</span>
-                  <strong id="trafficHardware">Not connected yet</strong>
-                </div>
-              </div>
-
-              <p class="note">
-                Safety note: the live version should only be connected after the
-                relay wiring, insulation, fail-safe behaviour, and 220V AC safety
-                precautions are confirmed.
-              </p>
+          <div class="status-stack">
+            <div class="status-card">
+              <span>Current mode</span>
+              <strong id="heroMode">Loading</strong>
             </div>
-
-            <aside class="card traffic-card">
-              <div class="traffic-light" aria-label="Traffic light preview">
-                <div id="lightRed" class="light red"></div>
-                <div id="lightYellow" class="light yellow"></div>
-                <div id="lightGreen" class="light green"></div>
-              </div>
-            </aside>
+            <div class="status-card">
+              <span>Active phase</span>
+              <strong id="heroPhase">Waiting</strong>
+            </div>
+            <div class="status-card">
+              <span>Last command</span>
+              <strong id="heroUpdated">—</strong>
+            </div>
           </div>
         </div>
       </section>
-    </main>
 
-    <footer>
-      <div class="wrap footer-inner">
-        <span>© <span id="year"></span> Aryadhar Gupta</span>
-        <span>Traffic Light Control</span>
-      </div>
-    </footer>
+      <main class="main-grid">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Operator Access</h2>
+              <p class="panel-subtitle">
+                Arm the panel before sending commands. PIN becomes active when you set
+                <strong>CONTROL_PIN</strong> in your Worker.
+              </p>
+            </div>
+          </div>
 
-    <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
+          <div class="lock-panel">
+            <div class="input-group">
+              <label for="controlPin">Operator PIN</label>
+              <input id="controlPin" type="password" placeholder="Optional for now" />
+            </div>
+            <button class="btn primary" id="armButton" type="button">Arm</button>
+          </div>
 
-  const API_BASE = "https://traffic-light-api.gunshots2005.workers.dev";
-  const STARTUP_CHECK_MS = 1500;
+          <button class="btn danger full emergency" id="emergencyOff" type="button">
+            Emergency All Off
+          </button>
 
-  const buttons = document.querySelectorAll("[data-light]");
-  const modeText = document.getElementById("trafficMode");
-  const timerText = document.getElementById("trafficTimer");
-  const connectionText = document.getElementById("trafficConnection");
-  const hardwareText = document.getElementById("trafficHardware");
+          <div class="toggle-row">
+            <input id="timedReturn" type="checkbox" checked />
+            <div>
+              <strong>Timed manual return</strong>
+              <small>
+                Manual Red / Yellow / Green holds for its configured time, then returns to Auto.
+              </small>
+            </div>
+          </div>
 
-  const redLight = document.getElementById("lightRed");
-  const yellowLight = document.getElementById("lightYellow");
-  const greenLight = document.getElementById("lightGreen");
+          <div style="height: 18px"></div>
 
-  const redDurationInput = document.getElementById("redDuration");
-  const yellowDurationInput = document.getElementById("yellowDuration");
-  const greenDurationInput = document.getElementById("greenDuration");
-  const manualTimedReturn = document.getElementById("manualTimedReturn");
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Manual Command</h2>
+              <p class="panel-subtitle">
+                Keyboard shortcuts while armed: R, Y, G, O, A.
+              </p>
+            </div>
+          </div>
 
-  let autoTimer = null;
-  let countdownTimer = null;
-  let manualReturnTimer = null;
-  let autoIndex = 0;
+          <div class="mode-grid">
+            <button class="btn mode-btn red" data-mode="red" type="button">
+              <span class="mode-dot"></span>
+              <span class="mode-copy">
+                <strong>Red</strong>
+                <small>Stop / hold</small>
+              </span>
+            </button>
 
-  const autoCycle = ["red", "yellow", "green"];
+            <button class="btn mode-btn yellow" data-mode="yellow" type="button">
+              <span class="mode-dot"></span>
+              <span class="mode-copy">
+                <strong>Yellow</strong>
+                <small>Warning phase</small>
+              </span>
+            </button>
 
-  function getSeconds(input, fallback) {
-    const value = Number(input.value);
+            <button class="btn mode-btn green" data-mode="green" type="button">
+              <span class="mode-dot"></span>
+              <span class="mode-copy">
+                <strong>Green</strong>
+                <small>Go phase</small>
+              </span>
+            </button>
 
-    if (!Number.isFinite(value)) {
-      return fallback;
-    }
+            <button class="btn mode-btn off" data-mode="off" type="button">
+              <span class="mode-dot"></span>
+              <span class="mode-copy">
+                <strong>All Off</strong>
+                <small>Relay safe state</small>
+              </span>
+            </button>
 
-    return Math.min(Math.max(value, 1), 120);
-  }
+            <button class="btn mode-btn auto" data-mode="auto" type="button" style="grid-column: 1 / -1">
+              <span class="mode-dot"></span>
+              <span class="mode-copy">
+                <strong>Auto Mode</strong>
+                <small>Startup check, then cycle Red → Yellow → Green</small>
+              </span>
+            </button>
+          </div>
+        </section>
 
-  function getTimings() {
-    return {
-      red: getSeconds(redDurationInput, 10),
-      yellow: getSeconds(yellowDurationInput, 5),
-      green: getSeconds(greenDurationInput, 15),
-    };
-  }
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Live Signal Preview</h2>
+              <p class="panel-subtitle">
+                Visual state mirrors the command currently stored in the backend.
+              </p>
+            </div>
+            <button class="btn small ghost" id="refreshButton" type="button">Refresh</button>
+          </div>
 
-  function getDuration(mode) {
-    const timings = getTimings();
+          <div class="traffic-wrap">
+            <div>
+              <div class="traffic-light" aria-label="Traffic light preview">
+                <div class="lamp red" id="lampRed"></div>
+                <div class="lamp yellow" id="lampYellow"></div>
+                <div class="lamp green" id="lampGreen"></div>
+              </div>
 
-    if (mode === "red") return timings.red * 1000;
-    if (mode === "yellow") return timings.yellow * 1000;
-    if (mode === "green") return timings.green * 1000;
+              <div class="phase-card">
+                <div class="phase-top">
+                  <div>
+                    <strong id="phaseName">Waiting for state</strong>
+                    <span id="phaseDetail">Backend sync pending</span>
+                  </div>
+                  <strong id="phaseCountdown">—</strong>
+                </div>
+                <div class="bar">
+                  <div class="bar-fill" id="phaseBar"></div>
+                </div>
+                <div class="mini-bars" id="miniBars">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-    return 0;
-  }
+        <aside class="side-stack">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Auto Timing</h2>
+                <p class="panel-subtitle">
+                  These values are saved with the next command.
+                </p>
+              </div>
+            </div>
 
-  function labelFor(mode) {
-    if (mode === "red") return "Red";
-    if (mode === "yellow") return "Yellow";
-    if (mode === "green") return "Green";
-    if (mode === "auto") return "Auto Mode";
-    if (mode === "off") return "All Off";
-    return "Unknown";
-  }
+            <div class="timing-grid">
+              <div class="input-group">
+                <label for="redTime">Red</label>
+                <input id="redTime" type="number" min="1" max="120" value="10" />
+              </div>
 
-  function clearTimers() {
-    clearTimeout(autoTimer);
-    clearTimeout(manualReturnTimer);
-    clearInterval(countdownTimer);
+              <div class="input-group">
+                <label for="yellowTime">Yellow</label>
+                <input id="yellowTime" type="number" min="1" max="120" value="5" />
+              </div>
 
-    autoTimer = null;
-    manualReturnTimer = null;
-    countdownTimer = null;
-  }
+              <div class="input-group">
+                <label for="greenTime">Green</label>
+                <input id="greenTime" type="number" min="1" max="120" value="15" />
+              </div>
+            </div>
 
-  function clearLights() {
-    redLight.classList.remove("on");
-    yellowLight.classList.remove("on");
-    greenLight.classList.remove("on");
-  }
+            <div class="preset-grid">
+              <button class="btn small" data-preset="standard" type="button">Standard</button>
+              <button class="btn small" data-preset="fast" type="button">Fast Test</button>
+              <button class="btn small" data-preset="green" type="button">Long Green</button>
+              <button class="btn small" data-preset="balanced" type="button">Balanced</button>
+            </div>
 
-  function allLightsOn() {
-    redLight.classList.add("on");
-    yellowLight.classList.add("on");
-    greenLight.classList.add("on");
-  }
+            <div style="height: 10px"></div>
 
-  function clearActiveButtons() {
-    buttons.forEach((button) => button.classList.remove("is-active"));
-  }
+            <button class="btn primary full" id="applyAuto" type="button">
+              Apply Timings + Auto
+            </button>
+          </section>
 
-  function setActiveButton(mode) {
-    clearActiveButtons();
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Showcase Sequence</h2>
+                <p class="panel-subtitle">
+                  Runs a controlled demo from the browser by sending timed commands.
+                </p>
+              </div>
+            </div>
 
-    const activeButton = document.querySelector(`[data-light="${mode}"]`);
+            <button class="btn dark full" id="runDemo" type="button">Run Demo Sweep</button>
+            <div style="height: 10px"></div>
+            <button class="btn full" id="stopDemo" type="button">Stop Demo</button>
+          </section>
 
-    if (activeButton) {
-      activeButton.classList.add("is-active");
-    }
-  }
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">System Metrics</h2>
+              </div>
+            </div>
 
-  function showOnly(mode) {
-    clearLights();
+            <div class="metric-grid">
+              <div class="metric">
+                <span>Backend</span>
+                <strong id="metricBackend">—</strong>
+              </div>
+              <div class="metric">
+                <span>Security</span>
+                <strong id="metricSecurity">—</strong>
+              </div>
+              <div class="metric">
+                <span>Revision</span>
+                <strong id="metricRevision">—</strong>
+              </div>
+              <div class="metric">
+                <span>Source</span>
+                <strong id="metricSource">—</strong>
+              </div>
+            </div>
+          </section>
 
-    if (mode === "red") redLight.classList.add("on");
-    if (mode === "yellow") yellowLight.classList.add("on");
-    if (mode === "green") greenLight.classList.add("on");
-  }
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Command Log</h2>
+              </div>
+              <button class="btn small ghost" id="clearLog" type="button">Clear</button>
+            </div>
 
-  function startCountdown(label, durationMs) {
-    clearInterval(countdownTimer);
+            <div class="log" id="commandLog"></div>
+          </section>
+        </aside>
+      </main>
 
-    const endTime = Date.now() + durationMs;
+      <section class="diagnostics">
+        <details>
+          <summary>Raw API diagnostics</summary>
+          <pre id="rawState">Waiting for API response...</pre>
+        </details>
+      </section>
+    </div>
 
-    function updateCountdown() {
-      const remainingMs = Math.max(0, endTime - Date.now());
-      const remainingSeconds = Math.ceil(remainingMs / 1000);
-      timerText.textContent = `${label}: ${remainingSeconds}s`;
-    }
+    <div class="toast" id="toast"></div>
 
-    updateCountdown();
-    countdownTimer = setInterval(updateCountdown, 250);
-  }
+    <script is:inline>
+      const API_BASE = "https://traffic-light-api.gunshots2005.workers.dev";
 
-  function startStartupCountdown() {
-    clearInterval(countdownTimer);
+      const $ = (id) => document.getElementById(id);
 
-    const endTime = Date.now() + STARTUP_CHECK_MS;
+      const elements = {
+        backendText: $("backendText"),
+        armText: $("armText"),
+        heroMode: $("heroMode"),
+        heroPhase: $("heroPhase"),
+        heroUpdated: $("heroUpdated"),
+        controlPin: $("controlPin"),
+        armButton: $("armButton"),
+        emergencyOff: $("emergencyOff"),
+        timedReturn: $("timedReturn"),
+        refreshButton: $("refreshButton"),
+        lampRed: $("lampRed"),
+        lampYellow: $("lampYellow"),
+        lampGreen: $("lampGreen"),
+        phaseName: $("phaseName"),
+        phaseDetail: $("phaseDetail"),
+        phaseCountdown: $("phaseCountdown"),
+        phaseBar: $("phaseBar"),
+        miniBars: $("miniBars"),
+        redTime: $("redTime"),
+        yellowTime: $("yellowTime"),
+        greenTime: $("greenTime"),
+        applyAuto: $("applyAuto"),
+        runDemo: $("runDemo"),
+        stopDemo: $("stopDemo"),
+        metricBackend: $("metricBackend"),
+        metricSecurity: $("metricSecurity"),
+        metricRevision: $("metricRevision"),
+        metricSource: $("metricSource"),
+        commandLog: $("commandLog"),
+        clearLog: $("clearLog"),
+        rawState: $("rawState"),
+        toast: $("toast"),
+      };
 
-    function updateStartupCountdown() {
-      const remainingMs = Math.max(0, endTime - Date.now());
-      const remainingSeconds = (remainingMs / 1000).toFixed(1);
-      timerText.textContent = `Startup check: ${remainingSeconds}s`;
-    }
+      let armed = false;
+      let latestState = {
+        mode: "auto",
+        red: 10,
+        yellow: 5,
+        green: 15,
+        startupCheckMs: 1500,
+        updatedAt: null,
+        revision: 0,
+        source: "initial",
+      };
 
-    updateStartupCountdown();
-    countdownTimer = setInterval(updateStartupCountdown, 100);
-  }
+      let backendOnline = false;
+      let pinProtectionEnabled = false;
+      let manualReturnTimer = null;
+      let demoTimer = null;
+      let demoRunning = false;
+      let commandLog = [];
 
-  async function sendCommand(mode) {
-    const timings = getTimings();
+      function toast(message) {
+        elements.toast.textContent = message;
+        elements.toast.classList.add("show");
 
-    connectionText.textContent = "Sending command...";
+        window.clearTimeout(elements.toast._timer);
+        elements.toast._timer = window.setTimeout(() => {
+          elements.toast.classList.remove("show");
+        }, 2600);
+      }
 
-    const response = await fetch(`${API_BASE}/api/command`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        mode,
-        red: timings.red,
-        yellow: timings.yellow,
-        green: timings.green,
-      }),
-    });
+      function formatMode(mode) {
+        const value = String(mode || "unknown").toLowerCase();
 
-    const data = await response.json();
+        if (value === "red") return "Manual Red";
+        if (value === "yellow") return "Manual Yellow";
+        if (value === "green") return "Manual Green";
+        if (value === "off") return "All Off";
+        if (value === "auto") return "Auto Cycle";
 
-    if (!response.ok || !data.ok) {
-      throw new Error(data.error || "Command failed");
-    }
+        return "Unknown";
+      }
 
-    connectionText.textContent = "Connected to API";
-    hardwareText.textContent = "Waiting for NodeMCU";
+      function formatTimeAgo(iso) {
+        if (!iso) return "Not yet";
+        const diff = Math.max(0, Date.now() - Date.parse(iso));
+        const seconds = Math.floor(diff / 1000);
 
-    return data.state;
-  }
+        if (seconds < 5) return "Just now";
+        if (seconds < 60) return `${seconds}s ago`;
 
-  async function loadStateFromApi() {
-    connectionText.textContent = "Loading API state...";
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
 
-    const response = await fetch(`${API_BASE}/api/state`);
-    const data = await response.json();
+        const hours = Math.floor(minutes / 60);
+        return `${hours}h ago`;
+      }
 
-    if (!response.ok || !data.ok) {
-      throw new Error(data.error || "Could not load state");
-    }
+      function getNumber(input, fallback) {
+        const value = Number(input.value);
 
-    redDurationInput.value = data.state.red || 10;
-    yellowDurationInput.value = data.state.yellow || 5;
-    greenDurationInput.value = data.state.green || 15;
+        if (!Number.isFinite(value)) return fallback;
 
-    connectionText.textContent = "Connected to API";
-    hardwareText.textContent = "Waiting for NodeMCU";
+        return Math.min(Math.max(Math.round(value), 1), 120);
+      }
 
-    return data.state;
-  }
+      function getTimingPayload() {
+        return {
+          red: getNumber(elements.redTime, latestState.red || 10),
+          yellow: getNumber(elements.yellowTime, latestState.yellow || 5),
+          green: getNumber(elements.greenTime, latestState.green || 15),
+        };
+      }
 
-  function startAutoWithCheck() {
-    clearTimers();
+      function savePin() {
+        localStorage.setItem("traffic-control-pin", elements.controlPin.value || "");
+      }
 
-    setActiveButton("auto");
-    clearLights();
-    allLightsOn();
+      function loadPin() {
+        elements.controlPin.value = localStorage.getItem("traffic-control-pin") || "";
+      }
 
-    modeText.textContent = "Startup Check";
-    connectionText.textContent = "Connected to API";
-    startStartupCountdown();
+      function setArmed(nextValue) {
+        armed = nextValue;
 
-    autoTimer = setTimeout(() => {
-      clearInterval(countdownTimer);
-      autoIndex = 0;
-      runAutoStep();
-    }, STARTUP_CHECK_MS);
-  }
+        elements.armText.textContent = armed ? "Armed" : "Locked";
+        elements.armText.className = armed ? "status-ok" : "status-warn";
+        elements.armButton.textContent = armed ? "Disarm" : "Arm";
+        elements.armButton.classList.toggle("danger", armed);
+        elements.armButton.classList.toggle("primary", !armed);
 
-  function runAutoStep() {
-    const mode = autoCycle[autoIndex];
-    const duration = getDuration(mode);
+        document.querySelectorAll("[data-mode], #applyAuto, #runDemo, #stopDemo").forEach((button) => {
+          button.disabled = !armed;
+        });
 
-    setActiveButton("auto");
-    showOnly(mode);
+        elements.emergencyOff.disabled = false;
 
-    modeText.textContent = `Auto — ${labelFor(mode)}`;
-    connectionText.textContent = "Connected to API";
-    startCountdown(labelFor(mode), duration);
+        toast(armed ? "Control panel armed" : "Control panel locked");
+      }
 
-    autoTimer = setTimeout(() => {
-      autoIndex = (autoIndex + 1) % autoCycle.length;
-      runAutoStep();
-    }, duration);
-  }
+      function addLog(title, detail) {
+        const time = new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
 
-  function setManualPreview(mode) {
-    clearTimers();
+        commandLog.unshift({ title, detail, time });
+        commandLog = commandLog.slice(0, 12);
 
-    if (mode === "off") {
-      clearLights();
-      setActiveButton("off");
-      modeText.textContent = "All Off";
-      timerText.textContent = "Hold";
-      connectionText.textContent = "Connected to API";
-      return;
-    }
+        elements.commandLog.innerHTML = commandLog
+          .map(
+            (item) => `
+              <div class="log-item">
+                <strong>${item.title}</strong>
+                <span>${item.detail} • ${item.time}</span>
+              </div>
+            `
+          )
+          .join("");
+      }
 
-    showOnly(mode);
-    setActiveButton(mode);
+      function renderPreviewFromMode(mode) {
+        const value = String(mode || "off").toLowerCase();
 
-    modeText.textContent = `Manual — ${labelFor(mode)}`;
-    connectionText.textContent = "Connected to API";
+        elements.lampRed.classList.toggle("on", value === "red");
+        elements.lampYellow.classList.toggle("on", value === "yellow");
+        elements.lampGreen.classList.toggle("on", value === "green");
 
-    if (manualTimedReturn.checked) {
-      const duration = getDuration(mode);
-      startCountdown(`Manual ${labelFor(mode)}`, duration);
+        if (value === "auto") {
+          const phase = getAutoPhase();
 
-      manualReturnTimer = setTimeout(async () => {
-        try {
-          await sendCommand("auto");
-          startAutoWithCheck();
-        } catch (error) {
-          connectionText.textContent = "API error";
-          timerText.textContent = "Auto return failed";
-          console.error(error);
+          elements.lampRed.classList.toggle("on", phase.color === "red");
+          elements.lampYellow.classList.toggle("on", phase.color === "yellow");
+          elements.lampGreen.classList.toggle("on", phase.color === "green");
         }
-      }, duration);
-    } else {
-      timerText.textContent = "Hold until changed";
-    }
-  }
 
-  async function handleButtonClick(mode) {
-    try {
-      await sendCommand(mode);
-
-      if (mode === "auto") {
-        startAutoWithCheck();
-        return;
+        if (value === "off") {
+          elements.lampRed.classList.remove("on");
+          elements.lampYellow.classList.remove("on");
+          elements.lampGreen.classList.remove("on");
+        }
       }
 
-      setManualPreview(mode);
-    } catch (error) {
-      connectionText.textContent = "API error";
-      timerText.textContent = "Command failed";
-      console.error(error);
-    }
-  }
+      function getAutoPhase() {
+        const startup = latestState.startupCheckMs || 1500;
+        const redMs = (latestState.red || 10) * 1000;
+        const yellowMs = (latestState.yellow || 5) * 1000;
+        const greenMs = (latestState.green || 15) * 1000;
 
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      handleButtonClick(button.dataset.light);
-    });
-  });
+        const totalMs = startup + redMs + yellowMs + greenMs;
+        const updatedAt = latestState.updatedAt ? Date.parse(latestState.updatedAt) : Date.now();
 
-  [redDurationInput, yellowDurationInput, greenDurationInput].forEach((input) => {
-    input.addEventListener("change", () => {
-      input.value = getSeconds(input, Number(input.defaultValue));
-    });
-  });
+        let elapsed = (Date.now() - updatedAt) % totalMs;
+        if (elapsed < 0) elapsed = 0;
 
-  async function bootPage() {
-    try {
-      const state = await loadStateFromApi();
+        if (elapsed < startup) {
+          return {
+            name: "Startup Check",
+            detail: "All lights briefly ON at hardware",
+            color: "all",
+            elapsed,
+            duration: startup,
+            remaining: startup - elapsed,
+          };
+        }
 
-      if (state.mode === "auto") {
-        startAutoWithCheck();
-        return;
+        elapsed -= startup;
+
+        if (elapsed < redMs) {
+          return {
+            name: "Auto Red",
+            detail: "Stop phase",
+            color: "red",
+            elapsed,
+            duration: redMs,
+            remaining: redMs - elapsed,
+          };
+        }
+
+        elapsed -= redMs;
+
+        if (elapsed < yellowMs) {
+          return {
+            name: "Auto Yellow",
+            detail: "Warning phase",
+            color: "yellow",
+            elapsed,
+            duration: yellowMs,
+            remaining: yellowMs - elapsed,
+          };
+        }
+
+        elapsed -= yellowMs;
+
+        return {
+          name: "Auto Green",
+          detail: "Go phase",
+          color: "green",
+          elapsed,
+          duration: greenMs,
+          remaining: greenMs - elapsed,
+        };
       }
 
-      setManualPreview(state.mode);
-    } catch (error) {
-      connectionText.textContent = "API offline";
-      hardwareText.textContent = "Not connected";
-      timerText.textContent = "Local preview only";
-      console.error(error);
+      function renderPhase() {
+        if (latestState.mode !== "auto") {
+          elements.phaseName.textContent = formatMode(latestState.mode);
+          elements.phaseDetail.textContent =
+            latestState.mode === "off"
+              ? "All relays commanded OFF"
+              : "Manual command active";
+          elements.phaseCountdown.textContent = "Hold";
+          elements.phaseBar.style.width = "100%";
+          elements.heroPhase.textContent = formatMode(latestState.mode);
+          return;
+        }
 
-      startAutoWithCheck();
-    }
-  }
+        const phase = getAutoPhase();
+        const percent = Math.min(100, Math.max(0, (phase.elapsed / phase.duration) * 100));
+        const remainingSeconds = Math.ceil(phase.remaining / 1000);
 
-  bootPage();
-</script>
+        elements.phaseName.textContent = phase.name;
+        elements.phaseDetail.textContent = phase.detail;
+        elements.phaseCountdown.textContent = `${remainingSeconds}s`;
+        elements.phaseBar.style.width = `${percent}%`;
+        elements.heroPhase.textContent = phase.name;
+      }
+
+      function renderState() {
+        elements.heroMode.textContent = formatMode(latestState.mode);
+        elements.heroUpdated.textContent = formatTimeAgo(latestState.updatedAt);
+
+        elements.redTime.value = latestState.red ?? 10;
+        elements.yellowTime.value = latestState.yellow ?? 5;
+        elements.greenTime.value = latestState.green ?? 15;
+
+        elements.backendText.textContent = backendOnline ? "Online" : "Offline";
+        elements.backendText.className = backendOnline ? "status-ok" : "status-bad";
+
+        elements.metricBackend.textContent = backendOnline ? "Online" : "Offline";
+        elements.metricSecurity.textContent = pinProtectionEnabled ? "PIN On" : "Open";
+        elements.metricRevision.textContent = latestState.revision || "0";
+        elements.metricSource.textContent = latestState.source || "—";
+
+        elements.miniBars.style.setProperty("--r", `${latestState.red || 10}fr`);
+        elements.miniBars.style.setProperty("--y", `${latestState.yellow || 5}fr`);
+        elements.miniBars.style.setProperty("--g", `${latestState.green || 15}fr`);
+
+        renderPreviewFromMode(latestState.mode);
+        renderPhase();
+      }
+
+      async function loadState() {
+        try {
+          const response = await fetch(`${API_BASE}/api/state`, {
+            method: "GET",
+            cache: "no-store",
+          });
+
+          const data = await response.json();
+
+          elements.rawState.textContent = JSON.stringify(data, null, 2);
+
+          if (!response.ok || !data.ok) {
+            throw new Error(data.error || "API state error");
+          }
+
+          backendOnline = true;
+          pinProtectionEnabled = Boolean(data.pinProtectionEnabled);
+          latestState = data.state;
+
+          renderState();
+        } catch (error) {
+          backendOnline = false;
+          elements.backendText.textContent = "Offline";
+          elements.backendText.className = "status-bad";
+          elements.metricBackend.textContent = "Offline";
+          elements.rawState.textContent = String(error);
+        }
+      }
+
+      async function sendCommand(mode, options = {}) {
+        if (!armed && !options.bypassArm) {
+          toast("Arm the panel before sending commands");
+          return;
+        }
+
+        savePin();
+
+        const controlPin = elements.controlPin.value || "";
+        const timing = getTimingPayload();
+
+        const body = {
+          mode,
+          ...timing,
+          source: options.source || "web-control-centre-v2",
+        };
+
+        if (controlPin) {
+          body.controlPin = controlPin;
+        }
+
+        try {
+          const response = await fetch(`${API_BASE}/api/command`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Control-Pin": controlPin,
+            },
+            body: JSON.stringify(body),
+          });
+
+          const data = await response.json();
+
+          elements.rawState.textContent = JSON.stringify(data, null, 2);
+
+          if (!response.ok || !data.ok) {
+            throw new Error(data.error || "Command failed");
+          }
+
+          latestState = data.state;
+          backendOnline = true;
+
+          addLog(`Command: ${formatMode(mode)}`, `R${body.red}s / Y${body.yellow}s / G${body.green}s`);
+          toast(`${formatMode(mode)} command sent`);
+
+          renderState();
+
+          return data;
+        } catch (error) {
+          toast(error.message || "Command failed");
+          addLog("Command failed", error.message || "Unknown error");
+          throw error;
+        }
+      }
+
+      function clearManualReturn() {
+        if (manualReturnTimer) {
+          window.clearTimeout(manualReturnTimer);
+          manualReturnTimer = null;
+        }
+      }
+
+      function scheduleTimedReturn(mode) {
+        clearManualReturn();
+
+        if (!elements.timedReturn.checked) return;
+        if (!["red", "yellow", "green"].includes(mode)) return;
+
+        const timing = getTimingPayload();
+        const seconds = timing[mode] || 5;
+
+        manualReturnTimer = window.setTimeout(() => {
+          sendCommand("auto", {
+            bypassArm: true,
+            source: "timed-manual-return",
+          });
+        }, seconds * 1000);
+
+        addLog("Timed return armed", `${formatMode(mode)} will return to Auto in ${seconds}s`);
+      }
+
+      async function runDemoSequence() {
+        if (!armed) {
+          toast("Arm the panel before running demo");
+          return;
+        }
+
+        stopDemoSequence(false);
+
+        demoRunning = true;
+        addLog("Demo started", "Red → Yellow → Green → Off → Auto");
+
+        const steps = [
+          { mode: "red", wait: 4000 },
+          { mode: "yellow", wait: 2000 },
+          { mode: "green", wait: 4000 },
+          { mode: "off", wait: 1500 },
+          { mode: "auto", wait: 0 },
+        ];
+
+        let index = 0;
+
+        const next = async () => {
+          if (!demoRunning) return;
+
+          const step = steps[index];
+
+          await sendCommand(step.mode, {
+            source: "demo-sequence",
+          });
+
+          index++;
+
+          if (index >= steps.length) {
+            demoRunning = false;
+            addLog("Demo finished", "System returned to Auto");
+            return;
+          }
+
+          demoTimer = window.setTimeout(next, step.wait);
+        };
+
+        next();
+      }
+
+      function stopDemoSequence(sendOff = true) {
+        demoRunning = false;
+
+        if (demoTimer) {
+          window.clearTimeout(demoTimer);
+          demoTimer = null;
+        }
+
+        if (sendOff && armed) {
+          sendCommand("off", {
+            source: "demo-stop",
+          });
+        }
+
+        addLog("Demo stopped", sendOff ? "All Off command sent" : "Sequence cleared");
+      }
+
+      function applyPreset(name) {
+        const presets = {
+          standard: { red: 10, yellow: 5, green: 15 },
+          fast: { red: 3, yellow: 1, green: 3 },
+          green: { red: 8, yellow: 3, green: 30 },
+          balanced: { red: 12, yellow: 4, green: 12 },
+        };
+
+        const preset = presets[name];
+        if (!preset) return;
+
+        elements.redTime.value = preset.red;
+        elements.yellowTime.value = preset.yellow;
+        elements.greenTime.value = preset.green;
+
+        toast(`${name} preset loaded`);
+        addLog("Preset loaded", `R${preset.red}s / Y${preset.yellow}s / G${preset.green}s`);
+      }
+
+      function bindEvents() {
+        elements.armButton.addEventListener("click", () => {
+          setArmed(!armed);
+        });
+
+        elements.controlPin.addEventListener("change", savePin);
+
+        document.querySelectorAll("[data-mode]").forEach((button) => {
+          button.addEventListener("click", async () => {
+            const mode = button.dataset.mode;
+            clearManualReturn();
+            await sendCommand(mode);
+            scheduleTimedReturn(mode);
+          });
+        });
+
+        document.querySelectorAll("[data-preset]").forEach((button) => {
+          button.addEventListener("click", () => {
+            applyPreset(button.dataset.preset);
+          });
+        });
+
+        elements.applyAuto.addEventListener("click", () => {
+          clearManualReturn();
+          sendCommand("auto");
+        });
+
+        elements.emergencyOff.addEventListener("click", () => {
+          clearManualReturn();
+          stopDemoSequence(false);
+          sendCommand("off", {
+            bypassArm: true,
+            source: "emergency-off",
+          });
+        });
+
+        elements.refreshButton.addEventListener("click", () => {
+          loadState();
+          toast("State refreshed");
+        });
+
+        elements.runDemo.addEventListener("click", runDemoSequence);
+
+        elements.stopDemo.addEventListener("click", () => {
+          stopDemoSequence(true);
+        });
+
+        elements.clearLog.addEventListener("click", () => {
+          commandLog = [];
+          elements.commandLog.innerHTML = "";
+        });
+
+        window.addEventListener("keydown", (event) => {
+          const activeTag = document.activeElement?.tagName?.toLowerCase();
+
+          if (activeTag === "input" || activeTag === "textarea") return;
+          if (!armed) return;
+
+          const key = event.key.toLowerCase();
+
+          if (key === "r") sendCommand("red");
+          if (key === "y") sendCommand("yellow");
+          if (key === "g") sendCommand("green");
+          if (key === "o") sendCommand("off");
+          if (key === "a") sendCommand("auto");
+        });
+      }
+
+      function startRenderLoop() {
+        window.setInterval(() => {
+          renderPreviewFromMode(latestState.mode);
+          renderPhase();
+          elements.heroUpdated.textContent = formatTimeAgo(latestState.updatedAt);
+        }, 250);
+      }
+
+      function startPolling() {
+        loadState();
+        window.setInterval(loadState, 2500);
+      }
+
+      function init() {
+        loadPin();
+        bindEvents();
+        setArmed(false);
+        startPolling();
+        startRenderLoop();
+
+        addLog("Control centre loaded", "Waiting for backend state");
+      }
+
+      init();
+    </script>
   </body>
 </html>
