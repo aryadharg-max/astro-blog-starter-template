@@ -9,31 +9,21 @@
       name="description"
       content="Aryadhar Gupta is a motorsport driver, builder, engineering creator, CAD user, IoT maker, and climate activist based in Delhi, India."
     />
-    <meta name="theme-color" content="#07111f" />
+    <meta name="theme-color" content="#f6f4ef" />
 
     <style>
       :root {
-        --bg: #07111f;
-        --bg-deep: #050b14;
-        --surface: rgba(255, 255, 255, 0.055);
-        --surface-strong: rgba(255, 255, 255, 0.085);
-        --surface-soft: rgba(255, 255, 255, 0.035);
-        --line: rgba(255, 255, 255, 0.11);
-
-        --text: #f2f7ff;
-        --muted: #a9b7ca;
-        --quiet: #728197;
-
-        --accent: #67e8f9;
-        --accent-strong: #38bdf8;
-        --accent-soft: rgba(103, 232, 249, 0.12);
-
-        --radius-sm: 12px;
-        --radius-md: 18px;
-        --radius-lg: 28px;
-
-        --max-width: 1180px;
-        --shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+        --bg: #f6f4ef;
+        --surface: #ffffff;
+        --surface-soft: #f0ede6;
+        --text: #171717;
+        --muted: #5f6268;
+        --subtle: #8a8d93;
+        --line: #dedbd3;
+        --accent: #12355b;
+        --accent-soft: #e8eef5;
+        --max: 1120px;
+        --radius: 18px;
       }
 
       * {
@@ -46,29 +36,20 @@
 
       body {
         margin: 0;
+        background: var(--bg);
+        color: var(--text);
         font-family:
           Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", Arial, sans-serif;
-        color: var(--text);
-        background:
-          radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.18), transparent 34rem),
-          radial-gradient(circle at 82% 12%, rgba(103, 232, 249, 0.1), transparent 30rem),
-          linear-gradient(180deg, var(--bg) 0%, #08111f 48%, var(--bg-deep) 100%);
         line-height: 1.6;
-        text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
       }
 
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background-image:
-          linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px);
-        background-size: 48px 48px;
-        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), transparent 70%);
+      img,
+      video {
+        max-width: 100%;
+        display: block;
       }
 
       a {
@@ -87,20 +68,20 @@
       }
 
       .wrap {
-        width: min(100% - 32px, var(--max-width));
-        margin-inline: auto;
+        width: min(calc(100% - 32px), var(--max));
+        margin: 0 auto;
       }
 
-      .nav {
+      .site-header {
         position: sticky;
         top: 0;
         z-index: 20;
+        background: rgba(246, 244, 239, 0.92);
+        backdrop-filter: blur(14px);
         border-bottom: 1px solid var(--line);
-        background: rgba(7, 17, 31, 0.76);
-        backdrop-filter: blur(18px) saturate(1.35);
       }
 
-      .nav-inner {
+      .nav {
         min-height: 72px;
         display: flex;
         align-items: center;
@@ -113,28 +94,31 @@
         align-items: center;
         gap: 12px;
         text-decoration: none;
-        font-weight: 800;
-        letter-spacing: -0.025em;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
       }
 
       .brand-mark {
-        width: 38px;
-        height: 38px;
+        width: 36px;
+        height: 36px;
         display: grid;
         place-items: center;
-        border-radius: 14px;
-        background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-        color: #03111c;
-        font-size: 0.86rem;
-        box-shadow: 0 0 0 8px rgba(103, 232, 249, 0.08);
+        border-radius: 50%;
+        background: var(--text);
+        color: var(--bg);
+        font-size: 0.82rem;
+        font-weight: 800;
       }
 
       .nav-links {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
         gap: 20px;
         color: var(--muted);
-        font-size: 0.92rem;
+        font-size: 0.93rem;
+        flex-wrap: wrap;
       }
 
       .nav-links a {
@@ -146,59 +130,43 @@
       }
 
       .nav-cta {
-        padding: 9px 13px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.045);
-        color: var(--text) !important;
+        color: var(--accent) !important;
+        font-weight: 650;
       }
 
       .hero {
         padding: 96px 0 72px;
+        border-bottom: 1px solid var(--line);
       }
 
       .hero-grid {
         display: grid;
-        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
-        gap: 34px;
-        align-items: stretch;
+        grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
+        gap: 56px;
+        align-items: start;
       }
 
       .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        width: fit-content;
-        margin-bottom: 22px;
-        padding: 8px 12px;
-        border: 1px solid rgba(103, 232, 249, 0.24);
-        border-radius: 999px;
-        background: rgba(103, 232, 249, 0.075);
-        color: #d4fbff;
-        font-size: 0.86rem;
-        font-weight: 750;
-      }
-
-      .eyebrow-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 999px;
-        background: var(--accent);
-        box-shadow: 0 0 18px rgba(103, 232, 249, 0.9);
+        margin-bottom: 20px;
+        color: var(--accent);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
       }
 
       h1 {
-        max-width: 860px;
-        margin-bottom: 22px;
-        font-size: clamp(3.15rem, 7vw, 6.55rem);
-        line-height: 0.92;
-        letter-spacing: -0.078em;
+        max-width: 780px;
+        margin-bottom: 24px;
+        font-size: clamp(2.8rem, 7vw, 5.8rem);
+        line-height: 0.98;
+        letter-spacing: -0.07em;
       }
 
       .lead {
-        max-width: 760px;
+        max-width: 680px;
         color: var(--muted);
-        font-size: clamp(1.08rem, 2vw, 1.28rem);
+        font-size: clamp(1.05rem, 2vw, 1.25rem);
       }
 
       .hero-actions {
@@ -208,219 +176,185 @@
         margin-top: 32px;
       }
 
-      .btn {
+      .button {
         display: inline-flex;
+        min-height: 44px;
         align-items: center;
         justify-content: center;
-        min-height: 46px;
-        padding: 0 17px;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.05);
+        padding: 0 18px;
+        border: 1px solid var(--text);
+        border-radius: 999px;
         color: var(--text);
         text-decoration: none;
         font-size: 0.95rem;
-        font-weight: 750;
+        font-weight: 650;
         transition:
-          transform 180ms ease,
-          border-color 180ms ease,
-          background 180ms ease;
+          background 180ms ease,
+          color 180ms ease,
+          border-color 180ms ease;
       }
 
-      .btn:hover {
-        transform: translateY(-2px);
-        border-color: rgba(103, 232, 249, 0.42);
-        background: rgba(255, 255, 255, 0.085);
+      .button:hover {
+        background: var(--text);
+        color: var(--bg);
       }
 
-      .btn-primary {
-        border-color: transparent;
-        background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-        color: #03111c;
+      .button.primary {
+        background: var(--text);
+        color: var(--bg);
       }
 
-      .panel {
+      .button.primary:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .profile-card {
+        padding: 24px;
         border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
-        background:
-          linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.032)),
-          rgba(255, 255, 255, 0.04);
-        box-shadow: var(--shadow);
+        border-radius: var(--radius);
+        background: var(--surface);
       }
 
-      .hero-card {
-        position: relative;
-        overflow: hidden;
-        padding: 26px;
+      .profile-card h2 {
+        margin-bottom: 10px;
+        font-size: 1.25rem;
+        line-height: 1.25;
+        letter-spacing: -0.03em;
       }
 
-      .hero-card::before {
-        content: "";
-        position: absolute;
-        width: 280px;
-        height: 280px;
-        top: -120px;
-        right: -120px;
-        border-radius: 999px;
-        background: rgba(103, 232, 249, 0.16);
-        filter: blur(8px);
-      }
-
-      .hero-card-content {
-        position: relative;
-        z-index: 1;
-      }
-
-      .label {
-        color: var(--quiet);
-        font-size: 0.76rem;
-        font-weight: 850;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-      }
-
-      .hero-card h2 {
-        margin: 12px 0 10px;
-        font-size: 1.55rem;
-        line-height: 1.15;
-        letter-spacing: -0.04em;
-      }
-
-      .hero-card p {
+      .profile-card p {
         color: var(--muted);
       }
 
       .profile-list {
         display: grid;
         gap: 0;
-        margin-top: 26px;
+        margin-top: 22px;
         border-top: 1px solid var(--line);
       }
 
       .profile-row {
         display: grid;
-        grid-template-columns: 0.85fr 1.15fr;
-        gap: 20px;
-        padding: 14px 0;
+        grid-template-columns: 110px 1fr;
+        gap: 14px;
+        padding: 13px 0;
         border-bottom: 1px solid var(--line);
+        font-size: 0.93rem;
       }
 
       .profile-row span:first-child {
-        color: var(--quiet);
+        color: var(--subtle);
       }
 
       .profile-row span:last-child {
-        font-weight: 750;
-        text-align: right;
+        color: var(--text);
+        font-weight: 600;
       }
 
-      .proof-strip {
+      .proof {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
         gap: 12px;
-        margin-top: 42px;
+        margin-top: 44px;
       }
 
-      .proof-card {
-        min-height: 112px;
-        padding: 17px;
+      .proof-item {
+        padding: 16px;
         border: 1px solid var(--line);
-        border-radius: var(--radius-md);
-        background: rgba(255, 255, 255, 0.043);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.52);
       }
 
-      .proof-card strong {
+      .proof-item strong {
         display: block;
-        margin-bottom: 5px;
-        font-size: 1rem;
+        margin-bottom: 4px;
+        font-size: 0.98rem;
         line-height: 1.25;
-        letter-spacing: -0.025em;
       }
 
-      .proof-card span {
+      .proof-item span {
         display: block;
-        color: var(--quiet);
-        font-size: 0.86rem;
+        color: var(--muted);
+        font-size: 0.88rem;
         line-height: 1.45;
       }
 
       .section {
-        padding: 86px 0;
+        padding: 78px 0;
+        border-bottom: 1px solid var(--line);
       }
 
       .section-head {
-        display: flex;
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.55fr);
+        gap: 36px;
         align-items: end;
-        justify-content: space-between;
-        gap: 28px;
-        margin-bottom: 30px;
+        margin-bottom: 32px;
       }
 
       .kicker {
+        margin-bottom: 10px;
         color: var(--accent);
-        font-size: 0.76rem;
-        font-weight: 850;
-        letter-spacing: 0.16em;
+        font-size: 0.78rem;
+        font-weight: 750;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
       }
 
-      h2.section-title {
-        margin: 8px 0 0;
-        max-width: 760px;
-        font-size: clamp(2rem, 4.6vw, 3.45rem);
-        line-height: 0.98;
-        letter-spacing: -0.06em;
+      .section-title {
+        margin: 0;
+        max-width: 680px;
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        line-height: 1.02;
+        letter-spacing: -0.055em;
       }
 
       .section-note {
-        max-width: 455px;
         color: var(--muted);
         font-size: 1rem;
       }
 
-      .about-grid {
+      .two-col {
         display: grid;
-        grid-template-columns: 1fr 0.82fr;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.75fr);
         gap: 18px;
       }
 
-      .content-card {
-        padding: 30px;
+      .card {
+        padding: 26px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
       }
 
-      .content-card p {
+      .card p {
         color: var(--muted);
       }
 
-      .content-card p + p {
+      .card p + p {
         margin-top: 18px;
       }
 
-      .quote-card {
+      .quote {
         display: flex;
-        min-height: 100%;
         flex-direction: column;
         justify-content: space-between;
-        padding: 30px;
+        min-height: 100%;
+        background: var(--text);
+        color: var(--bg);
       }
 
-      .quote-mark {
-        color: var(--accent);
-        font-size: 3.8rem;
-        line-height: 0.8;
+      .quote p {
+        color: rgba(246, 244, 239, 0.74);
       }
 
       blockquote {
-        margin: 18px 0 0;
-        font-size: clamp(1.45rem, 2.6vw, 2rem);
-        font-weight: 850;
-        line-height: 1.12;
-        letter-spacing: -0.05em;
-      }
-
-      .quote-card p {
-        margin-top: 26px;
-        color: var(--muted);
+        margin: 0 0 22px;
+        font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+        line-height: 1.18;
+        letter-spacing: -0.045em;
+        font-weight: 700;
       }
 
       .tag-row {
@@ -433,219 +367,197 @@
       .tag {
         display: inline-flex;
         align-items: center;
-        min-height: 30px;
-        padding: 5px 10px;
+        min-height: 28px;
+        padding: 4px 10px;
         border: 1px solid var(--line);
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.04);
-        color: #dce8f7;
+        background: var(--surface-soft);
+        color: var(--muted);
         font-size: 0.82rem;
-        font-weight: 700;
+        font-weight: 600;
       }
 
-      .capability-grid {
+      .quote .tag {
+        border-color: rgba(246, 244, 239, 0.24);
+        background: rgba(246, 244, 239, 0.08);
+        color: rgba(246, 244, 239, 0.82);
+      }
+
+      .grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr));
         gap: 16px;
       }
 
       .capability-card {
-        min-height: 275px;
-        padding: 24px;
+        min-height: 245px;
       }
 
       .number {
-        width: 42px;
-        height: 42px;
-        display: grid;
-        place-items: center;
-        border: 1px solid rgba(103, 232, 249, 0.22);
-        border-radius: 14px;
-        background: var(--accent-soft);
+        margin-bottom: 34px;
         color: var(--accent);
-        font-size: 0.86rem;
-        font-weight: 900;
+        font-size: 0.8rem;
+        font-weight: 750;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
       }
 
-      .capability-card h3,
-      .project-card h3,
-      .timeline-card h3,
-      .press-card h3 {
-        margin: 20px 0 9px;
-        font-size: 1.16rem;
-        line-height: 1.22;
-        letter-spacing: -0.03em;
-      }
-
-      .capability-card p,
-      .project-card p,
-      .timeline-card p,
-      .press-card p {
-        color: var(--muted);
-      }
-
-      .project-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
+      .card h3 {
+        margin-bottom: 10px;
+        font-size: 1.12rem;
+        line-height: 1.25;
+        letter-spacing: -0.025em;
       }
 
       .project-card {
         display: flex;
-        min-height: 405px;
         flex-direction: column;
-        padding: 20px;
+        min-height: 330px;
       }
 
-      .project-visual {
-        height: 136px;
-        display: flex;
-        align-items: flex-end;
-        padding: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.09);
-        border-radius: 20px;
-        background:
-          radial-gradient(circle at 24% 20%, rgba(103, 232, 249, 0.28), transparent 10rem),
-          radial-gradient(circle at 82% 80%, rgba(56, 189, 248, 0.18), transparent 9rem),
-          rgba(255, 255, 255, 0.04);
-      }
-
-      .project-visual span {
-        color: rgba(242, 247, 255, 0.82);
+      .project-type {
+        margin-bottom: 36px;
+        color: var(--accent);
         font-size: 0.78rem;
-        font-weight: 850;
+        font-weight: 750;
         letter-spacing: 0.14em;
         text-transform: uppercase;
       }
 
       .project-card .tag-row {
         margin-top: auto;
+        padding-top: 24px;
       }
 
       .project-links {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 14px;
         margin-top: 20px;
       }
 
       .text-link {
-        color: #cffafe;
-        font-weight: 800;
-        text-decoration-thickness: 1px;
+        color: var(--accent);
+        font-weight: 700;
         text-underline-offset: 4px;
       }
 
       .timeline {
         display: grid;
-        gap: 14px;
+        gap: 12px;
       }
 
       .timeline-card {
         display: grid;
-        grid-template-columns: 126px 1fr;
-        gap: 22px;
-        padding: 22px;
+        grid-template-columns: 110px 1fr;
+        gap: 26px;
+        padding: 22px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .timeline-card:last-child {
+        border-bottom: 1px solid var(--line);
       }
 
       .year {
         color: var(--accent);
-        font-size: 1.15rem;
-        font-weight: 900;
-        letter-spacing: -0.02em;
+        font-weight: 750;
       }
 
       .timeline-card h3 {
-        margin-top: 0;
+        margin-bottom: 6px;
+        font-size: 1.05rem;
+      }
+
+      .timeline-card p {
+        max-width: 760px;
+        color: var(--muted);
       }
 
       .press-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
         gap: 16px;
-      }
-
-      .press-card {
-        padding: 26px;
       }
 
       .press-links {
         display: grid;
-        gap: 12px;
+        gap: 10px;
         margin-top: 18px;
       }
 
       .media-placeholder {
-        min-height: 300px;
+        min-height: 240px;
         display: grid;
         place-items: center;
-        padding: 34px;
-        border: 1px dashed rgba(103, 232, 249, 0.28);
-        border-radius: var(--radius-lg);
-        background: rgba(103, 232, 249, 0.045);
+        padding: 30px;
+        border: 1px dashed #c9c5ba;
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.42);
         text-align: center;
       }
 
       .media-placeholder strong {
         display: block;
-        font-size: 1.35rem;
-        letter-spacing: -0.035em;
+        margin-bottom: 6px;
+        font-size: 1.12rem;
       }
 
       .media-placeholder span {
         display: block;
-        max-width: 590px;
-        margin-top: 8px;
+        max-width: 560px;
         color: var(--muted);
+      }
+
+      .contact {
+        border-bottom: 0;
       }
 
       .contact-card {
         display: grid;
-        grid-template-columns: 0.9fr 1.1fr;
+        grid-template-columns: minmax(0, 0.8fr) minmax(280px, 1fr);
         gap: 28px;
         padding: 30px;
-      }
-
-      .contact-card .section-title {
-        max-width: 440px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
       }
 
       .contact-list {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
         gap: 12px;
       }
 
       .contact-item {
-        padding: 16px;
+        padding: 15px;
         border: 1px solid var(--line);
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.035);
+        border-radius: 14px;
+        background: var(--bg);
       }
 
       .contact-item span {
         display: block;
-        color: var(--quiet);
+        margin-bottom: 4px;
+        color: var(--subtle);
         font-size: 0.74rem;
-        font-weight: 850;
-        letter-spacing: 0.14em;
+        font-weight: 750;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
       }
 
       .contact-item a,
       .contact-item strong {
-        display: inline-block;
-        margin-top: 6px;
         color: var(--text);
-        font-weight: 750;
+        font-weight: 650;
         text-decoration-thickness: 1px;
         text-underline-offset: 4px;
+        word-break: break-word;
       }
 
       footer {
         padding: 28px 0;
-        border-top: 1px solid var(--line);
-        color: var(--quiet);
+        color: var(--muted);
         font-size: 0.92rem;
       }
 
@@ -653,93 +565,74 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        gap: 14px;
+        gap: 12px;
       }
 
-      @media (max-width: 1040px) {
+      @media (max-width: 900px) {
         .hero-grid,
-        .about-grid,
+        .section-head,
+        .two-col,
         .contact-card {
           grid-template-columns: 1fr;
         }
 
-        .proof-strip,
-        .capability-grid,
-        .project-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        .press-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .nav-inner {
-          align-items: flex-start;
-          flex-direction: column;
-          padding: 16px 0;
-        }
-
-        .nav-links {
-          width: 100%;
-          overflow-x: auto;
-          padding-bottom: 2px;
-        }
-      }
-
-      @media (max-width: 680px) {
-        .wrap {
-          width: min(100% - 24px, var(--max-width));
-        }
-
         .hero {
-          padding: 64px 0 46px;
+          padding: 72px 0 56px;
         }
 
         .section {
           padding: 62px 0;
         }
 
-        .proof-strip,
-        .capability-grid,
-        .project-grid,
-        .contact-list {
-          grid-template-columns: 1fr;
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 14px 0;
         }
 
-        .timeline-card {
-          grid-template-columns: 1fr;
+        .nav-links {
+          justify-content: flex-start;
+          gap: 14px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .wrap {
+          width: min(calc(100% - 24px), var(--max));
         }
 
         h1 {
-          font-size: clamp(2.8rem, 16vw, 4.15rem);
+          font-size: clamp(2.55rem, 14vw, 3.8rem);
+          letter-spacing: -0.06em;
         }
 
-        .section-head {
-          align-items: flex-start;
-          flex-direction: column;
-        }
-
-        .content-card,
-        .quote-card,
-        .contact-card {
-          padding: 22px;
-        }
-
-        .profile-row {
+        .profile-row,
+        .timeline-card {
           grid-template-columns: 1fr;
           gap: 4px;
         }
 
-        .profile-row span:last-child {
-          text-align: left;
+        .card,
+        .profile-card,
+        .contact-card {
+          padding: 20px;
+        }
+
+        .hero-actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .button {
+          width: 100%;
         }
       }
     </style>
   </head>
 
   <body>
-    <header class="nav">
-      <div class="wrap nav-inner">
+    <header class="site-header">
+      <div class="wrap nav">
         <a class="brand" href="#top" aria-label="Aryadhar Gupta homepage">
           <span class="brand-mark">AG</span>
           <span>Aryadhar Gupta</span>
@@ -761,90 +654,81 @@
         <div class="wrap">
           <div class="hero-grid">
             <div>
-              <div class="eyebrow">
-                <span class="eyebrow-dot"></span>
-                Driver • Builder • Creator
-              </div>
+              <div class="eyebrow">Driver • Builder • Creator</div>
 
-              <h1>Engineering speed into real-world systems.</h1>
+              <h1>Engineering discipline, built through machines.</h1>
 
               <p class="lead">
                 I work across motorsport, mechanical systems, CAD, connected
                 hardware, and climate-focused leadership — combining track
-                experience with hands-on technical execution.
+                experience with practical, hands-on technical execution.
               </p>
 
               <div class="hero-actions">
-                <a class="btn btn-primary" href="#projects">View Projects</a>
-                <a class="btn" href="#contact">Start a Conversation</a>
-              </div>
-
-              <div class="proof-strip" aria-label="Key credibility markers">
-                <div class="proof-card">
-                  <strong>Formula-4 Testing</strong>
-                  <span>Driver development and circuit experience.</span>
-                </div>
-
-                <div class="proof-card">
-                  <strong>Drift Instructor</strong>
-                  <span>BAD BOI DRIFTS, car control and coaching.</span>
-                </div>
-
-                <div class="proof-card">
-                  <strong>UNO Minda</strong>
-                  <span>Product Integration & Market Analysis.</span>
-                </div>
-
-                <div class="proof-card">
-                  <strong>2nd at BIC</strong>
-                  <span>Autocross result at Buddh International Circuit.</span>
-                </div>
-
-                <div class="proof-card">
-                  <strong>CAD Since 2016</strong>
-                  <span>Design, prototyping, fixtures and mechanisms.</span>
-                </div>
-
-                <div class="proof-card">
-                  <strong>Mensa Member</strong>
-                  <span>Analytical problem-solving and fast learning.</span>
-                </div>
+                <a class="button primary" href="#projects">View Projects</a>
+                <a class="button" href="#contact">Start a Conversation</a>
               </div>
             </div>
 
-            <aside class="panel hero-card">
-              <div class="hero-card-content">
-                <div class="label">Current Focus</div>
-                <h2>Building a serious technical and motorsport profile.</h2>
-                <p>
-                  This site is designed as a professional base for racing
-                  opportunities, sponsorship discussions, engineering projects,
-                  and selected collaborations.
-                </p>
+            <aside class="profile-card">
+              <h2>Professional focus</h2>
+              <p>
+                Building a serious technical and motorsport profile for racing
+                opportunities, sponsorship conversations, engineering projects,
+                and selected collaborations.
+              </p>
 
-                <div class="profile-list">
-                  <div class="profile-row">
-                    <span>Base</span>
-                    <span>Delhi, India</span>
-                  </div>
-
-                  <div class="profile-row">
-                    <span>Primary Areas</span>
-                    <span>Motorsport, CAD, IoT, automotive systems</span>
-                  </div>
-
-                  <div class="profile-row">
-                    <span>Working Style</span>
-                    <span>Hands-on, fast-learning, execution-focused</span>
-                  </div>
-
-                  <div class="profile-row">
-                    <span>Open To</span>
-                    <span>Teams, sponsors, technical collaborations</span>
-                  </div>
+              <div class="profile-list">
+                <div class="profile-row">
+                  <span>Base</span>
+                  <span>Delhi, India</span>
+                </div>
+                <div class="profile-row">
+                  <span>Areas</span>
+                  <span>Motorsport, CAD, IoT, automotive systems</span>
+                </div>
+                <div class="profile-row">
+                  <span>Style</span>
+                  <span>Hands-on, fast-learning, execution-focused</span>
+                </div>
+                <div class="profile-row">
+                  <span>Open to</span>
+                  <span>Teams, sponsors, technical collaborations</span>
                 </div>
               </div>
             </aside>
+          </div>
+
+          <div class="proof" aria-label="Key credibility markers">
+            <div class="proof-item">
+              <strong>Formula-4 Testing</strong>
+              <span>Driver development and circuit experience.</span>
+            </div>
+
+            <div class="proof-item">
+              <strong>Drift Instructor</strong>
+              <span>BAD BOI DRIFTS, car control and coaching.</span>
+            </div>
+
+            <div class="proof-item">
+              <strong>UNO Minda</strong>
+              <span>Product Integration & Market Analysis.</span>
+            </div>
+
+            <div class="proof-item">
+              <strong>2nd at BIC</strong>
+              <span>Autocross result at Buddh International Circuit.</span>
+            </div>
+
+            <div class="proof-item">
+              <strong>CAD Since 2016</strong>
+              <span>Design, prototyping, fixtures and mechanisms.</span>
+            </div>
+
+            <div class="proof-item">
+              <strong>Mensa Member</strong>
+              <span>Analytical problem-solving and fast learning.</span>
+            </div>
           </div>
         </div>
       </section>
@@ -854,7 +738,7 @@
           <div class="section-head">
             <div>
               <div class="kicker">About</div>
-              <h2 class="section-title">A builder’s mindset, shaped by machines.</h2>
+              <h2 class="section-title">A builder’s mindset, shaped by real systems.</h2>
             </div>
 
             <p class="section-note">
@@ -863,8 +747,8 @@
             </p>
           </div>
 
-          <div class="about-grid">
-            <article class="panel content-card">
+          <div class="two-col">
+            <article class="card">
               <p>
                 My work started with physical curiosity: dismantling, repairing,
                 testing, and building RC models, cars, boats, planes, drones,
@@ -891,14 +775,11 @@
               </div>
             </article>
 
-            <aside class="panel quote-card">
-              <div>
-                <div class="quote-mark">“</div>
-                <blockquote>
-                  The goal is not to look technical. The goal is to build,
-                  test, refine, and make the machine better.
-                </blockquote>
-              </div>
+            <aside class="card quote">
+              <blockquote>
+                The goal is not to look technical. The goal is to build, test,
+                refine, and make the machine better.
+              </blockquote>
 
               <p>
                 This portfolio will grow into a complete record of projects,
@@ -918,13 +799,13 @@
             </div>
 
             <p class="section-note">
-              Four areas connect the profile: driving, mechanics, design, and
-              connected systems.
+              Four connected areas define the profile: driving, mechanics,
+              design, and connected systems.
             </p>
           </div>
 
-          <div class="capability-grid">
-            <article class="panel capability-card">
+          <div class="grid">
+            <article class="card capability-card">
               <div class="number">01</div>
               <h3>Motorsport & Driver Development</h3>
               <p>
@@ -934,7 +815,7 @@
               </p>
             </article>
 
-            <article class="panel capability-card">
+            <article class="card capability-card">
               <div class="number">02</div>
               <h3>Mechanical & Automotive Work</h3>
               <p>
@@ -944,7 +825,7 @@
               </p>
             </article>
 
-            <article class="panel capability-card">
+            <article class="card capability-card">
               <div class="number">03</div>
               <h3>CAD, Prototyping & Fabrication</h3>
               <p>
@@ -953,7 +834,7 @@
               </p>
             </article>
 
-            <article class="panel capability-card">
+            <article class="card capability-card">
               <div class="number">04</div>
               <h3>Software, IoT & Control Systems</h3>
               <p>
@@ -979,11 +860,9 @@
             </p>
           </div>
 
-          <div class="project-grid">
-            <article class="panel project-card">
-              <div class="project-visual">
-                <span>Connected Hardware</span>
-              </div>
+          <div class="grid">
+            <article class="card project-card">
+              <div class="project-type">Connected Hardware</div>
 
               <h3>NodeMCU Traffic Light Controller</h3>
 
@@ -1021,10 +900,8 @@
               </div>
             </article>
 
-            <article class="panel project-card">
-              <div class="project-visual">
-                <span>Automotive</span>
-              </div>
+            <article class="card project-card">
+              <div class="project-type">Automotive</div>
 
               <h3>Lexus GS300 / 2JZ Work</h3>
 
@@ -1042,10 +919,8 @@
               </div>
             </article>
 
-            <article class="panel project-card">
-              <div class="project-visual">
-                <span>Aero + RC</span>
-              </div>
+            <article class="card project-card">
+              <div class="project-type">Aero + RC</div>
 
               <h3>Aeromodelling & RC Prototyping</h3>
 
@@ -1081,7 +956,7 @@
           </div>
 
           <div class="timeline">
-            <article class="panel timeline-card">
+            <article class="timeline-card">
               <div class="year">2013+</div>
               <div>
                 <h3>Early engineering curiosity</h3>
@@ -1093,7 +968,7 @@
               </div>
             </article>
 
-            <article class="panel timeline-card">
+            <article class="timeline-card">
               <div class="year">2016</div>
               <div>
                 <h3>CAD and design proficiency</h3>
@@ -1104,7 +979,7 @@
               </div>
             </article>
 
-            <article class="panel timeline-card">
+            <article class="timeline-card">
               <div class="year">2018</div>
               <div>
                 <h3>Climate activism</h3>
@@ -1116,7 +991,7 @@
               </div>
             </article>
 
-            <article class="panel timeline-card">
+            <article class="timeline-card">
               <div class="year">2023</div>
               <div>
                 <h3>Coding and connected systems</h3>
@@ -1127,7 +1002,7 @@
               </div>
             </article>
 
-            <article class="panel timeline-card">
+            <article class="timeline-card">
               <div class="year">2024</div>
               <div>
                 <h3>Automotive and motorsport growth</h3>
@@ -1138,7 +1013,7 @@
               </div>
             </article>
 
-            <article class="panel timeline-card">
+            <article class="timeline-card">
               <div class="year">2025</div>
               <div>
                 <h3>UNO Minda — Product Integration & Market Analysis</h3>
@@ -1162,7 +1037,7 @@
           </div>
 
           <div class="press-grid">
-            <article class="panel press-card">
+            <article class="card">
               <h3>Climate activism</h3>
 
               <p>
@@ -1200,7 +1075,7 @@
               </div>
             </article>
 
-            <article class="panel press-card">
+            <article class="card">
               <h3>Reputation signals</h3>
 
               <p>
@@ -1231,7 +1106,7 @@
             </div>
 
             <p class="section-note">
-              We will add photos and videos after the structure, copy, and
+              Photos and videos will be added after the structure, copy, and
               formatting are stable.
             </p>
           </div>
@@ -1240,7 +1115,7 @@
             <div>
               <strong>No images or videos added yet.</strong>
               <span>
-                This section is intentionally clean for now. Once your media
+                This section is intentionally clean for now. Once the media
                 files are ready, we can add portraits, workshop clips, car
                 photos, project images, and motorsport footage without changing
                 the core website structure.
@@ -1250,9 +1125,9 @@
         </div>
       </section>
 
-      <section id="contact" class="section">
+      <section id="contact" class="section contact">
         <div class="wrap">
-          <div class="panel contact-card">
+          <div class="contact-card">
             <div>
               <div class="kicker">Contact</div>
               <h2 class="section-title">Let’s build the next step.</h2>
@@ -1264,9 +1139,9 @@
               </p>
 
               <div class="hero-actions">
-                <a class="btn btn-primary" href="mailto:aryadharg@gmail.com">Email Me</a>
+                <a class="button primary" href="mailto:aryadharg@gmail.com">Email Me</a>
                 <a
-                  class="btn"
+                  class="button"
                   target="_blank"
                   rel="noopener"
                   href="https://instagram.com/gunshots2005"
