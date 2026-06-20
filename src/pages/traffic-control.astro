@@ -487,216 +487,316 @@
     </footer>
 
     <script>
-      document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-      const STARTUP_CHECK_MS = 1500;
+  const API_BASE = "https://traffic-light-api.gunshots2005.workers.dev";
+  const STARTUP_CHECK_MS = 1500;
 
-      const buttons = document.querySelectorAll("[data-light]");
-      const modeText = document.getElementById("trafficMode");
-      const timerText = document.getElementById("trafficTimer");
-      const connectionText = document.getElementById("trafficConnection");
+  const buttons = document.querySelectorAll("[data-light]");
+  const modeText = document.getElementById("trafficMode");
+  const timerText = document.getElementById("trafficTimer");
+  const connectionText = document.getElementById("trafficConnection");
+  const hardwareText = document.getElementById("trafficHardware");
 
-      const redLight = document.getElementById("lightRed");
-      const yellowLight = document.getElementById("lightYellow");
-      const greenLight = document.getElementById("lightGreen");
+  const redLight = document.getElementById("lightRed");
+  const yellowLight = document.getElementById("lightYellow");
+  const greenLight = document.getElementById("lightGreen");
 
-      const redDurationInput = document.getElementById("redDuration");
-      const yellowDurationInput = document.getElementById("yellowDuration");
-      const greenDurationInput = document.getElementById("greenDuration");
-      const manualTimedReturn = document.getElementById("manualTimedReturn");
+  const redDurationInput = document.getElementById("redDuration");
+  const yellowDurationInput = document.getElementById("yellowDuration");
+  const greenDurationInput = document.getElementById("greenDuration");
+  const manualTimedReturn = document.getElementById("manualTimedReturn");
 
-      let autoTimer = null;
-      let countdownTimer = null;
-      let manualReturnTimer = null;
-      let autoIndex = 0;
+  let autoTimer = null;
+  let countdownTimer = null;
+  let manualReturnTimer = null;
+  let autoIndex = 0;
 
-      const autoCycle = ["red", "yellow", "green"];
+  const autoCycle = ["red", "yellow", "green"];
 
-      function getSeconds(input, fallback) {
-        const value = Number(input.value);
+  function getSeconds(input, fallback) {
+    const value = Number(input.value);
 
-        if (!Number.isFinite(value)) {
-          return fallback;
+    if (!Number.isFinite(value)) {
+      return fallback;
+    }
+
+    return Math.min(Math.max(value, 1), 120);
+  }
+
+  function getTimings() {
+    return {
+      red: getSeconds(redDurationInput, 10),
+      yellow: getSeconds(yellowDurationInput, 5),
+      green: getSeconds(greenDurationInput, 15),
+    };
+  }
+
+  function getDuration(mode) {
+    const timings = getTimings();
+
+    if (mode === "red") return timings.red * 1000;
+    if (mode === "yellow") return timings.yellow * 1000;
+    if (mode === "green") return timings.green * 1000;
+
+    return 0;
+  }
+
+  function labelFor(mode) {
+    if (mode === "red") return "Red";
+    if (mode === "yellow") return "Yellow";
+    if (mode === "green") return "Green";
+    if (mode === "auto") return "Auto Mode";
+    if (mode === "off") return "All Off";
+    return "Unknown";
+  }
+
+  function clearTimers() {
+    clearTimeout(autoTimer);
+    clearTimeout(manualReturnTimer);
+    clearInterval(countdownTimer);
+
+    autoTimer = null;
+    manualReturnTimer = null;
+    countdownTimer = null;
+  }
+
+  function clearLights() {
+    redLight.classList.remove("on");
+    yellowLight.classList.remove("on");
+    greenLight.classList.remove("on");
+  }
+
+  function allLightsOn() {
+    redLight.classList.add("on");
+    yellowLight.classList.add("on");
+    greenLight.classList.add("on");
+  }
+
+  function clearActiveButtons() {
+    buttons.forEach((button) => button.classList.remove("is-active"));
+  }
+
+  function setActiveButton(mode) {
+    clearActiveButtons();
+
+    const activeButton = document.querySelector(`[data-light="${mode}"]`);
+
+    if (activeButton) {
+      activeButton.classList.add("is-active");
+    }
+  }
+
+  function showOnly(mode) {
+    clearLights();
+
+    if (mode === "red") redLight.classList.add("on");
+    if (mode === "yellow") yellowLight.classList.add("on");
+    if (mode === "green") greenLight.classList.add("on");
+  }
+
+  function startCountdown(label, durationMs) {
+    clearInterval(countdownTimer);
+
+    const endTime = Date.now() + durationMs;
+
+    function updateCountdown() {
+      const remainingMs = Math.max(0, endTime - Date.now());
+      const remainingSeconds = Math.ceil(remainingMs / 1000);
+      timerText.textContent = `${label}: ${remainingSeconds}s`;
+    }
+
+    updateCountdown();
+    countdownTimer = setInterval(updateCountdown, 250);
+  }
+
+  function startStartupCountdown() {
+    clearInterval(countdownTimer);
+
+    const endTime = Date.now() + STARTUP_CHECK_MS;
+
+    function updateStartupCountdown() {
+      const remainingMs = Math.max(0, endTime - Date.now());
+      const remainingSeconds = (remainingMs / 1000).toFixed(1);
+      timerText.textContent = `Startup check: ${remainingSeconds}s`;
+    }
+
+    updateStartupCountdown();
+    countdownTimer = setInterval(updateStartupCountdown, 100);
+  }
+
+  async function sendCommand(mode) {
+    const timings = getTimings();
+
+    connectionText.textContent = "Sending command...";
+
+    const response = await fetch(`${API_BASE}/api/command`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        mode,
+        red: timings.red,
+        yellow: timings.yellow,
+        green: timings.green,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+      throw new Error(data.error || "Command failed");
+    }
+
+    connectionText.textContent = "Connected to API";
+    hardwareText.textContent = "Waiting for NodeMCU";
+
+    return data.state;
+  }
+
+  async function loadStateFromApi() {
+    connectionText.textContent = "Loading API state...";
+
+    const response = await fetch(`${API_BASE}/api/state`);
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+      throw new Error(data.error || "Could not load state");
+    }
+
+    redDurationInput.value = data.state.red || 10;
+    yellowDurationInput.value = data.state.yellow || 5;
+    greenDurationInput.value = data.state.green || 15;
+
+    connectionText.textContent = "Connected to API";
+    hardwareText.textContent = "Waiting for NodeMCU";
+
+    return data.state;
+  }
+
+  function startAutoWithCheck() {
+    clearTimers();
+
+    setActiveButton("auto");
+    clearLights();
+    allLightsOn();
+
+    modeText.textContent = "Startup Check";
+    connectionText.textContent = "Connected to API";
+    startStartupCountdown();
+
+    autoTimer = setTimeout(() => {
+      clearInterval(countdownTimer);
+      autoIndex = 0;
+      runAutoStep();
+    }, STARTUP_CHECK_MS);
+  }
+
+  function runAutoStep() {
+    const mode = autoCycle[autoIndex];
+    const duration = getDuration(mode);
+
+    setActiveButton("auto");
+    showOnly(mode);
+
+    modeText.textContent = `Auto — ${labelFor(mode)}`;
+    connectionText.textContent = "Connected to API";
+    startCountdown(labelFor(mode), duration);
+
+    autoTimer = setTimeout(() => {
+      autoIndex = (autoIndex + 1) % autoCycle.length;
+      runAutoStep();
+    }, duration);
+  }
+
+  function setManualPreview(mode) {
+    clearTimers();
+
+    if (mode === "off") {
+      clearLights();
+      setActiveButton("off");
+      modeText.textContent = "All Off";
+      timerText.textContent = "Hold";
+      connectionText.textContent = "Connected to API";
+      return;
+    }
+
+    showOnly(mode);
+    setActiveButton(mode);
+
+    modeText.textContent = `Manual — ${labelFor(mode)}`;
+    connectionText.textContent = "Connected to API";
+
+    if (manualTimedReturn.checked) {
+      const duration = getDuration(mode);
+      startCountdown(`Manual ${labelFor(mode)}`, duration);
+
+      manualReturnTimer = setTimeout(async () => {
+        try {
+          await sendCommand("auto");
+          startAutoWithCheck();
+        } catch (error) {
+          connectionText.textContent = "API error";
+          timerText.textContent = "Auto return failed";
+          console.error(error);
         }
+      }, duration);
+    } else {
+      timerText.textContent = "Hold until changed";
+    }
+  }
 
-        return Math.min(Math.max(value, 1), 120);
+  async function handleButtonClick(mode) {
+    try {
+      await sendCommand(mode);
+
+      if (mode === "auto") {
+        startAutoWithCheck();
+        return;
       }
 
-      function getDuration(mode) {
-        if (mode === "red") return getSeconds(redDurationInput, 10) * 1000;
-        if (mode === "yellow") return getSeconds(yellowDurationInput, 5) * 1000;
-        if (mode === "green") return getSeconds(greenDurationInput, 15) * 1000;
-        return 0;
+      setManualPreview(mode);
+    } catch (error) {
+      connectionText.textContent = "API error";
+      timerText.textContent = "Command failed";
+      console.error(error);
+    }
+  }
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      handleButtonClick(button.dataset.light);
+    });
+  });
+
+  [redDurationInput, yellowDurationInput, greenDurationInput].forEach((input) => {
+    input.addEventListener("change", () => {
+      input.value = getSeconds(input, Number(input.defaultValue));
+    });
+  });
+
+  async function bootPage() {
+    try {
+      const state = await loadStateFromApi();
+
+      if (state.mode === "auto") {
+        startAutoWithCheck();
+        return;
       }
 
-      function labelFor(mode) {
-        if (mode === "red") return "Red";
-        if (mode === "yellow") return "Yellow";
-        if (mode === "green") return "Green";
-        if (mode === "auto") return "Auto Mode";
-        if (mode === "off") return "All Off";
-        return "Unknown";
-      }
-
-      function clearTimers() {
-        clearTimeout(autoTimer);
-        clearTimeout(manualReturnTimer);
-        clearInterval(countdownTimer);
-
-        autoTimer = null;
-        manualReturnTimer = null;
-        countdownTimer = null;
-      }
-
-      function clearLights() {
-        redLight.classList.remove("on");
-        yellowLight.classList.remove("on");
-        greenLight.classList.remove("on");
-      }
-
-      function allLightsOn() {
-        redLight.classList.add("on");
-        yellowLight.classList.add("on");
-        greenLight.classList.add("on");
-      }
-
-      function clearActiveButtons() {
-        buttons.forEach((button) => button.classList.remove("is-active"));
-      }
-
-      function setActiveButton(mode) {
-        clearActiveButtons();
-
-        const activeButton = document.querySelector(`[data-light="${mode}"]`);
-
-        if (activeButton) {
-          activeButton.classList.add("is-active");
-        }
-      }
-
-      function showOnly(mode) {
-        clearLights();
-
-        if (mode === "red") redLight.classList.add("on");
-        if (mode === "yellow") yellowLight.classList.add("on");
-        if (mode === "green") greenLight.classList.add("on");
-      }
-
-      function startCountdown(label, durationMs) {
-        clearInterval(countdownTimer);
-
-        const endTime = Date.now() + durationMs;
-
-        function updateCountdown() {
-          const remainingMs = Math.max(0, endTime - Date.now());
-          const remainingSeconds = Math.ceil(remainingMs / 1000);
-          timerText.textContent = `${label}: ${remainingSeconds}s`;
-        }
-
-        updateCountdown();
-        countdownTimer = setInterval(updateCountdown, 250);
-      }
-
-      function startStartupCountdown() {
-        clearInterval(countdownTimer);
-
-        const endTime = Date.now() + STARTUP_CHECK_MS;
-
-        function updateStartupCountdown() {
-          const remainingMs = Math.max(0, endTime - Date.now());
-          const remainingSeconds = (remainingMs / 1000).toFixed(1);
-          timerText.textContent = `Startup check: ${remainingSeconds}s`;
-        }
-
-        updateStartupCountdown();
-        countdownTimer = setInterval(updateStartupCountdown, 100);
-      }
-
-      function startAutoWithCheck() {
-        clearTimers();
-
-        setActiveButton("auto");
-        clearLights();
-        allLightsOn();
-
-        modeText.textContent = "Startup Check";
-        connectionText.textContent = "Auto preview";
-        startStartupCountdown();
-
-        autoTimer = setTimeout(() => {
-          clearInterval(countdownTimer);
-          autoIndex = 0;
-          runAutoStep();
-        }, STARTUP_CHECK_MS);
-      }
-
-      function runAutoStep() {
-        const mode = autoCycle[autoIndex];
-        const duration = getDuration(mode);
-
-        setActiveButton("auto");
-        showOnly(mode);
-
-        modeText.textContent = `Auto — ${labelFor(mode)}`;
-        connectionText.textContent = "Auto preview";
-        startCountdown(labelFor(mode), duration);
-
-        autoTimer = setTimeout(() => {
-          autoIndex = (autoIndex + 1) % autoCycle.length;
-          runAutoStep();
-        }, duration);
-      }
-
-      function setManualMode(mode) {
-        clearTimers();
-
-        if (mode === "off") {
-          clearLights();
-          setActiveButton("off");
-          modeText.textContent = "All Off";
-          timerText.textContent = "Hold";
-          connectionText.textContent = "Website preview";
-          return;
-        }
-
-        showOnly(mode);
-        setActiveButton(mode);
-
-        modeText.textContent = `Manual — ${labelFor(mode)}`;
-        connectionText.textContent = "Manual preview";
-
-        if (manualTimedReturn.checked) {
-          const duration = getDuration(mode);
-          startCountdown(`Manual ${labelFor(mode)}`, duration);
-
-          manualReturnTimer = setTimeout(() => {
-            startAutoWithCheck();
-          }, duration);
-        } else {
-          timerText.textContent = "Hold until changed";
-        }
-      }
-
-      buttons.forEach((button) => {
-        button.addEventListener("click", () => {
-          const mode = button.dataset.light;
-
-          if (mode === "auto") {
-            startAutoWithCheck();
-            return;
-          }
-
-          setManualMode(mode);
-        });
-      });
-
-      [redDurationInput, yellowDurationInput, greenDurationInput].forEach((input) => {
-        input.addEventListener("change", () => {
-          input.value = getSeconds(input, Number(input.defaultValue));
-        });
-      });
+      setManualPreview(state.mode);
+    } catch (error) {
+      connectionText.textContent = "API offline";
+      hardwareText.textContent = "Not connected";
+      timerText.textContent = "Local preview only";
+      console.error(error);
 
       startAutoWithCheck();
-    </script>
+    }
+  }
+
+  bootPage();
+</script>
   </body>
 </html>
