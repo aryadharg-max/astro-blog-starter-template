@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Traffic Light Control — Aryadhar Gupta</title>
+    <meta
+      name="description"
+      content="Control page for Aryadhar Gupta's NodeMCU traffic light system."
+    />
+    <meta name="theme-color" content="#f6f4ef" />
+
+    <style>
+      :root {
+        --bg: #f6f4ef;
+        --surface: #ffffff;
+        --surface-soft: #f0ede6;
+        --text: #171717;
+        --muted: #5f6268;
+        --subtle: #8a8d93;
+        --line: #dedbd3;
+        --accent: #12355b;
+        --red: #dc2626;
+        --yellow: #eab308;
+        --green: #16a34a;
+        --max: 980px;
+        --radius: 18px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Arial, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      p,
+      h1,
+      h2,
+      h3 {
+        margin-top: 0;
+      }
+
+      p:last-child {
+        margin-bottom: 0;
+      }
+
+      .wrap {
+        width: min(calc(100% - 32px), var(--max));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        border-bottom: 1px solid var(--line);
+        background: rgba(246, 244, 239, 0.94);
+        backdrop-filter: blur(14px);
+      }
+
+      .nav {
+        min-height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--text);
+        color: var(--bg);
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .back-link {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.95rem;
+      }
+
+      .back-link:hover {
+        color: var(--text);
+      }
+
+      .hero {
+        padding: 76px 0 42px;
+      }
+
+      .kicker {
+        margin-bottom: 12px;
+        color: var(--accent);
+        font-size: 0.78rem;
+        font-weight: 750;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin-bottom: 18px;
+        font-size: clamp(2.5rem, 7vw, 5rem);
+        line-height: 0.98;
+        letter-spacing: -0.065em;
+      }
+
+      .lead {
+        max-width: 680px;
+        color: var(--muted);
+        font-size: clamp(1.02rem, 2vw, 1.18rem);
+      }
+
+      .control-shell {
+        padding: 0 0 80px;
+      }
+
+      .control-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 260px;
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .card {
+        padding: 26px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
+      }
+
+      .card h2 {
+        margin-bottom: 8px;
+        font-size: 1.25rem;
+        letter-spacing: -0.025em;
+      }
+
+      .card p {
+        color: var(--muted);
+      }
+
+      .button-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .control-button {
+        min-height: 50px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: var(--surface-soft);
+        color: var(--text);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .control-button:hover {
+        border-color: var(--text);
+        background: var(--surface);
+      }
+
+      .control-button.is-active {
+        background: var(--text);
+        color: var(--bg);
+        border-color: var(--text);
+      }
+
+      .status-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .status-box {
+        padding: 15px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--bg);
+      }
+
+      .status-box span {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--subtle);
+        font-size: 0.74rem;
+        font-weight: 750;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .status-box strong {
+        font-size: 1rem;
+      }
+
+      .traffic-card {
+        display: grid;
+        place-items: center;
+      }
+
+      .traffic-light {
+        width: 154px;
+        padding: 18px;
+        border-radius: 42px;
+        background: #171717;
+        border: 1px solid #050505;
+      }
+
+      .light {
+        width: 92px;
+        height: 92px;
+        margin: 0 auto 16px;
+        border-radius: 50%;
+        background: #3a3a3a;
+        border: 7px solid #0d0d0d;
+        opacity: 0.3;
+      }
+
+      .light:last-child {
+        margin-bottom: 0;
+      }
+
+      .light.red.on {
+        background: var(--red);
+        opacity: 1;
+        box-shadow: 0 0 26px rgba(220, 38, 38, 0.5);
+      }
+
+      .light.yellow.on {
+        background: var(--yellow);
+        opacity: 1;
+        box-shadow: 0 0 26px rgba(234, 179, 8, 0.5);
+      }
+
+      .light.green.on {
+        background: var(--green);
+        opacity: 1;
+        box-shadow: 0 0 26px rgba(22, 163, 74, 0.5);
+      }
+
+      .note {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      footer {
+        padding: 28px 0;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .footer-inner {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      @media (max-width: 760px) {
+        .nav {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 14px 0;
+        }
+
+        .hero {
+          padding: 56px 0 34px;
+        }
+
+        .control-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .card {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="wrap nav">
+        <a class="brand" href="/" aria-label="Back to Aryadhar Gupta homepage">
+          <span class="brand-mark">AG</span>
+          <span>Aryadhar Gupta</span>
+        </a>
+
+        <a class="back-link" href="/">Back to portfolio</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap">
+          <div class="kicker">NodeMCU System</div>
+          <h1>Traffic light control.</h1>
+          <p class="lead">
+            A dedicated control page for the ESP8266 / NodeMCU traffic light
+            system. This page is separate from the portfolio so the hardware
+            interface stays clean, focused, and easy to understand.
+          </p>
+        </div>
+      </section>
+
+      <section class="control-shell">
+        <div class="wrap">
+          <div class="control-grid">
+            <div class="card">
+              <h2>Manual control</h2>
+              <p>
+                These buttons currently control the on-screen preview only. In
+                the next steps, we will connect them to a Cloudflare backend and
+                then to the NodeMCU.
+              </p>
+
+              <div class="button-grid">
+                <button class="control-button" data-light="red">Red</button>
+                <button class="control-button" data-light="yellow">Yellow</button>
+                <button class="control-button" data-light="green">Green</button>
+                <button class="control-button" data-light="off">All Off</button>
+                <button class="control-button" data-light="auto">Auto Mode</button>
+              </div>
+
+              <div class="status-grid">
+                <div class="status-box">
+                  <span>Current Mode</span>
+                  <strong id="trafficMode">All Off</strong>
+                </div>
+
+                <div class="status-box">
+                  <span>Connection</span>
+                  <strong id="trafficConnection">Website preview</strong>
+                </div>
+
+                <div class="status-box">
+                  <span>Hardware</span>
+                  <strong id="trafficHardware">Not connected yet</strong>
+                </div>
+              </div>
+
+              <p class="note">
+                Safety note: the live version should only be connected after the
+                relay wiring, insulation, fail-safe behaviour, and 220V AC safety
+                precautions are confirmed.
+              </p>
+            </div>
+
+            <aside class="card traffic-card">
+              <div class="traffic-light" aria-label="Traffic light preview">
+                <div id="lightRed" class="light red"></div>
+                <div id="lightYellow" class="light yellow"></div>
+                <div id="lightGreen" class="light green"></div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap footer-inner">
+        <span>© <span id="year"></span> Aryadhar Gupta</span>
+        <span>Traffic Light Control</span>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      const buttons = document.querySelectorAll("[data-light]");
+      const modeText = document.getElementById("trafficMode");
+      const redLight = document.getElementById("lightRed");
+      const yellowLight = document.getElementById("lightYellow");
+      const greenLight = document.getElementById("lightGreen");
+
+      function clearPreview() {
+        redLight.classList.remove("on");
+        yellowLight.classList.remove("on");
+        greenLight.classList.remove("on");
+        buttons.forEach((button) => button.classList.remove("is-active"));
+      }
+
+      function setPreview(mode) {
+        clearPreview();
+
+        const activeButton = document.querySelector(`[data-light="${mode}"]`);
+        if (activeButton) activeButton.classList.add("is-active");
+
+        if (mode === "red") {
+          redLight.classList.add("on");
+          modeText.textContent = "Red";
+        }
+
+        if (mode === "yellow") {
+          yellowLight.classList.add("on");
+          modeText.textContent = "Yellow";
+        }
+
+        if (mode === "green") {
+          greenLight.classList.add("on");
+          modeText.textContent = "Green";
+        }
+
+        if (mode === "off") {
+          modeText.textContent = "All Off";
+        }
+
+        if (mode === "auto") {
+          redLight.classList.add("on");
+          yellowLight.classList.add("on");
+          greenLight.classList.add("on");
+          modeText.textContent = "Auto Mode";
+        }
+      }
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          setPreview(button.dataset.light);
+        });
+      });
+
+      setPreview("off");
+    </script>
+  </body>
+</html>
