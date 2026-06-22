@@ -17,7 +17,6 @@
         --muted: #706b62;
         --line: rgba(17, 17, 17, 0.11);
         --blue: #102f52;
-        --blue-dark: #071b30;
         --red: #e53935;
         --yellow: #ffc928;
         --green: #19a765;
@@ -53,11 +52,11 @@
         cursor: pointer;
       }
 
-      button:disabled {
+      button:disabled,
+      input:disabled,
+      select:disabled {
         opacity: 0.42;
         cursor: not-allowed;
-        transform: none !important;
-        box-shadow: none !important;
       }
 
       a {
@@ -411,7 +410,7 @@
         gap: 10px;
       }
 
-      .btn:hover {
+      .btn:hover:not(:disabled) {
         transform: translateY(-1px);
         box-shadow: 0 16px 34px rgba(0, 0, 0, 0.09);
         border-color: rgba(16, 47, 82, 0.22);
@@ -475,16 +474,24 @@
         letter-spacing: -0.03em;
       }
 
-      .time-grid {
+      .time-grid,
+      .two-grid,
+      .colour-row {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
         gap: 8px;
       }
 
+      .time-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
       .two-grid {
-        display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 8px;
+      }
+
+      .colour-row {
+        grid-template-columns: repeat(3, 1fr);
+        margin-bottom: 10px;
       }
 
       label {
@@ -537,13 +544,6 @@
       .timer-ring strong {
         font-size: 28px;
         letter-spacing: -0.05em;
-      }
-
-      .colour-row {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        margin-bottom: 10px;
       }
 
       .selectable.active {
@@ -746,25 +746,11 @@
           </div>
 
           <div class="primary-grid">
-            <button class="btn auto control-action" data-mode="auto" type="button">
-              Auto Cycle
-            </button>
-
-            <button class="btn red control-action" data-mode="red" type="button">
-              <span class="indicator"></span> Red
-            </button>
-
-            <button class="btn yellow control-action" data-mode="yellow" type="button">
-              <span class="indicator"></span> Yellow
-            </button>
-
-            <button class="btn green control-action" data-mode="green" type="button">
-              <span class="indicator"></span> Green
-            </button>
-
-            <button class="btn off control-action" data-mode="off" type="button">
-              <span class="indicator"></span> Off
-            </button>
+            <button class="btn auto control-action" data-mode="auto" type="button">Auto Cycle</button>
+            <button class="btn red control-action" data-mode="red" type="button"><span class="indicator"></span> Red</button>
+            <button class="btn yellow control-action" data-mode="yellow" type="button"><span class="indicator"></span> Yellow</button>
+            <button class="btn green control-action" data-mode="green" type="button"><span class="indicator"></span> Green</button>
+            <button class="btn off control-action" data-mode="off" type="button"><span class="indicator"></span> Off</button>
           </div>
 
           <div class="card">
@@ -775,12 +761,10 @@
                 <label for="redTime">Red</label>
                 <input class="control-action" id="redTime" type="number" min="1" max="120" value="10" />
               </div>
-
               <div>
                 <label for="yellowTime">Yellow</label>
                 <input class="control-action" id="yellowTime" type="number" min="1" max="120" value="5" />
               </div>
-
               <div>
                 <label for="greenTime">Green</label>
                 <input class="control-action" id="greenTime" type="number" min="1" max="120" value="15" />
@@ -813,7 +797,6 @@
                 <label for="timerHours">Hours</label>
                 <input class="control-action" id="timerHours" type="number" min="0" max="2" value="0" />
               </div>
-
               <div>
                 <label for="timerMinutes">Minutes</label>
                 <input class="control-action" id="timerMinutes" type="number" min="0" max="59" value="30" />
@@ -835,24 +818,18 @@
 
             <div style="height: 10px"></div>
 
-            <button class="btn auto control-action" id="startTimerButton" type="button">
-              Start Timer
-            </button>
+            <button class="btn auto control-action" id="startTimerButton" type="button">Start Timer</button>
           </div>
 
-          <button class="btn danger hold control-action" id="emergencyOff" type="button">
-            Hold to Kill All
-          </button>
+          <button class="btn danger hold control-action" id="emergencyOff" type="button">Hold to Kill All</button>
 
           <details>
             <summary>Advanced</summary>
-
             <div class="advanced-content">
               <div class="two-grid">
                 <button class="btn small" id="refreshButton" type="button">Refresh</button>
                 <button class="btn small" id="copyStateButton" type="button">Copy State</button>
               </div>
-
               <pre id="rawState">Waiting for state...</pre>
             </div>
           </details>
@@ -903,6 +880,7 @@
 
       let unlocked = false;
       let selectedTimerColor = "red";
+      let timerColorDirty = false;
 
       let state = {
         mode: "auto",
@@ -910,31 +888,26 @@
         yellow: 5,
         green: 15,
         startupCheckMs: 1500,
-        updatedAt: null,
-        revision: 0,
-        source: "initial",
         timerColor: "red",
         timerSeconds: 1800,
         timerEndMode: "yellow",
+        updatedAt: null,
+        revision: 0,
+        source: "initial",
       };
 
-      let returnTimer = null;
       let holdTimer = null;
       let holdProgressTimer = null;
 
       function toast(message) {
         el.toast.textContent = message;
         el.toast.classList.add("show");
-
         clearTimeout(el.toast._timer);
-        el.toast._timer = setTimeout(() => {
-          el.toast.classList.remove("show");
-        }, 2200);
+        el.toast._timer = setTimeout(() => el.toast.classList.remove("show"), 2200);
       }
 
       function setUnlocked(value) {
         unlocked = value;
-
         el.lockStatus.textContent = unlocked ? "Unlocked" : "Locked";
         el.unlockButton.textContent = unlocked ? "Lock" : "Unlock";
 
@@ -990,9 +963,7 @@
 
       function numberFrom(input, fallback, min, max) {
         const n = Number(input.value);
-
         if (!Number.isFinite(n)) return fallback;
-
         return Math.min(Math.max(Math.round(n), min), max);
       }
 
@@ -1016,12 +987,6 @@
         return total;
       }
 
-      function setBackendStatus(online) {
-        el.onlineDot.classList.toggle("online", online);
-        el.onlineDot.classList.toggle("offline", !online);
-        el.backendStatus.textContent = online ? "Online" : "Offline";
-      }
-
       function formatDuration(seconds) {
         seconds = Math.max(0, Math.round(seconds));
 
@@ -1031,6 +996,12 @@
 
         if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
         return `${m}:${String(s).padStart(2, "0")}`;
+      }
+
+      function setBackendStatus(online) {
+        el.onlineDot.classList.toggle("online", online);
+        el.onlineDot.classList.toggle("offline", !online);
+        el.backendStatus.textContent = online ? "Online" : "Offline";
       }
 
       function getAutoPhase() {
@@ -1106,35 +1077,31 @@
         };
       }
 
+      function lightColor(color) {
+        el.lampRed.classList.toggle("on", color === "red" || color === "all");
+        el.lampYellow.classList.toggle("on", color === "yellow" || color === "all");
+        el.lampGreen.classList.toggle("on", color === "green" || color === "all");
+      }
+
       function setLampVisual(mode) {
         const m = String(mode || "off").toLowerCase();
 
-        el.lampRed.classList.remove("on");
-        el.lampYellow.classList.remove("on");
-        el.lampGreen.classList.remove("on");
-
-        function light(color) {
-          if (color === "red") el.lampRed.classList.add("on");
-          if (color === "yellow") el.lampYellow.classList.add("on");
-          if (color === "green") el.lampGreen.classList.add("on");
-          if (color === "all") {
-            el.lampRed.classList.add("on");
-            el.lampYellow.classList.add("on");
-            el.lampGreen.classList.add("on");
-          }
-        }
-
         if (m === "red" || m === "yellow" || m === "green") {
-          light(m);
+          lightColor(m);
+          return;
         }
 
         if (m === "auto") {
-          light(getAutoPhase().color);
+          lightColor(getAutoPhase().color);
+          return;
         }
 
         if (m === "timer") {
-          light(getTimerPhase().color);
+          lightColor(getTimerPhase().color);
+          return;
         }
+
+        lightColor("off");
       }
 
       function renderPhase() {
@@ -1162,14 +1129,10 @@
           el.phaseDetail.textContent = timer.complete
             ? `Finish state: ${modeLabel(state.timerEndMode)}`
             : `${modeLabel(state.timerColor)} for ${formatDuration(state.timerSeconds)}`;
-          el.countdown.textContent = timer.complete
-            ? "done"
-            : formatDuration(Math.ceil(timer.remaining / 1000));
+          el.countdown.textContent = timer.complete ? "done" : formatDuration(Math.ceil(timer.remaining / 1000));
           el.barFill.style.width = `${percent}%`;
 
-          el.timerText.textContent = timer.complete
-            ? "Done"
-            : formatDuration(Math.ceil(timer.remaining / 1000));
+          el.timerText.textContent = timer.complete ? "Done" : formatDuration(Math.ceil(timer.remaining / 1000));
           el.timerRing.style.setProperty("--progress", `${degrees}deg`);
           return;
         }
@@ -1179,33 +1142,41 @@
           state.mode === "off" ? "All relays commanded off" : "Manual command active";
         el.countdown.textContent = "hold";
         el.barFill.style.width = "100%";
-
         el.timerText.textContent = "—";
         el.timerRing.style.setProperty("--progress", "0deg");
       }
 
+      function isFocused(...ids) {
+        return ids.includes(document.activeElement?.id);
+      }
+
       function syncInputsFromState() {
-        const focused = document.activeElement?.id;
-
-        if (!["redTime", "yellowTime", "greenTime"].includes(focused)) {
-          if (!el.redTime.dataset.dirty) el.redTime.value = state.red ?? 10;
-          if (!el.yellowTime.dataset.dirty) el.yellowTime.value = state.yellow ?? 5;
-          if (!el.greenTime.dataset.dirty) el.greenTime.value = state.green ?? 15;
+        if (!isFocused("redTime") && !el.redTime.dataset.dirty) {
+          el.redTime.value = state.red ?? 10;
         }
 
-        if (!["timerHours", "timerMinutes"].includes(focused)) {
-          if (!el.timerHours.dataset.dirty && !el.timerMinutes.dataset.dirty) {
-            const seconds = state.timerSeconds ?? 1800;
-            el.timerHours.value = Math.floor(seconds / 3600);
-            el.timerMinutes.value = Math.floor((seconds % 3600) / 60);
-          }
+        if (!isFocused("yellowTime") && !el.yellowTime.dataset.dirty) {
+          el.yellowTime.value = state.yellow ?? 5;
         }
 
-        if (!el.timerEndMode.dataset.dirty) {
+        if (!isFocused("greenTime") && !el.greenTime.dataset.dirty) {
+          el.greenTime.value = state.green ?? 15;
+        }
+
+        if (!isFocused("timerHours", "timerMinutes") && !el.timerHours.dataset.dirty && !el.timerMinutes.dataset.dirty) {
+          const seconds = state.timerSeconds ?? 1800;
+          el.timerHours.value = Math.floor(seconds / 3600);
+          el.timerMinutes.value = Math.floor((seconds % 3600) / 60);
+        }
+
+        if (!isFocused("timerEndMode") && !el.timerEndMode.dataset.dirty) {
           el.timerEndMode.value = state.timerEndMode ?? "yellow";
         }
 
-        selectedTimerColor = state.timerColor || selectedTimerColor;
+        if (!timerColorDirty) {
+          selectedTimerColor = state.timerColor || selectedTimerColor;
+        }
+
         renderTimerColorButtons();
       }
 
@@ -1213,6 +1184,16 @@
         document.querySelectorAll("[data-timer-color]").forEach((button) => {
           button.classList.toggle("active", button.dataset.timerColor === selectedTimerColor);
         });
+      }
+
+      function clearDirtyInputs() {
+        delete el.redTime.dataset.dirty;
+        delete el.yellowTime.dataset.dirty;
+        delete el.greenTime.dataset.dirty;
+        delete el.timerHours.dataset.dirty;
+        delete el.timerMinutes.dataset.dirty;
+        delete el.timerEndMode.dataset.dirty;
+        timerColorDirty = false;
       }
 
       function render() {
@@ -1319,14 +1300,7 @@
           }
 
           state = data.state;
-
-          delete el.redTime.dataset.dirty;
-          delete el.yellowTime.dataset.dirty;
-          delete el.greenTime.dataset.dirty;
-          delete el.timerHours.dataset.dirty;
-          delete el.timerMinutes.dataset.dirty;
-          delete el.timerEndMode.dataset.dirty;
-
+          clearDirtyInputs();
           setBackendStatus(true);
           render();
           toast(`${modeLabel(mode)} sent`);
@@ -1383,42 +1357,32 @@
 
         holdTimer = null;
         holdProgressTimer = null;
-
         el.emergencyOff.style.setProperty("--hold-progress", "0%");
       }
 
       function bind() {
         el.unlockButton.addEventListener("click", () => {
-          if (unlocked) {
-            setUnlocked(false);
-          } else {
-            verifyPassword();
-          }
+          if (unlocked) setUnlocked(false);
+          else verifyPassword();
         });
 
         el.controlPin.addEventListener("keydown", (event) => {
-          if (event.key === "Enter") {
-            verifyPassword();
-          }
+          if (event.key === "Enter") verifyPassword();
         });
 
         document.querySelectorAll("[data-mode]").forEach((button) => {
-          button.addEventListener("click", () => {
-            sendCommand(button.dataset.mode);
-          });
+          button.addEventListener("click", () => sendCommand(button.dataset.mode));
         });
 
         document.querySelectorAll("[data-preset]").forEach((button) => {
-          button.addEventListener("click", () => {
-            applyPreset(button.dataset.preset);
-          });
+          button.addEventListener("click", () => applyPreset(button.dataset.preset));
         });
 
         document.querySelectorAll("[data-timer-color]").forEach((button) => {
           button.addEventListener("click", () => {
             selectedTimerColor = button.dataset.timerColor;
-            document.querySelectorAll("[data-timer-color]").forEach((b) => b.classList.remove("active"));
-            button.classList.add("active");
+            timerColorDirty = true;
+            renderTimerColorButtons();
           });
         });
 
@@ -1449,7 +1413,6 @@
 
         window.addEventListener("keydown", (event) => {
           const tag = document.activeElement?.tagName?.toLowerCase();
-
           if (tag === "input" || tag === "textarea" || tag === "select") return;
           if (!unlocked) return;
 
@@ -1465,7 +1428,7 @@
 
       function startLoops() {
         loadState();
-        setInterval(loadState, 1800);
+        setInterval(loadState, 1600);
 
         setInterval(() => {
           renderPhase();
