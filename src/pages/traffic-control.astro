@@ -1119,6 +1119,9 @@ if (!document.activeElement || !["redTime", "yellowTime", "greenTime"].includes(
           }
 
           state = data.state;
+delete el.redTime.dataset.edited;
+delete el.yellowTime.dataset.edited;
+delete el.greenTime.dataset.edited;
           setBackendStatus(true);
           render();
 
@@ -1244,6 +1247,11 @@ if (!document.activeElement || !["redTime", "yellowTime", "greenTime"].includes(
       }
 
       function bind() {
+[el.redTime, el.yellowTime, el.greenTime].forEach((input) => {
+  input.addEventListener("input", () => {
+    input.dataset.edited = "true";
+  });
+});
         document.querySelectorAll("[data-mode]").forEach((button) => {
           button.addEventListener("click", async () => {
             const mode = button.dataset.mode;
