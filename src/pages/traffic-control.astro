@@ -323,7 +323,7 @@
 
       .timeline {
         display: grid;
-        grid-template-columns: var(--red-fr, 10fr) var(--yellow-fr, 5fr) var(--green-fr, 15fr);
+        grid-template-columns: var(--green-fr, 15fr) var(--yellow-fr, 5fr) var(--red-fr, 10fr);
         gap: 3px;
         margin-top: 10px;
       }
@@ -334,7 +334,7 @@
       }
 
       .timeline span:nth-child(1) {
-        background: var(--red);
+        background: var(--green);
       }
 
       .timeline span:nth-child(2) {
@@ -342,7 +342,7 @@
       }
 
       .timeline span:nth-child(3) {
-        background: var(--green);
+        background: var(--red);
       }
 
       .control {
@@ -747,9 +747,9 @@
 
           <div class="primary-grid">
             <button class="btn auto control-action" data-mode="auto" type="button">Auto Cycle</button>
-            <button class="btn red control-action" data-mode="red" type="button"><span class="indicator"></span> Red</button>
-            <button class="btn yellow control-action" data-mode="yellow" type="button"><span class="indicator"></span> Yellow</button>
             <button class="btn green control-action" data-mode="green" type="button"><span class="indicator"></span> Green</button>
+            <button class="btn yellow control-action" data-mode="yellow" type="button"><span class="indicator"></span> Yellow</button>
+            <button class="btn red control-action" data-mode="red" type="button"><span class="indicator"></span> Red</button>
             <button class="btn off control-action" data-mode="off" type="button"><span class="indicator"></span> Off</button>
           </div>
 
@@ -758,16 +758,18 @@
 
             <div class="time-grid">
               <div>
-                <label for="redTime">Red</label>
-                <input class="control-action" id="redTime" type="number" min="1" max="120" value="10" />
+                <label for="greenTime">Green</label>
+                <input class="control-action" id="greenTime" type="number" min="1" max="120" value="15" />
               </div>
+
               <div>
                 <label for="yellowTime">Yellow</label>
                 <input class="control-action" id="yellowTime" type="number" min="1" max="120" value="5" />
               </div>
+
               <div>
-                <label for="greenTime">Green</label>
-                <input class="control-action" id="greenTime" type="number" min="1" max="120" value="15" />
+                <label for="redTime">Red</label>
+                <input class="control-action" id="redTime" type="number" min="1" max="120" value="10" />
               </div>
             </div>
 
@@ -787,9 +789,9 @@
             </div>
 
             <div class="colour-row">
-              <button class="btn small selectable active control-action" data-timer-color="red" type="button">Red</button>
+              <button class="btn small selectable active control-action" data-timer-color="green" type="button">Green</button>
               <button class="btn small selectable control-action" data-timer-color="yellow" type="button">Yellow</button>
-              <button class="btn small selectable control-action" data-timer-color="green" type="button">Green</button>
+              <button class="btn small selectable control-action" data-timer-color="red" type="button">Red</button>
             </div>
 
             <div class="two-grid">
@@ -797,6 +799,7 @@
                 <label for="timerHours">Hours</label>
                 <input class="control-action" id="timerHours" type="number" min="0" max="2" value="0" />
               </div>
+
               <div>
                 <label for="timerMinutes">Minutes</label>
                 <input class="control-action" id="timerMinutes" type="number" min="0" max="59" value="30" />
@@ -825,11 +828,13 @@
 
           <details>
             <summary>Advanced</summary>
+
             <div class="advanced-content">
               <div class="two-grid">
                 <button class="btn small" id="refreshButton" type="button">Refresh</button>
                 <button class="btn small" id="copyStateButton" type="button">Copy State</button>
               </div>
+
               <pre id="rawState">Waiting for state...</pre>
             </div>
           </details>
@@ -852,23 +857,28 @@
         updatedAgo: $("updatedAgo"),
         mainTitle: $("mainTitle"),
         modeText: $("modeText"),
+
         lampRed: $("lampRed"),
         lampYellow: $("lampYellow"),
         lampGreen: $("lampGreen"),
+
         phaseName: $("phaseName"),
         phaseDetail: $("phaseDetail"),
         countdown: $("countdown"),
         barFill: $("barFill"),
         timeline: $("timeline"),
+
         redTime: $("redTime"),
         yellowTime: $("yellowTime"),
         greenTime: $("greenTime"),
+
         timerRing: $("timerRing"),
         timerText: $("timerText"),
         timerHours: $("timerHours"),
         timerMinutes: $("timerMinutes"),
         timerEndMode: $("timerEndMode"),
         startTimerButton: $("startTimerButton"),
+
         emergencyOff: $("emergencyOff"),
         controlPin: $("controlPin"),
         unlockButton: $("unlockButton"),
@@ -879,7 +889,7 @@
       };
 
       let unlocked = false;
-      let selectedTimerColor = "red";
+      let selectedTimerColor = "green";
       let timerColorDirty = false;
 
       let state = {
@@ -888,7 +898,7 @@
         yellow: 5,
         green: 15,
         startupCheckMs: 1500,
-        timerColor: "red",
+        timerColor: "green",
         timerSeconds: 1800,
         timerEndMode: "yellow",
         updatedAt: null,
@@ -902,12 +912,16 @@
       function toast(message) {
         el.toast.textContent = message;
         el.toast.classList.add("show");
+
         clearTimeout(el.toast._timer);
-        el.toast._timer = setTimeout(() => el.toast.classList.remove("show"), 2200);
+        el.toast._timer = setTimeout(() => {
+          el.toast.classList.remove("show");
+        }, 2200);
       }
 
       function setUnlocked(value) {
         unlocked = value;
+
         el.lockStatus.textContent = unlocked ? "Unlocked" : "Locked";
         el.unlockButton.textContent = unlocked ? "Lock" : "Unlock";
 
@@ -925,9 +939,9 @@
 
         if (m === "auto") return "Auto Cycle";
         if (m === "timer") return "Timer";
-        if (m === "red") return "Red Hold";
-        if (m === "yellow") return "Yellow Hold";
         if (m === "green") return "Green Hold";
+        if (m === "yellow") return "Yellow Hold";
+        if (m === "red") return "Red Hold";
         if (m === "off") return "All Off";
 
         return "Unknown";
@@ -938,9 +952,9 @@
 
         if (m === "auto") return "Auto";
         if (m === "timer") return "Timer";
-        if (m === "red") return "Red";
-        if (m === "yellow") return "Yellow";
         if (m === "green") return "Green";
+        if (m === "yellow") return "Yellow";
+        if (m === "red") return "Red";
         if (m === "off") return "Killed";
 
         return "Standby";
@@ -963,7 +977,9 @@
 
       function numberFrom(input, fallback, min, max) {
         const n = Number(input.value);
+
         if (!Number.isFinite(n)) return fallback;
+
         return Math.min(Math.max(Math.round(n), min), max);
       }
 
@@ -994,7 +1010,10 @@
         const m = Math.floor((seconds % 3600) / 60);
         const s = seconds % 60;
 
-        if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+        if (h > 0) {
+          return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+        }
+
         return `${m}:${String(s).padStart(2, "0")}`;
       }
 
@@ -1006,11 +1025,11 @@
 
       function getAutoPhase() {
         const startup = state.startupCheckMs || 1500;
-        const redMs = (state.red || 10) * 1000;
-        const yellowMs = (state.yellow || 5) * 1000;
         const greenMs = (state.green || 15) * 1000;
+        const yellowMs = (state.yellow || 5) * 1000;
+        const redMs = (state.red || 10) * 1000;
 
-        const total = startup + redMs + yellowMs + greenMs;
+        const total = startup + greenMs + yellowMs + redMs;
         const start = state.updatedAt ? Date.parse(state.updatedAt) : Date.now();
 
         let elapsed = (Date.now() - start) % total;
@@ -1028,17 +1047,17 @@
 
         elapsed -= startup;
 
-        if (elapsed < redMs) {
+        if (elapsed < greenMs) {
           return {
-            name: "Red Phase",
-            detail: "Auto stop phase",
-            color: "red",
+            name: "Green Phase",
+            detail: "Auto flow phase",
+            color: "green",
             elapsed,
-            duration: redMs,
+            duration: greenMs,
           };
         }
 
-        elapsed -= redMs;
+        elapsed -= greenMs;
 
         if (elapsed < yellowMs) {
           return {
@@ -1053,11 +1072,11 @@
         elapsed -= yellowMs;
 
         return {
-          name: "Green Phase",
-          detail: "Auto flow phase",
-          color: "green",
+          name: "Red Phase",
+          detail: "Auto stop phase",
+          color: "red",
           elapsed,
-          duration: greenMs,
+          duration: redMs,
         };
       }
 
@@ -1086,7 +1105,7 @@
       function setLampVisual(mode) {
         const m = String(mode || "off").toLowerCase();
 
-        if (m === "red" || m === "yellow" || m === "green") {
+        if (m === "green" || m === "yellow" || m === "red") {
           lightColor(m);
           return;
         }
@@ -1129,10 +1148,17 @@
           el.phaseDetail.textContent = timer.complete
             ? `Finish state: ${modeLabel(state.timerEndMode)}`
             : `${modeLabel(state.timerColor)} for ${formatDuration(state.timerSeconds)}`;
-          el.countdown.textContent = timer.complete ? "done" : formatDuration(Math.ceil(timer.remaining / 1000));
+
+          el.countdown.textContent = timer.complete
+            ? "done"
+            : formatDuration(Math.ceil(timer.remaining / 1000));
+
           el.barFill.style.width = `${percent}%`;
 
-          el.timerText.textContent = timer.complete ? "Done" : formatDuration(Math.ceil(timer.remaining / 1000));
+          el.timerText.textContent = timer.complete
+            ? "Done"
+            : formatDuration(Math.ceil(timer.remaining / 1000));
+
           el.timerRing.style.setProperty("--progress", `${degrees}deg`);
           return;
         }
@@ -1151,19 +1177,23 @@
       }
 
       function syncInputsFromState() {
-        if (!isFocused("redTime") && !el.redTime.dataset.dirty) {
-          el.redTime.value = state.red ?? 10;
+        if (!isFocused("greenTime") && !el.greenTime.dataset.dirty) {
+          el.greenTime.value = state.green ?? 15;
         }
 
         if (!isFocused("yellowTime") && !el.yellowTime.dataset.dirty) {
           el.yellowTime.value = state.yellow ?? 5;
         }
 
-        if (!isFocused("greenTime") && !el.greenTime.dataset.dirty) {
-          el.greenTime.value = state.green ?? 15;
+        if (!isFocused("redTime") && !el.redTime.dataset.dirty) {
+          el.redTime.value = state.red ?? 10;
         }
 
-        if (!isFocused("timerHours", "timerMinutes") && !el.timerHours.dataset.dirty && !el.timerMinutes.dataset.dirty) {
+        if (
+          !isFocused("timerHours", "timerMinutes") &&
+          !el.timerHours.dataset.dirty &&
+          !el.timerMinutes.dataset.dirty
+        ) {
           const seconds = state.timerSeconds ?? 1800;
           el.timerHours.value = Math.floor(seconds / 3600);
           el.timerMinutes.value = Math.floor((seconds % 3600) / 60);
@@ -1206,9 +1236,9 @@
 
         syncInputsFromState();
 
-        el.timeline.style.setProperty("--red-fr", `${state.red || 10}fr`);
-        el.timeline.style.setProperty("--yellow-fr", `${state.yellow || 5}fr`);
         el.timeline.style.setProperty("--green-fr", `${state.green || 15}fr`);
+        el.timeline.style.setProperty("--yellow-fr", `${state.yellow || 5}fr`);
+        el.timeline.style.setProperty("--red-fr", `${state.red || 10}fr`);
 
         setLampVisual(state.mode);
         renderPhase();
@@ -1311,22 +1341,22 @@
 
       function applyPreset(name) {
         const presets = {
-          standard: { red: 10, yellow: 5, green: 15 },
-          fast: { red: 3, yellow: 1, green: 3 },
-          longGreen: { red: 8, yellow: 3, green: 30 },
-          balanced: { red: 12, yellow: 4, green: 12 },
+          standard: { green: 15, yellow: 5, red: 10 },
+          fast: { green: 3, yellow: 1, red: 3 },
+          longGreen: { green: 30, yellow: 3, red: 8 },
+          balanced: { green: 12, yellow: 4, red: 12 },
         };
 
         const p = presets[name];
         if (!p) return;
 
-        el.redTime.value = p.red;
-        el.yellowTime.value = p.yellow;
         el.greenTime.value = p.green;
+        el.yellowTime.value = p.yellow;
+        el.redTime.value = p.red;
 
-        el.redTime.dataset.dirty = "true";
-        el.yellowTime.dataset.dirty = "true";
         el.greenTime.dataset.dirty = "true";
+        el.yellowTime.dataset.dirty = "true";
+        el.redTime.dataset.dirty = "true";
 
         toast("Preset loaded");
       }
@@ -1357,13 +1387,17 @@
 
         holdTimer = null;
         holdProgressTimer = null;
+
         el.emergencyOff.style.setProperty("--hold-progress", "0%");
       }
 
       function bind() {
         el.unlockButton.addEventListener("click", () => {
-          if (unlocked) setUnlocked(false);
-          else verifyPassword();
+          if (unlocked) {
+            setUnlocked(false);
+          } else {
+            verifyPassword();
+          }
         });
 
         el.controlPin.addEventListener("keydown", (event) => {
@@ -1386,7 +1420,14 @@
           });
         });
 
-        [el.redTime, el.yellowTime, el.greenTime, el.timerHours, el.timerMinutes, el.timerEndMode].forEach((input) => {
+        [
+          el.greenTime,
+          el.yellowTime,
+          el.redTime,
+          el.timerHours,
+          el.timerMinutes,
+          el.timerEndMode,
+        ].forEach((input) => {
           input.addEventListener("input", () => {
             input.dataset.dirty = "true";
           });
@@ -1418,9 +1459,9 @@
 
           const k = event.key.toLowerCase();
 
-          if (k === "r") sendCommand("red");
-          if (k === "y") sendCommand("yellow");
           if (k === "g") sendCommand("green");
+          if (k === "y") sendCommand("yellow");
+          if (k === "r") sendCommand("red");
           if (k === "o") sendCommand("off");
           if (k === "a") sendCommand("auto");
         });
