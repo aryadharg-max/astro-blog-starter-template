@@ -1050,9 +1050,10 @@
         el.mainTitle.textContent = titleFor(state.mode);
         el.modeText.textContent = label;
 
-        el.redTime.value = state.red ?? 10;
-        el.yellowTime.value = state.yellow ?? 5;
-        el.greenTime.value = state.green ?? 15;
+if (!document.activeElement || !["redTime", "yellowTime", "greenTime"].includes(document.activeElement.id)) {
+  if (!el.redTime.dataset.edited) el.redTime.value = state.red ?? 10;
+  if (!el.yellowTime.dataset.edited) el.yellowTime.value = state.yellow ?? 5;
+  if (!el.greenTime.dataset.edited) el.greenTime.value = state.green ?? 15;
 
         el.timeline.style.setProperty("--red-fr", `${state.red || 10}fr`);
         el.timeline.style.setProperty("--yellow-fr", `${state.yellow || 5}fr`);
