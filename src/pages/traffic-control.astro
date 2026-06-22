@@ -12,12 +12,12 @@
       :root {
         --bg: #f5f2ea;
         --panel: rgba(255, 255, 255, 0.72);
-        --panel-solid: #ffffff;
-        --text: #121212;
-        --muted: #716d64;
-        --line: rgba(18, 18, 18, 0.1);
+        --solid: #ffffff;
+        --text: #111111;
+        --muted: #706b62;
+        --line: rgba(17, 17, 17, 0.11);
         --blue: #102f52;
-        --blue-2: #071b30;
+        --blue-dark: #071b30;
         --red: #e53935;
         --yellow: #ffc928;
         --green: #19a765;
@@ -44,12 +44,20 @@
       }
 
       button,
-      input {
+      input,
+      select {
         font: inherit;
       }
 
       button {
         cursor: pointer;
+      }
+
+      button:disabled {
+        opacity: 0.42;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
       }
 
       a {
@@ -139,7 +147,7 @@
       .deck {
         min-height: calc(100vh - 120px);
         display: grid;
-        grid-template-columns: 1fr 410px;
+        grid-template-columns: 1fr 420px;
         gap: 18px;
       }
 
@@ -167,7 +175,9 @@
         pointer-events: none;
       }
 
-      .hero {
+      .hero,
+      .visual-zone,
+      .phase {
         position: relative;
         z-index: 1;
       }
@@ -199,11 +209,9 @@
       }
 
       .visual-zone {
-        position: relative;
-        z-index: 1;
         display: grid;
         place-items: center;
-        padding: 28px 0;
+        padding: 26px 0;
       }
 
       .signal {
@@ -276,8 +284,6 @@
       }
 
       .phase {
-        position: relative;
-        z-index: 1;
         border: 1px solid var(--line);
         background: rgba(255, 255, 255, 0.64);
         border-radius: 24px;
@@ -369,6 +375,16 @@
         font-size: 14px;
       }
 
+      .lock {
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.58);
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+      }
+
       .primary-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -377,7 +393,7 @@
 
       .btn {
         border: 1px solid var(--line);
-        background: var(--panel-solid);
+        background: var(--solid);
         color: var(--text);
         min-height: 58px;
         border-radius: 20px;
@@ -399,10 +415,6 @@
         transform: translateY(-1px);
         box-shadow: 0 16px 34px rgba(0, 0, 0, 0.09);
         border-color: rgba(16, 47, 82, 0.22);
-      }
-
-      .btn:active {
-        transform: translateY(0);
       }
 
       .btn.auto {
@@ -443,12 +455,6 @@
         border-color: var(--red);
       }
 
-      .btn.dark {
-        background: var(--black);
-        color: white;
-        border-color: var(--black);
-      }
-
       .indicator {
         width: 12px;
         height: 12px;
@@ -456,16 +462,14 @@
         background: currentColor;
       }
 
-      .timing-card,
-      .advanced {
+      .card {
         border: 1px solid var(--line);
         border-radius: 26px;
         background: rgba(255, 255, 255, 0.58);
         padding: 16px;
       }
 
-      .timing-card h3,
-      .advanced h3 {
+      .card h3 {
         margin: 0 0 12px;
         font-size: 15px;
         letter-spacing: -0.03em;
@@ -474,6 +478,12 @@
       .time-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .two-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 8px;
       }
 
@@ -487,17 +497,19 @@
         margin-bottom: 6px;
       }
 
-      input {
+      input,
+      select {
         width: 100%;
         border: 1px solid var(--line);
-        background: var(--panel-solid);
+        background: var(--solid);
         color: var(--text);
         border-radius: 14px;
         padding: 12px;
         outline: none;
       }
 
-      input:focus {
+      input:focus,
+      select:focus {
         border-color: rgba(16, 47, 82, 0.35);
         box-shadow: 0 0 0 4px rgba(16, 47, 82, 0.08);
       }
@@ -509,24 +521,34 @@
         margin-top: 10px;
       }
 
-      .toggle {
-        display: flex;
-        align-items: flex-start;
-        gap: 9px;
-        color: var(--muted);
-        font-size: 13px;
-        margin-top: 12px;
-        line-height: 1.35;
-      }
-
-      .toggle input {
-        width: auto;
-        margin-top: 2px;
-      }
-
-      .danger-zone {
+      .timer-ring {
+        --progress: 0deg;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        margin: 4px auto 16px;
+        background:
+          radial-gradient(circle at center, var(--bg) 0 56%, transparent 57%),
+          conic-gradient(var(--blue) var(--progress), rgba(0, 0, 0, 0.08) 0);
         display: grid;
+        place-items: center;
+      }
+
+      .timer-ring strong {
+        font-size: 28px;
+        letter-spacing: -0.05em;
+      }
+
+      .colour-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .selectable.active {
+        border-color: var(--blue);
+        background: rgba(16, 47, 82, 0.08);
       }
 
       .hold {
@@ -562,12 +584,6 @@
         padding: 0 15px 15px;
         display: grid;
         gap: 10px;
-      }
-
-      .advanced-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
       }
 
       pre {
@@ -637,7 +653,9 @@
         .primary-grid,
         .time-grid,
         .preset-row,
-        .advanced-grid {
+        .two-grid,
+        .colour-row,
+        .lock {
           grid-template-columns: 1fr;
         }
 
@@ -673,6 +691,7 @@
             <strong id="backendStatus">Syncing</strong>
           </span>
           <span class="chip">Mode <strong id="topMode">—</strong></span>
+          <span class="chip">Access <strong id="lockStatus">Locked</strong></span>
           <span class="chip">Updated <strong id="updatedAgo">—</strong></span>
           <a class="chip" href="/">← Portfolio</a>
         </div>
@@ -718,83 +737,118 @@
         <aside class="control">
           <div class="control-title">
             <h2>Command</h2>
-            <p>Direct controls. No clutter. Every button sends a real command to the backend.</p>
+            <p>View is public. Control is locked.</p>
+          </div>
+
+          <div class="lock">
+            <input id="controlPin" type="password" placeholder="Password" />
+            <button class="btn small" id="unlockButton" type="button">Unlock</button>
           </div>
 
           <div class="primary-grid">
-            <button class="btn auto" data-mode="auto" type="button">
+            <button class="btn auto control-action" data-mode="auto" type="button">
               Auto Cycle
             </button>
 
-            <button class="btn red" data-mode="red" type="button">
+            <button class="btn red control-action" data-mode="red" type="button">
               <span class="indicator"></span> Red
             </button>
 
-            <button class="btn yellow" data-mode="yellow" type="button">
+            <button class="btn yellow control-action" data-mode="yellow" type="button">
               <span class="indicator"></span> Yellow
             </button>
 
-            <button class="btn green" data-mode="green" type="button">
+            <button class="btn green control-action" data-mode="green" type="button">
               <span class="indicator"></span> Green
             </button>
 
-            <button class="btn off" data-mode="off" type="button">
+            <button class="btn off control-action" data-mode="off" type="button">
               <span class="indicator"></span> Off
             </button>
           </div>
 
-          <div class="timing-card">
+          <div class="card">
             <h3>Auto Timing</h3>
 
             <div class="time-grid">
               <div>
                 <label for="redTime">Red</label>
-                <input id="redTime" type="number" min="1" max="120" value="10" />
+                <input class="control-action" id="redTime" type="number" min="1" max="120" value="10" />
               </div>
 
               <div>
                 <label for="yellowTime">Yellow</label>
-                <input id="yellowTime" type="number" min="1" max="120" value="5" />
+                <input class="control-action" id="yellowTime" type="number" min="1" max="120" value="5" />
               </div>
 
               <div>
                 <label for="greenTime">Green</label>
-                <input id="greenTime" type="number" min="1" max="120" value="15" />
+                <input class="control-action" id="greenTime" type="number" min="1" max="120" value="15" />
               </div>
             </div>
 
             <div class="preset-row">
-              <button class="btn small" data-preset="standard" type="button">Std</button>
-              <button class="btn small" data-preset="fast" type="button">Fast</button>
-              <button class="btn small" data-preset="longGreen" type="button">Flow</button>
-              <button class="btn small" data-preset="balanced" type="button">Even</button>
+              <button class="btn small control-action" data-preset="standard" type="button">Std</button>
+              <button class="btn small control-action" data-preset="fast" type="button">Fast</button>
+              <button class="btn small control-action" data-preset="longGreen" type="button">Flow</button>
+              <button class="btn small control-action" data-preset="balanced" type="button">Even</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Timer Alarm</h3>
+
+            <div class="timer-ring" id="timerRing">
+              <strong id="timerText">—</strong>
             </div>
 
-            <label class="toggle">
-              <input id="timedReturn" type="checkbox" checked />
-              Manual colour returns to Auto after its timer
-            </label>
+            <div class="colour-row">
+              <button class="btn small selectable active control-action" data-timer-color="red" type="button">Red</button>
+              <button class="btn small selectable control-action" data-timer-color="yellow" type="button">Yellow</button>
+              <button class="btn small selectable control-action" data-timer-color="green" type="button">Green</button>
+            </div>
+
+            <div class="two-grid">
+              <div>
+                <label for="timerHours">Hours</label>
+                <input class="control-action" id="timerHours" type="number" min="0" max="2" value="0" />
+              </div>
+
+              <div>
+                <label for="timerMinutes">Minutes</label>
+                <input class="control-action" id="timerMinutes" type="number" min="0" max="59" value="30" />
+              </div>
+            </div>
+
+            <div style="height: 10px"></div>
+
+            <div>
+              <label for="timerEndMode">Finish</label>
+              <select class="control-action" id="timerEndMode">
+                <option value="yellow">Yellow</option>
+                <option value="green">Green</option>
+                <option value="red">Red</option>
+                <option value="off">Off</option>
+                <option value="auto">Auto</option>
+              </select>
+            </div>
+
+            <div style="height: 10px"></div>
+
+            <button class="btn auto control-action" id="startTimerButton" type="button">
+              Start Timer
+            </button>
           </div>
 
-          <div class="danger-zone">
-            <button class="btn danger hold" id="emergencyOff" type="button">
-              Hold to Kill All
-            </button>
-            <button class="btn dark" id="demoButton" type="button">
-              Demo Sweep
-            </button>
-          </div>
+          <button class="btn danger hold control-action" id="emergencyOff" type="button">
+            Hold to Kill All
+          </button>
 
           <details>
             <summary>Advanced</summary>
 
             <div class="advanced-content">
-              <div>
-                <label for="controlPin">Control PIN</label>
-                <input id="controlPin" type="password" placeholder="Only if enabled in Worker" />
-              </div>
-
-              <div class="advanced-grid">
+              <div class="two-grid">
                 <button class="btn small" id="refreshButton" type="button">Refresh</button>
                 <button class="btn small" id="copyStateButton" type="button">Copy State</button>
               </div>
@@ -817,6 +871,7 @@
         onlineDot: $("onlineDot"),
         backendStatus: $("backendStatus"),
         topMode: $("topMode"),
+        lockStatus: $("lockStatus"),
         updatedAgo: $("updatedAgo"),
         mainTitle: $("mainTitle"),
         modeText: $("modeText"),
@@ -831,15 +886,23 @@
         redTime: $("redTime"),
         yellowTime: $("yellowTime"),
         greenTime: $("greenTime"),
-        timedReturn: $("timedReturn"),
+        timerRing: $("timerRing"),
+        timerText: $("timerText"),
+        timerHours: $("timerHours"),
+        timerMinutes: $("timerMinutes"),
+        timerEndMode: $("timerEndMode"),
+        startTimerButton: $("startTimerButton"),
         emergencyOff: $("emergencyOff"),
-        demoButton: $("demoButton"),
         controlPin: $("controlPin"),
+        unlockButton: $("unlockButton"),
         refreshButton: $("refreshButton"),
         copyStateButton: $("copyStateButton"),
         rawState: $("rawState"),
         toast: $("toast"),
       };
+
+      let unlocked = false;
+      let selectedTimerColor = "red";
 
       let state = {
         mode: "auto",
@@ -850,11 +913,12 @@
         updatedAt: null,
         revision: 0,
         source: "initial",
+        timerColor: "red",
+        timerSeconds: 1800,
+        timerEndMode: "yellow",
       };
 
-      let backendOnline = false;
       let returnTimer = null;
-      let demoTimer = null;
       let holdTimer = null;
       let holdProgressTimer = null;
 
@@ -868,10 +932,26 @@
         }, 2200);
       }
 
+      function setUnlocked(value) {
+        unlocked = value;
+
+        el.lockStatus.textContent = unlocked ? "Unlocked" : "Locked";
+        el.unlockButton.textContent = unlocked ? "Lock" : "Unlock";
+
+        document.querySelectorAll(".control-action").forEach((item) => {
+          item.disabled = !unlocked;
+        });
+
+        if (!unlocked) {
+          el.controlPin.value = "";
+        }
+      }
+
       function modeLabel(mode) {
         const m = String(mode || "").toLowerCase();
 
         if (m === "auto") return "Auto Cycle";
+        if (m === "timer") return "Timer";
         if (m === "red") return "Red Hold";
         if (m === "yellow") return "Yellow Hold";
         if (m === "green") return "Green Hold";
@@ -884,6 +964,7 @@
         const m = String(mode || "").toLowerCase();
 
         if (m === "auto") return "Auto";
+        if (m === "timer") return "Timer";
         if (m === "red") return "Red";
         if (m === "yellow") return "Yellow";
         if (m === "green") return "Green";
@@ -907,36 +988,49 @@
         return `${Math.floor(m / 60)}h ago`;
       }
 
-      function numberFrom(input, fallback) {
+      function numberFrom(input, fallback, min, max) {
         const n = Number(input.value);
 
         if (!Number.isFinite(n)) return fallback;
 
-        return Math.min(Math.max(Math.round(n), 1), 120);
+        return Math.min(Math.max(Math.round(n), min), max);
       }
 
-      function timings() {
+      function autoTimings() {
         return {
-          red: numberFrom(el.redTime, state.red || 10),
-          yellow: numberFrom(el.yellowTime, state.yellow || 5),
-          green: numberFrom(el.greenTime, state.green || 15),
+          red: numberFrom(el.redTime, state.red || 10, 1, 120),
+          yellow: numberFrom(el.yellowTime, state.yellow || 5, 1, 120),
+          green: numberFrom(el.greenTime, state.green || 15, 1, 120),
         };
       }
 
-      function savePin() {
-        localStorage.setItem("traffic-control-pin", el.controlPin.value || "");
-      }
+      function timerSeconds() {
+        const hours = numberFrom(el.timerHours, 0, 0, 2);
+        const minutes = numberFrom(el.timerMinutes, 30, 0, 59);
 
-      function loadPin() {
-        el.controlPin.value = localStorage.getItem("traffic-control-pin") || "";
+        let total = hours * 3600 + minutes * 60;
+
+        if (total < 1) total = 60;
+        if (total > 7200) total = 7200;
+
+        return total;
       }
 
       function setBackendStatus(online) {
-        backendOnline = online;
-
         el.onlineDot.classList.toggle("online", online);
         el.onlineDot.classList.toggle("offline", !online);
         el.backendStatus.textContent = online ? "Online" : "Offline";
+      }
+
+      function formatDuration(seconds) {
+        seconds = Math.max(0, Math.round(seconds));
+
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+
+        if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+        return `${m}:${String(s).padStart(2, "0")}`;
       }
 
       function getAutoPhase() {
@@ -954,7 +1048,7 @@
         if (elapsed < startup) {
           return {
             name: "Startup Check",
-            detail: "Hardware lights all ON briefly",
+            detail: "All lights active briefly",
             color: "all",
             elapsed,
             duration: startup,
@@ -996,6 +1090,22 @@
         };
       }
 
+      function getTimerPhase() {
+        const durationMs = (state.timerSeconds || 1800) * 1000;
+        const start = state.updatedAt ? Date.parse(state.updatedAt) : Date.now();
+
+        const elapsed = Math.max(0, Date.now() - start);
+        const complete = elapsed >= durationMs;
+
+        return {
+          complete,
+          color: complete ? state.timerEndMode : state.timerColor,
+          elapsed: Math.min(elapsed, durationMs),
+          duration: durationMs,
+          remaining: Math.max(0, durationMs - elapsed),
+        };
+      }
+
       function setLampVisual(mode) {
         const m = String(mode || "off").toLowerCase();
 
@@ -1003,43 +1113,106 @@
         el.lampYellow.classList.remove("on");
         el.lampGreen.classList.remove("on");
 
-        if (m === "red") el.lampRed.classList.add("on");
-        if (m === "yellow") el.lampYellow.classList.add("on");
-        if (m === "green") el.lampGreen.classList.add("on");
-
-        if (m === "auto") {
-          const phase = getAutoPhase();
-
-          if (phase.color === "all") {
+        function light(color) {
+          if (color === "red") el.lampRed.classList.add("on");
+          if (color === "yellow") el.lampYellow.classList.add("on");
+          if (color === "green") el.lampGreen.classList.add("on");
+          if (color === "all") {
             el.lampRed.classList.add("on");
             el.lampYellow.classList.add("on");
             el.lampGreen.classList.add("on");
           }
+        }
 
-          if (phase.color === "red") el.lampRed.classList.add("on");
-          if (phase.color === "yellow") el.lampYellow.classList.add("on");
-          if (phase.color === "green") el.lampGreen.classList.add("on");
+        if (m === "red" || m === "yellow" || m === "green") {
+          light(m);
+        }
+
+        if (m === "auto") {
+          light(getAutoPhase().color);
+        }
+
+        if (m === "timer") {
+          light(getTimerPhase().color);
         }
       }
 
       function renderPhase() {
-        if (state.mode !== "auto") {
-          el.phaseName.textContent = modeLabel(state.mode);
-          el.phaseDetail.textContent =
-            state.mode === "off" ? "All relays commanded OFF" : "Manual command active";
-          el.countdown.textContent = "hold";
-          el.barFill.style.width = "100%";
+        if (state.mode === "auto") {
+          const phase = getAutoPhase();
+          const percent = Math.min(100, Math.max(0, (phase.elapsed / phase.duration) * 100));
+          const remaining = Math.ceil((phase.duration - phase.elapsed) / 1000);
+
+          el.phaseName.textContent = phase.name;
+          el.phaseDetail.textContent = phase.detail;
+          el.countdown.textContent = `${remaining}s`;
+          el.barFill.style.width = `${percent}%`;
+
+          el.timerText.textContent = "—";
+          el.timerRing.style.setProperty("--progress", "0deg");
           return;
         }
 
-        const phase = getAutoPhase();
-        const percent = Math.min(100, Math.max(0, (phase.elapsed / phase.duration) * 100));
-        const remaining = Math.ceil((phase.duration - phase.elapsed) / 1000);
+        if (state.mode === "timer") {
+          const timer = getTimerPhase();
+          const percent = Math.min(100, Math.max(0, (timer.elapsed / timer.duration) * 100));
+          const degrees = percent * 3.6;
 
-        el.phaseName.textContent = phase.name;
-        el.phaseDetail.textContent = phase.detail;
-        el.countdown.textContent = `${remaining}s`;
-        el.barFill.style.width = `${percent}%`;
+          el.phaseName.textContent = timer.complete ? "Timer Complete" : "Timer Running";
+          el.phaseDetail.textContent = timer.complete
+            ? `Finish state: ${modeLabel(state.timerEndMode)}`
+            : `${modeLabel(state.timerColor)} for ${formatDuration(state.timerSeconds)}`;
+          el.countdown.textContent = timer.complete
+            ? "done"
+            : formatDuration(Math.ceil(timer.remaining / 1000));
+          el.barFill.style.width = `${percent}%`;
+
+          el.timerText.textContent = timer.complete
+            ? "Done"
+            : formatDuration(Math.ceil(timer.remaining / 1000));
+          el.timerRing.style.setProperty("--progress", `${degrees}deg`);
+          return;
+        }
+
+        el.phaseName.textContent = modeLabel(state.mode);
+        el.phaseDetail.textContent =
+          state.mode === "off" ? "All relays commanded off" : "Manual command active";
+        el.countdown.textContent = "hold";
+        el.barFill.style.width = "100%";
+
+        el.timerText.textContent = "—";
+        el.timerRing.style.setProperty("--progress", "0deg");
+      }
+
+      function syncInputsFromState() {
+        const focused = document.activeElement?.id;
+
+        if (!["redTime", "yellowTime", "greenTime"].includes(focused)) {
+          if (!el.redTime.dataset.dirty) el.redTime.value = state.red ?? 10;
+          if (!el.yellowTime.dataset.dirty) el.yellowTime.value = state.yellow ?? 5;
+          if (!el.greenTime.dataset.dirty) el.greenTime.value = state.green ?? 15;
+        }
+
+        if (!["timerHours", "timerMinutes"].includes(focused)) {
+          if (!el.timerHours.dataset.dirty && !el.timerMinutes.dataset.dirty) {
+            const seconds = state.timerSeconds ?? 1800;
+            el.timerHours.value = Math.floor(seconds / 3600);
+            el.timerMinutes.value = Math.floor((seconds % 3600) / 60);
+          }
+        }
+
+        if (!el.timerEndMode.dataset.dirty) {
+          el.timerEndMode.value = state.timerEndMode ?? "yellow";
+        }
+
+        selectedTimerColor = state.timerColor || selectedTimerColor;
+        renderTimerColorButtons();
+      }
+
+      function renderTimerColorButtons() {
+        document.querySelectorAll("[data-timer-color]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.timerColor === selectedTimerColor);
+        });
       }
 
       function render() {
@@ -1050,10 +1223,7 @@
         el.mainTitle.textContent = titleFor(state.mode);
         el.modeText.textContent = label;
 
-if (!document.activeElement || !["redTime", "yellowTime", "greenTime"].includes(document.activeElement.id)) {
-  if (!el.redTime.dataset.edited) el.redTime.value = state.red ?? 10;
-  if (!el.yellowTime.dataset.edited) el.yellowTime.value = state.yellow ?? 5;
-  if (!el.greenTime.dataset.edited) el.greenTime.value = state.green ?? 15;
+        syncInputsFromState();
 
         el.timeline.style.setProperty("--red-fr", `${state.red || 10}fr`);
         el.timeline.style.setProperty("--yellow-fr", `${state.yellow || 5}fr`);
@@ -1061,6 +1231,33 @@ if (!document.activeElement || !["redTime", "yellowTime", "greenTime"].includes(
 
         setLampVisual(state.mode);
         renderPhase();
+      }
+
+      async function verifyPassword() {
+        const pin = el.controlPin.value || "";
+
+        try {
+          const res = await fetch(`${API_BASE}/api/verify`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Control-Pin": pin,
+            },
+            body: JSON.stringify({ controlPin: pin }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok || !data.ok) {
+            throw new Error(data.error || "Access denied");
+          }
+
+          setUnlocked(true);
+          toast("Unlocked");
+        } catch (error) {
+          setUnlocked(false);
+          toast(error.message || "Access denied");
+        }
       }
 
       async function loadState() {
@@ -1086,20 +1283,23 @@ if (!document.activeElement || !["redTime", "yellowTime", "greenTime"].includes(
         }
       }
 
-      async function sendCommand(mode, options = {}) {
-        savePin();
-
-        const body = {
-          mode,
-          ...timings(),
-          source: options.source || "streamlined-command-deck",
-        };
+      async function sendCommand(mode, extra = {}) {
+        if (!unlocked) {
+          toast("Locked");
+          return;
+        }
 
         const pin = el.controlPin.value || "";
 
-        if (pin) {
-          body.controlPin = pin;
-        }
+        const body = {
+          mode,
+          ...autoTimings(),
+          timerColor: selectedTimerColor,
+          timerSeconds: timerSeconds(),
+          timerEndMode: el.timerEndMode.value,
+          source: extra.source || "control-centre",
+          controlPin: pin,
+        };
 
         try {
           const res = await fetch(`${API_BASE}/api/command`, {
@@ -1119,82 +1319,20 @@ if (!document.activeElement || !["redTime", "yellowTime", "greenTime"].includes(
           }
 
           state = data.state;
-delete el.redTime.dataset.edited;
-delete el.yellowTime.dataset.edited;
-delete el.greenTime.dataset.edited;
+
+          delete el.redTime.dataset.dirty;
+          delete el.yellowTime.dataset.dirty;
+          delete el.greenTime.dataset.dirty;
+          delete el.timerHours.dataset.dirty;
+          delete el.timerMinutes.dataset.dirty;
+          delete el.timerEndMode.dataset.dirty;
+
           setBackendStatus(true);
           render();
-
           toast(`${modeLabel(mode)} sent`);
-
-          return data;
         } catch (error) {
           toast(error.message || "Command failed");
-          throw error;
         }
-      }
-
-      function clearReturnTimer() {
-        if (returnTimer) {
-          clearTimeout(returnTimer);
-          returnTimer = null;
-        }
-      }
-
-      function scheduleReturn(mode) {
-        clearReturnTimer();
-
-        if (!el.timedReturn.checked) return;
-        if (!["red", "yellow", "green"].includes(mode)) return;
-
-        const t = timings();
-        const seconds = t[mode] || 5;
-
-        returnTimer = setTimeout(() => {
-          sendCommand("auto", {
-            source: "timed-return",
-          });
-        }, seconds * 1000);
-
-        toast(`${modeLabel(mode)} → Auto in ${seconds}s`);
-      }
-
-      async function runDemo() {
-        clearReturnTimer();
-
-        const steps = [
-          { mode: "red", wait: 3500 },
-          { mode: "yellow", wait: 1800 },
-          { mode: "green", wait: 3500 },
-          { mode: "off", wait: 1200 },
-          { mode: "auto", wait: 0 },
-        ];
-
-        let i = 0;
-
-        const next = async () => {
-          const step = steps[i];
-          await sendCommand(step.mode, { source: "demo-sweep" });
-
-          i++;
-
-          if (i >= steps.length) {
-            demoTimer = null;
-            return;
-          }
-
-          demoTimer = setTimeout(next, step.wait);
-        };
-
-        if (demoTimer) {
-          clearTimeout(demoTimer);
-          demoTimer = null;
-          toast("Demo stopped");
-          return;
-        }
-
-        toast("Demo sweep started");
-        next();
       }
 
       function applyPreset(name) {
@@ -1212,12 +1350,20 @@ delete el.greenTime.dataset.edited;
         el.yellowTime.value = p.yellow;
         el.greenTime.value = p.green;
 
+        el.redTime.dataset.dirty = "true";
+        el.yellowTime.dataset.dirty = "true";
+        el.greenTime.dataset.dirty = "true";
+
         toast("Preset loaded");
       }
 
       function startEmergencyHold() {
-        let progress = 0;
+        if (!unlocked) {
+          toast("Locked");
+          return;
+        }
 
+        let progress = 0;
         el.emergencyOff.style.setProperty("--hold-progress", "0%");
 
         holdProgressTimer = setInterval(() => {
@@ -1227,12 +1373,7 @@ delete el.greenTime.dataset.edited;
 
         holdTimer = setTimeout(() => {
           clearEmergencyHold();
-          clearReturnTimer();
-          if (demoTimer) clearTimeout(demoTimer);
-
-          sendCommand("off", {
-            source: "hold-to-kill",
-          });
+          sendCommand("off", { source: "hold-to-kill" });
         }, 700);
       }
 
@@ -1247,17 +1388,23 @@ delete el.greenTime.dataset.edited;
       }
 
       function bind() {
-[el.redTime, el.yellowTime, el.greenTime].forEach((input) => {
-  input.addEventListener("input", () => {
-    input.dataset.edited = "true";
-  });
-});
+        el.unlockButton.addEventListener("click", () => {
+          if (unlocked) {
+            setUnlocked(false);
+          } else {
+            verifyPassword();
+          }
+        });
+
+        el.controlPin.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            verifyPassword();
+          }
+        });
+
         document.querySelectorAll("[data-mode]").forEach((button) => {
-          button.addEventListener("click", async () => {
-            const mode = button.dataset.mode;
-            clearReturnTimer();
-            await sendCommand(mode);
-            scheduleReturn(mode);
+          button.addEventListener("click", () => {
+            sendCommand(button.dataset.mode);
           });
         });
 
@@ -1265,6 +1412,24 @@ delete el.greenTime.dataset.edited;
           button.addEventListener("click", () => {
             applyPreset(button.dataset.preset);
           });
+        });
+
+        document.querySelectorAll("[data-timer-color]").forEach((button) => {
+          button.addEventListener("click", () => {
+            selectedTimerColor = button.dataset.timerColor;
+            document.querySelectorAll("[data-timer-color]").forEach((b) => b.classList.remove("active"));
+            button.classList.add("active");
+          });
+        });
+
+        [el.redTime, el.yellowTime, el.greenTime, el.timerHours, el.timerMinutes, el.timerEndMode].forEach((input) => {
+          input.addEventListener("input", () => {
+            input.dataset.dirty = "true";
+          });
+        });
+
+        el.startTimerButton.addEventListener("click", () => {
+          sendCommand("timer", { source: "timer-alarm" });
         });
 
         el.refreshButton.addEventListener("click", () => {
@@ -1277,10 +1442,6 @@ delete el.greenTime.dataset.edited;
           toast("State copied");
         });
 
-        el.demoButton.addEventListener("click", runDemo);
-
-        el.controlPin.addEventListener("change", savePin);
-
         el.emergencyOff.addEventListener("pointerdown", startEmergencyHold);
         el.emergencyOff.addEventListener("pointerup", clearEmergencyHold);
         el.emergencyOff.addEventListener("pointerleave", clearEmergencyHold);
@@ -1288,7 +1449,9 @@ delete el.greenTime.dataset.edited;
 
         window.addEventListener("keydown", (event) => {
           const tag = document.activeElement?.tagName?.toLowerCase();
-          if (tag === "input" || tag === "textarea") return;
+
+          if (tag === "input" || tag === "textarea" || tag === "select") return;
+          if (!unlocked) return;
 
           const k = event.key.toLowerCase();
 
@@ -1302,7 +1465,7 @@ delete el.greenTime.dataset.edited;
 
       function startLoops() {
         loadState();
-        setInterval(loadState, 2500);
+        setInterval(loadState, 1800);
 
         setInterval(() => {
           renderPhase();
@@ -1312,7 +1475,7 @@ delete el.greenTime.dataset.edited;
       }
 
       function init() {
-        loadPin();
+        setUnlocked(false);
         bind();
         startLoops();
       }
