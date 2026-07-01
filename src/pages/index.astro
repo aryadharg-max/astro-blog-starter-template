@@ -6,10 +6,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aryadhar Gupta | Builder. Driver. Operator.</title>
+    <title>Aryadhar Gupta | Custom Technology Systems</title>
     <meta
       name="description"
-      content="Aryadhar Gupta — motorsport, engineering, environmental systems, physical builds, product ventures, and operating projects."
+      content="Aryadhar Gupta builds custom technology systems for businesses and operational projects, including IoT solutions, web platforms, control dashboards, product tracking systems, surveillance and monitoring tools, logistics technology, CAD/CAM workflows, and hands-on physical builds."
     />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -88,7 +88,7 @@
         position: fixed;
         inset: 0;
         z-index: -1;
-        opacity: 0.25;
+        opacity: 0.24;
         pointer-events: none;
         background-image:
           linear-gradient(rgba(17, 17, 15, 0.035) 1px, transparent 1px),
@@ -258,10 +258,10 @@
         pointer-events: none;
       }
 
-      .racing-line {
+      .system-line {
         position: absolute;
         left: -12%;
-        bottom: 16%;
+        bottom: 17%;
         width: 130%;
         height: 90px;
         pointer-events: none;
@@ -319,11 +319,11 @@
 
       .hero h1 {
         margin: 0;
-        max-width: 960px;
+        max-width: 1040px;
         font-family: var(--display);
-        font-size: clamp(66px, 10vw, 152px);
+        font-size: clamp(58px, 8.8vw, 136px);
         font-weight: 760;
-        line-height: 0.78;
+        line-height: 0.82;
         letter-spacing: -0.075em;
         text-wrap: balance;
       }
@@ -336,7 +336,7 @@
 
       .hero-copy {
         margin: 30px 0 0;
-        max-width: 760px;
+        max-width: 860px;
         color: var(--muted);
         font-size: clamp(17px, 2vw, 22px);
         line-height: 1.5;
@@ -400,7 +400,7 @@
         background: rgba(255, 255, 255, 0.58);
         border-radius: 20px;
         padding: 16px;
-        min-height: 124px;
+        min-height: 142px;
         display: grid;
         align-content: space-between;
         transition:
@@ -427,8 +427,8 @@
       .proof-tile strong {
         display: block;
         margin-top: 18px;
-        font-size: 18px;
-        line-height: 1.05;
+        font-size: 17px;
+        line-height: 1.12;
         letter-spacing: -0.04em;
       }
 
@@ -539,7 +539,7 @@
         font-size: 12px;
       }
 
-      .tach {
+      .signal-bars {
         margin-top: 22px;
         display: grid;
         grid-template-columns: repeat(28, 1fr);
@@ -548,27 +548,27 @@
         height: 70px;
       }
 
-      .tach span {
+      .signal-bars span {
         height: 16px;
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.12);
-        animation: tach 2.6s ease-in-out infinite;
+        animation: signal 2.6s ease-in-out infinite;
       }
 
-      .tach span:nth-child(4n) {
+      .signal-bars span:nth-child(4n) {
         animation-delay: 0.22s;
       }
 
-      .tach span:nth-child(5n) {
+      .signal-bars span:nth-child(5n) {
         animation-delay: 0.38s;
       }
 
-      .tach span:nth-child(7n) {
+      .signal-bars span:nth-child(7n) {
         animation-delay: 0.58s;
         background: rgba(214, 61, 49, 0.36);
       }
 
-      @keyframes tach {
+      @keyframes signal {
         0%,
         100% {
           height: 14px;
@@ -589,7 +589,7 @@
         background: rgba(255, 255, 255, 0.58);
         border-radius: 24px;
         padding: 18px;
-        min-height: 170px;
+        min-height: 180px;
       }
 
       .side-card span {
@@ -641,7 +641,7 @@
 
       .section-head p {
         margin: 0;
-        max-width: 590px;
+        max-width: 640px;
         color: var(--muted);
         font-size: 16px;
         line-height: 1.55;
@@ -686,7 +686,7 @@
 
       .project-card {
         grid-column: span 4;
-        min-height: 340px;
+        min-height: 350px;
         border: 1px solid var(--line);
         border-radius: 28px;
         background: var(--panel);
@@ -707,7 +707,7 @@
 
       .project-card.feature {
         grid-column: span 6;
-        min-height: 380px;
+        min-height: 390px;
       }
 
       .project-card::before {
@@ -980,7 +980,7 @@
         border-radius: 28px;
         padding: 20px;
         box-shadow: var(--soft-shadow);
-        min-height: 290px;
+        min-height: 300px;
         transition: 0.18s ease;
       }
 
@@ -1013,7 +1013,7 @@
         line-height: 1.52;
       }
 
-      .now-grid {
+      .process-grid {
         display: grid;
         grid-template-columns: 1.12fr 0.88fr;
         gap: 14px;
@@ -1361,7 +1361,7 @@
       @media (max-width: 1160px) {
         .hero,
         .case-stage,
-        .now-grid,
+        .process-grid,
         .contact-card {
           grid-template-columns: 1fr;
         }
@@ -1451,7 +1451,7 @@
         }
 
         .hero h1 {
-          font-size: clamp(58px, 19vw, 92px);
+          font-size: clamp(54px, 17vw, 84px);
         }
 
         .hero-proof,
@@ -1488,16 +1488,16 @@
           <div class="brand-mark">AG</div>
           <div class="brand-text">
             <strong>Aryadhar Gupta</strong>
-            <span>Builder. Driver. Operator.</span>
+            <span>Engineer. Execute. Evolve.</span>
           </div>
         </a>
 
         <div class="nav-links" id="navLinks">
-          <a href="#mission">Mission Control</a>
-          <a href="#case-studies">Case Studies</a>
-          <a href="#fields">Fields</a>
-          <a href="#now">Now</a>
-          <a href="#timeline">Timeline</a>
+          <a href="#systems">Systems</a>
+          <a href="#capabilities">Capabilities</a>
+          <a href="#builds">Builds</a>
+          <a href="#live-demos">Live Demos</a>
+          <a href="#process">Process</a>
           <a href="#contact">Contact</a>
         </div>
 
@@ -1512,49 +1512,52 @@
     <main id="top" class="shell">
       <section class="hero">
         <div class="hero-main glass reveal">
-          <div class="racing-line"></div>
+          <div class="system-line"></div>
 
           <div class="hero-content">
             <div class="status-strip">
-              <span class="pill"><span class="pulse"></span> Active build portfolio</span>
+              <span class="pill"><span class="pulse"></span> Custom technology systems</span>
               <span class="pill">Delhi, India</span>
-              <span class="pill">Motorsport / Engineering / Environment / Business</span>
+              <span class="pill">IoT / Web / Tracking / Monitoring / Logistics / CAD-CAM</span>
             </div>
 
-            <p class="hero-kicker">Systems with physical consequences</p>
+            <p class="hero-kicker">Technology built around real operations</p>
 
             <h1>
-              Builds that <em>move</em>.
+              Custom systems for <em>real-world</em> problems.
             </h1>
 
             <p class="hero-copy">
-              I work across machines, racing, electronics, ecological restoration, and product ventures —
-              turning scattered interests into <strong>operating systems with real-world output</strong>.
+              I design and build custom technology solutions for companies, industries, and physical operations —
+              from <strong>IoT systems and web platforms</strong> to product tracking, monitoring, logistics tools,
+              dashboards, automation, CAD/CAM workflows, and connected hardware.
+              If a process, product, site, or workflow can be made smarter through technology,
+              I can build the system around it.
             </p>
 
             <div class="hero-actions">
-              <a class="btn primary" href="#mission">Enter Mission Control →</a>
-              <a class="btn redline" href="#case-studies">Open Case Studies</a>
-              <a class="btn" href="/traffic-control/">Traffic Lab</a>
+              <a class="btn primary" href="#systems">Explore Systems →</a>
+              <a class="btn redline" href="#capabilities">View Capabilities</a>
+              <a class="btn" href="/traffic-control/">Live Demo</a>
             </div>
           </div>
 
           <div class="hero-proof">
             <div class="proof-tile">
-              <span>Motorsport</span>
-              <strong>F4 testing + drift instruction</strong>
+              <span>IoT & Connected Hardware</span>
+              <strong>Custom systems for sensors, relays, devices, dashboards, automation, and remote control.</strong>
             </div>
             <div class="proof-tile">
-              <span>Hardware</span>
-              <strong>Cloud-controlled physical relay system</strong>
+              <span>Web & Software Systems</span>
+              <strong>Websites, control panels, internal tools, dashboards, portals, and software layers.</strong>
             </div>
             <div class="proof-tile">
-              <span>Build History</span>
-              <strong>RC aircraft, sim hardware, 2JZ work</strong>
+              <span>Tracking & Operations</span>
+              <strong>Product tracking, asset visibility, inventory flows, logistics tools, and reporting systems.</strong>
             </div>
             <div class="proof-tile">
-              <span>Venture Layer</span>
-              <strong>Candico, Polaris, biosphere systems</strong>
+              <span>Monitoring & Surveillance</span>
+              <strong>Authorized monitoring, camera-linked systems, alerts, site visibility, and oversight tools.</strong>
             </div>
           </div>
         </div>
@@ -1563,42 +1566,43 @@
           <div class="ops-board">
             <div>
               <div class="ops-topline">
-                <span>Current Operating Board</span>
-                <span>Live Queue</span>
+                <span>Build Focus</span>
+                <span>System Categories</span>
               </div>
 
               <div class="ops-title">
-                <h2>What is active now.</h2>
+                <h2>What can be built.</h2>
                 <p>
-                  The useful version of a dashboard is not a clock. It is a live map of what needs attention.
+                  A practical map of systems that can be designed, prototyped, connected, and deployed
+                  for real businesses and operating environments.
                 </p>
               </div>
 
               <div class="ops-focus">
                 <div class="ops-item">
-                  <span>Build</span>
-                  <strong>Website UI command layer</strong>
-                  <em>active</em>
+                  <span>Connect</span>
+                  <strong>IoT devices, sensors, relays, and physical hardware</strong>
+                  <em>hardware layer</em>
                 </div>
                 <div class="ops-item">
-                  <span>Test</span>
-                  <strong>NodeMCU traffic signal reliability</strong>
-                  <em>stable</em>
+                  <span>Control</span>
+                  <strong>Web dashboards, command panels, and automation tools</strong>
+                  <em>software layer</em>
                 </div>
                 <div class="ops-item">
-                  <span>Drive</span>
-                  <strong>Racing credibility pathway</strong>
-                  <em>ongoing</em>
+                  <span>Track</span>
+                  <strong>Products, assets, inventory, movement, and logistics</strong>
+                  <em>operations layer</em>
                 </div>
                 <div class="ops-item">
-                  <span>Operate</span>
-                  <strong>Candico / Polaris / Biosphere</strong>
-                  <em>planning</em>
+                  <span>Monitor</span>
+                  <strong>Sites, processes, cameras, alerts, and system visibility</strong>
+                  <em>oversight layer</em>
                 </div>
               </div>
             </div>
 
-            <div class="tach" aria-hidden="true">
+            <div class="signal-bars" aria-hidden="true">
               <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
               <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
               <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
@@ -1608,57 +1612,66 @@
 
           <div class="side-grid">
             <div class="side-card">
-              <span>System Type</span>
-              <strong>Physical web</strong>
-              <p>Web interface connected to real relays, state, and timing logic.</p>
+              <span>Business Use</span>
+              <strong>Built for operations</strong>
+              <p>
+                These systems are built around specific business problems, physical workflows,
+                products, assets, or operating environments.
+              </p>
             </div>
             <div class="side-card">
-              <span>Site Logic</span>
-              <strong>Portfolio as OS</strong>
-              <p>A map of active work, not a static achievement wall.</p>
+              <span>Build Method</span>
+              <strong>From brief to system</strong>
+              <p>
+                The process starts with the problem, then moves into system design, interface planning,
+                prototyping, testing, and deployment.
+              </p>
             </div>
           </div>
         </aside>
       </section>
 
-      <section id="mission">
+      <section id="systems">
         <div class="section-head reveal">
-          <h2>Mission<br />Control</h2>
+          <h2>Systems<br />I Build</h2>
           <p>
-            Projects are treated as systems: status, category, operating logic, and what they prove.
+            Custom technology systems for businesses, projects, and industries that need practical digital tools,
+            connected hardware, operational visibility, automation, or better control over real-world processes.
           </p>
         </div>
 
         <div class="filters-wrap reveal">
           <div class="filters">
             <button class="filter active" data-filter="all" type="button">All Systems</button>
-            <button class="filter" data-filter="motorsport" type="button">Motorsport</button>
-            <button class="filter" data-filter="engineering" type="button">Engineering</button>
-            <button class="filter" data-filter="business" type="button">Business</button>
-            <button class="filter" data-filter="environment" type="button">Environment</button>
-            <button class="filter" data-filter="lab" type="button">Lab</button>
+            <button class="filter" data-filter="iot" type="button">IoT & Hardware</button>
+            <button class="filter" data-filter="web" type="button">Web Systems</button>
+            <button class="filter" data-filter="tracking" type="button">Tracking</button>
+            <button class="filter" data-filter="monitoring" type="button">Monitoring</button>
+            <button class="filter" data-filter="logistics" type="button">Logistics</button>
+            <button class="filter" data-filter="cad" type="button">CAD/CAM</button>
+            <button class="filter" data-filter="live" type="button">Live Demos</button>
           </div>
         </div>
 
         <div class="projects-grid">
           <article
             class="project-card feature reveal"
-            data-tags="engineering lab"
-            data-status="Live Build"
-            data-title="NodeMCU Traffic System"
-            data-summary="A public-cloud-controlled physical traffic signal using ESP8266, relays, Cloudflare Workers, protected commands, public visibility, and local timing safety."
-            data-details="ESP8266 polls a Cloudflare Worker state endpoint|Password-protected command API|Public viewers can see state without control|Green → Yellow → Red local cycle protected from Wi-Fi lag|Timer alarm mode for long focus sessions|220V relay system with physical consequences"
+            data-tags="iot engineering live"
+            data-status="Live Demo"
+            data-title="IoT & Connected Hardware"
+            data-summary="Custom connected systems for sensors, relays, devices, lights, machines, dashboards, automation, and remote control."
+            data-details="Device-to-web control systems|Sensor and relay-based hardware setups|Remote control dashboards|Automation logic for physical systems|Live device state and monitoring|Prototype-to-deployment planning"
             style="--orb: rgba(27, 93, 145, 0.12); --accent: var(--navy)"
           >
             <div class="project-top">
               <div class="project-meta">
-                <span class="tag live">Live Build</span>
-                <span class="tag">Engineering</span>
-                <span class="tag">Cloud</span>
+                <span class="tag live">Live Demo</span>
+                <span class="tag">IoT</span>
+                <span class="tag">Hardware</span>
               </div>
-              <h3>NodeMCU Traffic System</h3>
+              <h3>IoT & Connected Hardware</h3>
               <p>
-                A real signal controlled through a custom website, Worker/KV state, and local-safe ESP8266 logic.
+                Physical systems connected to clean web interfaces for monitoring, switching, automation, and control.
               </p>
             </div>
             <div class="project-bottom">
@@ -1669,379 +1682,415 @@
 
           <article
             class="project-card feature reveal"
-            data-tags="motorsport"
-            data-status="Active Development"
-            data-title="Racing Pathway"
-            data-summary="A credibility-building motorsport track: F4 testing, drift instruction, simulator development, NASCAR-facing positioning, and sponsor narrative."
-            data-details="F4 testing experience|Drift instruction and coaching layer|Simulator practice system|Indian driver positioning for international motorsport|Sponsorship and credibility architecture"
+            data-tags="web business automation"
+            data-status="Capability"
+            data-title="Web Platforms & Internal Tools"
+            data-summary="Custom websites, dashboards, portals, admin panels, control pages, and internal tools built around specific operational needs."
+            data-details="Business websites and project websites|Internal dashboards and portals|Control interfaces for devices and workflows|Admin panels and reporting tools|Clean front-end experiences|Software that supports real operations"
             style="--orb: rgba(214, 61, 49, 0.12); --accent: var(--red)"
           >
             <div class="project-top">
               <div class="project-meta">
-                <span class="tag live">Active</span>
-                <span class="tag">Motorsport</span>
-                <span class="tag">Training</span>
+                <span class="tag">Web</span>
+                <span class="tag">Dashboards</span>
+                <span class="tag">Tools</span>
               </div>
-              <h3>Racing Pathway</h3>
+              <h3>Web Platforms & Internal Tools</h3>
               <p>
-                Turning track experience, simulator discipline, and Indian-driver positioning into a serious platform.
+                Practical web systems for businesses that need better interfaces, control, reporting, and visibility.
               </p>
             </div>
             <div class="project-bottom">
-              <span>Driver development</span>
+              <span>Software systems</span>
               <button class="open-btn" type="button">Open</button>
             </div>
           </article>
 
           <article
             class="project-card reveal"
-            data-tags="business"
-            data-status="Launch Phase"
-            data-title="Candico Wellness"
-            data-summary="Energy gum and slim gum launch architecture across META, D2C, B2B, white-label partners, and Indian market clusters."
-            data-details="Energy Gum and Slim Gum launch|B2C and B2B market structure|META campaign planning across 65 towns and 26 clusters|Wellness product positioning|Operational modernization of an existing company"
+            data-tags="tracking business logistics"
+            data-status="Capability"
+            data-title="Product Tracking Systems"
+            data-summary="Custom systems for tracking products, assets, batches, movement, inventory, and operational status across a business."
+            data-details="Product and asset tracking|Inventory visibility|Batch and movement records|QR or ID-based tracking concepts|Status dashboards|Reporting for operational decisions"
             style="--orb: rgba(173, 126, 43, 0.13); --accent: var(--gold)"
           >
             <div class="project-top">
               <div class="project-meta">
-                <span class="tag live">Launch</span>
-                <span class="tag">Business</span>
+                <span class="tag">Tracking</span>
+                <span class="tag">Operations</span>
               </div>
-              <h3>Candico Wellness</h3>
+              <h3>Product Tracking Systems</h3>
               <p>
-                Consumer wellness products, distribution strategy, creative testing, and operating discipline.
+                Tracking layers for products, assets, batches, inventory, and movement through real workflows.
               </p>
             </div>
             <div class="project-bottom">
-              <span>Consumer products</span>
+              <span>Visibility systems</span>
               <button class="open-btn" type="button">Open</button>
             </div>
           </article>
 
           <article
             class="project-card reveal"
-            data-tags="business motorsport"
-            data-status="Proposal"
-            data-title="Polaris Uttarakhand"
-            data-summary="A dealership and expedition platform for Uttarakhand across tourism, private buyers, hospitality, and government utility segments."
-            data-details="Sales and service concept|Tourism and hospitality use cases|Government utility segments including forest, police, SDRF, fire and emergency|Mussoorie and Corbett market relevance|Nirvana India operating structure"
+            data-tags="monitoring web iot"
+            data-status="Capability"
+            data-title="Monitoring & Surveillance Systems"
+            data-summary="Authorized monitoring systems for sites, workflows, cameras, alerts, visibility, and operational oversight."
+            data-details="Camera-linked monitoring concepts|Site visibility dashboards|Alert systems and event logs|Approved surveillance use cases|Computer-vision concepts where useful|Operational oversight tools"
             style="--orb: rgba(11, 36, 63, 0.1); --accent: var(--navy)"
           >
             <div class="project-top">
               <div class="project-meta">
-                <span class="tag">Proposal</span>
-                <span class="tag">Mobility</span>
+                <span class="tag">Monitoring</span>
+                <span class="tag">Visibility</span>
               </div>
-              <h3>Polaris Uttarakhand</h3>
+              <h3>Monitoring & Surveillance Systems</h3>
               <p>
-                Off-road mobility as dealership, service, tourism, and institutional capability.
+                Systems that help a business see what is happening across a site, process, device, or operation.
               </p>
             </div>
             <div class="project-bottom">
-              <span>Mobility business</span>
+              <span>Oversight tools</span>
               <button class="open-btn" type="button">Open</button>
             </div>
           </article>
 
           <article
             class="project-card reveal"
-            data-tags="environment business"
-            data-status="Long-Term"
-            data-title="Rajaji Raghati Biosphere"
-            data-summary="A reforestation and biodiversity project built around laterite land, native planting, ecological restoration, and institutional storytelling."
-            data-details="Laterite land reforestation concept|Native biodiversity and ecological restoration focus|Fencing-first execution plan|Cost breakdown and phased implementation|Boardroom-grade environmental narrative"
+            data-tags="logistics tracking business"
+            data-status="Capability"
+            data-title="Logistics Technology"
+            data-summary="Custom tools for movement, dispatch, delivery status, route visibility, inventory flow, coordination, and reporting."
+            data-details="Dispatch and movement dashboards|Delivery or route status tools|Inventory flow visibility|Coordination systems for teams|Operational reporting|Custom logistics interfaces"
             style="--orb: rgba(23, 122, 85, 0.13); --accent: var(--green)"
           >
             <div class="project-top">
               <div class="project-meta">
-                <span class="tag live">Long-Term</span>
-                <span class="tag">Environment</span>
+                <span class="tag">Logistics</span>
+                <span class="tag">Flow</span>
               </div>
-              <h3>Rajaji Raghati Biosphere</h3>
+              <h3>Logistics Technology</h3>
               <p>
-                Restoration as a real ecological asset, not a decorative plantation.
+                Software layers for movement, coordination, dispatch, delivery visibility, and operational flow.
               </p>
             </div>
             <div class="project-bottom">
-              <span>Climate / ecology</span>
+              <span>Logistics tools</span>
               <button class="open-btn" type="button">Open</button>
             </div>
           </article>
 
           <article
             class="project-card reveal"
-            data-tags="engineering motorsport"
-            data-status="Build Archive"
-            data-title="Sim Racing + Hardware"
-            data-summary="Driving simulator setup, triple-screen thinking, Moza wheelbase development, and custom sim hardware concepts."
-            data-details="Moza base development path|Triple-screen Assetto Corsa setup goals|Simulator as training infrastructure|H-pattern shifter and hydraulic handbrake ideas|Mechanical realism as design principle"
+            data-tags="cad engineering product"
+            data-status="Capability"
+            data-title="CAD/CAM & Product Design"
+            data-summary="Parts, assemblies, fitment logic, manufacturable designs, machining intent, and design-for-making workflows."
+            data-details="Product and part design|CAD assemblies and fitment logic|Manufacturable file preparation|Material and tolerance thinking|CAM and fabrication planning|Design-for-making workflows"
             style="--orb: rgba(214, 61, 49, 0.1); --accent: var(--red)"
           >
             <div class="project-top">
               <div class="project-meta">
-                <span class="tag">Active</span>
-                <span class="tag">Simulator</span>
+                <span class="tag">CAD/CAM</span>
+                <span class="tag">Product</span>
               </div>
-              <h3>Sim Racing + Hardware</h3>
+              <h3>CAD/CAM & Product Design</h3>
               <p>
-                A driver-development setup that also becomes a hardware design playground.
+                Design workflows for physical products, parts, assemblies, fabrication, and manufacturing preparation.
               </p>
             </div>
             <div class="project-bottom">
-              <span>Training rig</span>
+              <span>Design-for-making</span>
               <button class="open-btn" type="button">Open</button>
             </div>
           </article>
 
           <article
             class="project-card reveal"
-            data-tags="engineering"
-            data-status="Mechanical"
-            data-title="Lexus GS300 2JZ Refresh"
-            data-summary="A stock-focused restoration plan for a Lexus GS300 2JZ-GE after long storage, including rubber, wear items, electronics, and diagnostics."
-            data-details="2JZ-GE refresh planning|Rubber and wear item restoration|Misfire diagnosis on stored engine|Stock-first approach|Mechanical systems learning project"
+            data-tags="automation web business"
+            data-status="Capability"
+            data-title="Workflow Automation"
+            data-summary="Automation tools that reduce manual work, connect steps, standardize processes, and make business operations easier to manage."
+            data-details="Internal process automation|Form-to-dashboard workflows|Task and status tracking|Notifications and alerts|Reporting automation|Custom software around existing business processes"
             style="--orb: rgba(17, 17, 15, 0.08); --accent: var(--dark)"
           >
             <div class="project-top">
               <div class="project-meta">
-                <span class="tag">Mechanical</span>
-                <span class="tag">Automotive</span>
+                <span class="tag">Automation</span>
+                <span class="tag">Workflow</span>
               </div>
-              <h3>Lexus GS300 2JZ Refresh</h3>
+              <h3>Workflow Automation</h3>
               <p>
-                Mechanical restoration as a structured systems checklist, not random part replacement.
+                Custom tools that reduce repetitive work and turn scattered operations into trackable systems.
               </p>
             </div>
             <div class="project-bottom">
-              <span>Automotive</span>
+              <span>Process systems</span>
               <button class="open-btn" type="button">Open</button>
             </div>
           </article>
 
           <article
             class="project-card reveal"
-            data-tags="engineering lab"
-            data-status="Archive"
-            data-title="RC / Aeromodelling"
-            data-summary="A long-running build history across RC aircraft, vehicles, large wingspans, electronics, and aerodynamics."
-            data-details="RC flying from a young age|Scale aircraft and vehicle builds|Large wingspan model experience|Electronics, structure, and flight learning|Foundation for later physical systems"
-            style="--orb: rgba(173, 126, 43, 0.11); --accent: var(--gold)"
+            data-tags="environment iot monitoring"
+            data-status="Capability"
+            data-title="Field & Environmental Systems"
+            data-summary="Field-data dashboards, sensor systems, restoration monitoring, site records, environmental visibility, and long-term project communication."
+            data-details="Environmental data dashboards|Sensor-linked field systems|Land, water, and restoration monitoring|Site documentation tools|Partner communication layers|Long-term project visibility"
+            style="--orb: rgba(23, 122, 85, 0.12); --accent: var(--green)"
           >
             <div class="project-top">
               <div class="project-meta">
-                <span class="tag">Archive</span>
-                <span class="tag">Builds</span>
+                <span class="tag">Field Systems</span>
+                <span class="tag">Environment</span>
               </div>
-              <h3>RC / Aeromodelling</h3>
+              <h3>Field & Environmental Systems</h3>
               <p>
-                The original build language: airframes, electronics, control surfaces, and iterative testing.
+                Practical systems for monitoring land, field conditions, restoration progress, and environmental projects.
               </p>
             </div>
             <div class="project-bottom">
-              <span>Early systems</span>
+              <span>Field tech</span>
+              <button class="open-btn" type="button">Open</button>
+            </div>
+          </article>
+
+          <article
+            class="project-card reveal"
+            data-tags="motorsport tracking web"
+            data-status="Capability"
+            data-title="Motorsport Telemetry Systems"
+            data-summary="Driver-development dashboards that turn session data into readable proof of speed, inputs, consistency, and progression."
+            data-details="Session data dashboards|Speed, throttle, brake, and g-force visibility|Driver progression proof|Simulator and real-session reporting|Sponsor-ready technical presentation|Performance data storytelling"
+            style="--orb: rgba(214, 61, 49, 0.1); --accent: var(--red)"
+          >
+            <div class="project-top">
+              <div class="project-meta">
+                <span class="tag">Motorsport</span>
+                <span class="tag">Telemetry</span>
+              </div>
+              <h3>Motorsport Telemetry Systems</h3>
+              <p>
+                Motorsport data systems that turn driving into evidence, not just claim.
+              </p>
+            </div>
+            <div class="project-bottom">
+              <span>Performance data</span>
               <button class="open-btn" type="button">Open</button>
             </div>
           </article>
         </div>
       </section>
 
-      <section id="case-studies">
+      <section id="capabilities">
         <div class="section-head reveal">
-          <h2>Case<br />Studies</h2>
+          <h2>Capabilities</h2>
           <p>
-            Less brochure, more operating file. Each case is framed by objective, architecture, proof, and next move.
+            The goal is not to sell generic software. The goal is to understand the operation,
+            then build the technology layer that makes it easier to control, track, monitor, or scale.
+          </p>
+        </div>
+
+        <div class="fields-grid">
+          <div class="field-card reveal">
+            <span>01 / Connect</span>
+            <h3>IoT systems</h3>
+            <p>Sensors, relays, devices, physical controls, connected machines, dashboards, and automation logic.</p>
+          </div>
+          <div class="field-card reveal">
+            <span>02 / Build</span>
+            <h3>Web systems</h3>
+            <p>Websites, dashboards, portals, internal tools, admin panels, and command interfaces.</p>
+          </div>
+          <div class="field-card reveal">
+            <span>03 / Track</span>
+            <h3>Operational visibility</h3>
+            <p>Product tracking, asset tracking, inventory records, logistics tools, movement data, and reporting systems.</p>
+          </div>
+          <div class="field-card reveal">
+            <span>04 / Monitor</span>
+            <h3>Oversight tools</h3>
+            <p>Authorized surveillance, site visibility, alerts, camera-linked systems, field data, and process monitoring.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="builds">
+        <div class="section-head reveal">
+          <h2>Build<br />Examples</h2>
+          <p>
+            Example operating files. Each system is framed by objective, architecture, output, and the type of problem it is built to solve.
           </p>
         </div>
 
         <div class="case-stage reveal">
           <div class="case-tabs">
-            <button class="case-tab active" data-case="traffic" type="button">
-              <span>Physical Web System</span>
-              <strong>Traffic Signal Build</strong>
+            <button class="case-tab active" data-case="iot" type="button">
+              <span>Live IoT System</span>
+              <strong>Traffic Light Control</strong>
             </button>
-            <button class="case-tab" data-case="racing" type="button">
-              <span>Driver Platform</span>
-              <strong>Motorsport Credibility</strong>
+            <button class="case-tab" data-case="tracking" type="button">
+              <span>Operations System</span>
+              <strong>Product & Asset Tracking</strong>
             </button>
-            <button class="case-tab" data-case="biosphere" type="button">
-              <span>Environmental Asset</span>
-              <strong>Rajaji Raghati Biosphere</strong>
+            <button class="case-tab" data-case="monitoring" type="button">
+              <span>Oversight System</span>
+              <strong>Monitoring Dashboard</strong>
             </button>
           </div>
 
           <div class="case-display">
             <div>
-              <p class="case-kicker" id="caseKicker">Physical Web System</p>
-              <h3 id="caseTitle">Traffic Signal Build</h3>
+              <p class="case-kicker" id="caseKicker">Live IoT System</p>
+              <h3 id="caseTitle">Traffic Light Control</h3>
               <p class="case-copy" id="caseCopy">
-                A physical relay-controlled traffic signal connected to a public website through a Cloudflare Worker,
-                with protected commands, public visibility, stable local timing, and timer modes.
+                A connected control system linking a physical traffic light setup to a web interface,
+                Cloudflare Worker, live state, password-protected commands, and local hardware logic.
               </p>
 
               <div class="case-matrix">
                 <div class="case-cell">
                   <span>Objective</span>
-                  <strong id="caseObjective">Control a physical signal remotely without exposing the local device.</strong>
+                  <strong id="caseObjective">Control physical hardware remotely without exposing the local device.</strong>
                 </div>
                 <div class="case-cell">
                   <span>Architecture</span>
                   <strong id="caseArchitecture">Website → Worker → KV state → ESP8266 polling loop.</strong>
                 </div>
                 <div class="case-cell">
-                  <span>Proof</span>
-                  <strong id="caseProof">Live commands, password lock, public viewer state, local timing safety.</strong>
+                  <span>Output</span>
+                  <strong id="caseProof">A live control panel connected to a real relay-based lighting system.</strong>
                 </div>
                 <div class="case-cell">
-                  <span>Next Move</span>
-                  <strong id="caseNext">Enclosure, audit logs, fail-safe logic, and hardware polish.</strong>
+                  <span>Best Fit</span>
+                  <strong id="caseNext">IoT control, device dashboards, connected hardware, and automation prototypes.</strong>
                 </div>
               </div>
             </div>
 
             <div class="case-actions">
-              <a class="btn primary" id="caseLink" href="/traffic-control/">Open Related Page →</a>
-              <a class="btn" href="#contact">Discuss Project</a>
+              <a class="btn primary" id="caseLink" href="/traffic-control/">Open Live Demo →</a>
+              <a class="btn" href="#contact">Start a Build</a>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="fields">
+      <section id="live-demos">
         <div class="section-head reveal">
-          <h2>Operating<br />Fields</h2>
+          <h2>Live<br />Demos</h2>
           <p>
-            The point is not being scattered. The point is building fluency across disciplines that normally do not talk to each other.
+            Some systems should not just be described. They should show live state, a working panel,
+            a viewer, a dashboard, or a data layer that proves the system is in use.
           </p>
         </div>
 
-        <div class="fields-grid">
-          <div class="field-card reveal">
-            <span>01 / Motorsport</span>
-            <h3>Driver development</h3>
-            <p>Track experience, simulator discipline, drift instruction, and sponsor-grade positioning.</p>
-          </div>
-          <div class="field-card reveal">
-            <span>02 / Engineering</span>
-            <h3>Physical systems</h3>
-            <p>Microcontrollers, relays, CAD thinking, RC systems, mechanical restoration, and sim hardware.</p>
-          </div>
-          <div class="field-card reveal">
-            <span>03 / Environment</span>
-            <h3>Restoration assets</h3>
-            <p>Reforestation, biodiversity, land strategy, and ecological narratives with execution plans.</p>
-          </div>
-          <div class="field-card reveal">
-            <span>04 / Business</span>
-            <h3>Operating ventures</h3>
-            <p>Consumer launches, hospitality, dealerships, product strategy, and market-entry planning.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="now">
-        <div class="section-head reveal">
-          <h2>Now</h2>
-          <p>
-            A current operating queue: what is being built, refined, tested, or prepared.
-          </p>
-        </div>
-
-        <div class="now-grid">
+        <div class="process-grid">
           <div class="panel reveal">
             <div class="queue">
               <div class="queue-item">
-                <span>Build</span>
-                <strong>Portfolio operating dashboard</strong>
-                <em>active</em>
+                <span>IoT</span>
+                <strong>Traffic Light Control System</strong>
+                <em>live</em>
               </div>
               <div class="queue-item">
-                <span>Lab</span>
-                <strong>Traffic light reliability and physical safety</strong>
-                <em>stable</em>
+                <span>Tracking</span>
+                <strong>Product or asset tracking dashboard</strong>
+                <em>buildable</em>
               </div>
               <div class="queue-item">
-                <span>Business</span>
-                <strong>Candico Wellness launch architecture</strong>
-                <em>planning</em>
+                <span>CAD/CAM</span>
+                <strong>Interactive part model viewer</strong>
+                <em>buildable</em>
               </div>
               <div class="queue-item">
-                <span>Mobility</span>
-                <strong>Polaris Uttarakhand dealership dossier</strong>
-                <em>proposal</em>
+                <span>Field</span>
+                <strong>Environmental sensor dashboard</strong>
+                <em>buildable</em>
               </div>
               <div class="queue-item">
-                <span>Training</span>
-                <strong>Racing credibility and simulator work</strong>
-                <em>ongoing</em>
+                <span>Monitor</span>
+                <strong>Authorized camera or site monitoring layer</strong>
+                <em>buildable</em>
               </div>
             </div>
           </div>
 
           <div class="velocity-panel reveal">
             <div>
-              <h3>Velocity with control.</h3>
+              <h3>Built, then connected.</h3>
               <p>
-                The site should feel fast, but the structure should feel deliberate: what exists, what it proves,
-                and where it goes next.
+                A live layer should prove a specific claim: engineering ability, system reliability,
+                manufacturing thinking, operational visibility, or field deployment.
               </p>
             </div>
 
             <div class="velocity-links">
               <a href="/traffic-control/">
-                <strong>Traffic Lab</strong>
-                <span>Protected →</span>
+                <strong>Traffic Control</strong>
+                <span>Open →</span>
               </a>
-              <a href="#mission">
+              <a href="#systems">
                 <strong>Systems Index</strong>
                 <span>View →</span>
               </a>
               <a href="#contact">
-                <strong>Contact Channel</strong>
-                <span>Open →</span>
+                <strong>Start a Build</strong>
+                <span>Contact →</span>
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="timeline">
+      <section id="process">
         <div class="section-head reveal">
-          <h2>Timeline</h2>
+          <h2>Process</h2>
           <p>
-            Consistent labels, not random milestones — a clean arc from build origins to operating ventures.
+            A clear route from business problem to working system — without unnecessary jargon,
+            bloated scope, or fake complexity.
           </p>
         </div>
 
         <div class="timeline-list reveal">
           <div class="timeline-item">
-            <span>01 / Build Origins</span>
+            <span>01 / Brief</span>
             <div>
-              <strong>RC, robotics, aeromodelling, and mechanical curiosity</strong>
-              <p>Hands-on building became the base layer: aircraft, cars, electronics, and physical troubleshooting.</p>
+              <strong>Understand the operation, not just the requested feature</strong>
+              <p>The first step is identifying the real workflow, users, constraints, risks, and business outcome.</p>
             </div>
           </div>
 
           <div class="timeline-item">
-            <span>02 / Competition</span>
+            <span>02 / Map</span>
             <div>
-              <strong>Karting, F4 testing, drift instruction, simulator development</strong>
-              <p>The racing layer became both a performance path and a credibility platform.</p>
+              <strong>Design the system architecture</strong>
+              <p>This includes the interface, data flow, hardware or software layer, control points, and deployment path.</p>
             </div>
           </div>
 
           <div class="timeline-item">
-            <span>03 / Systems</span>
+            <span>03 / Build</span>
             <div>
-              <strong>Websites, Cloudflare, NodeMCU, control dashboards</strong>
-              <p>Software moved from screen-only to physical-world interfaces.</p>
+              <strong>Create the first working version</strong>
+              <p>The system is built as a practical prototype: usable, testable, and clear enough to improve.</p>
             </div>
           </div>
 
           <div class="timeline-item">
-            <span>04 / Operations</span>
+            <span>04 / Test</span>
             <div>
-              <strong>Candico, Polaris, hospitality, biosphere strategy</strong>
-              <p>The work now spans product launches, mobility, land, ecology, and operating companies.</p>
+              <strong>Run it against real conditions</strong>
+              <p>The system is tested with actual workflows, edge cases, operators, devices, or business use.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <span>05 / Deploy</span>
+            <div>
+              <strong>Improve, document, and prepare for use</strong>
+              <p>The final layer is reliability, usability, documentation, security, and the next version of the system.</p>
             </div>
           </div>
         </div>
@@ -2050,9 +2099,13 @@
       <section id="contact">
         <div class="contact-card reveal">
           <div>
-            <h2>Build the next system.</h2>
+            <h2>Build the system around it.</h2>
             <p>
-              For collaborations, motorsport conversations, engineering builds, environmental projects, or business opportunities.
+              For IoT systems, web platforms, product tracking, dashboards, logistics tools, monitoring systems,
+              CAD/CAM workflows, connected hardware, or serious project development.
+            </p>
+            <p>
+              Send the brief. I’ll tell you what can be built, what it will take, and where to start.
             </p>
           </div>
 
@@ -2084,15 +2137,15 @@
 
     <footer class="footer shell">
       <span>© <span id="year"></span> Aryadhar Gupta</span>
-      <span>Delhi, India · Built as a living operating dashboard</span>
+      <span>Built, tested, and improved across disciplines.</span>
     </footer>
 
     <div class="modal" id="projectModal" aria-hidden="true">
       <div class="modal-card">
         <div class="modal-head">
           <div>
-            <h3 class="modal-title" id="modalTitle">Project</h3>
-            <p class="modal-sub" id="modalSub">Status</p>
+            <h3 class="modal-title" id="modalTitle">System</h3>
+            <p class="modal-sub" id="modalSub">Capability</p>
           </div>
           <button class="close-btn" id="modalClose" type="button">Close</button>
         </div>
@@ -2106,28 +2159,31 @@
     <div class="command-palette" id="commandPalette" aria-hidden="true">
       <div class="command-card">
         <div class="command-head">
-          <input class="command-input" id="commandInput" type="text" placeholder="Search sections and systems..." />
+          <input class="command-input" id="commandInput" type="text" placeholder="Search systems and capabilities..." />
           <button class="close-btn" id="commandClose" type="button">Close</button>
         </div>
         <div class="command-body">
           <div class="command-list" id="commandList">
-            <a href="#mission" data-command="mission control projects systems">
-              <strong>Mission Control</strong><span>Projects grid</span>
+            <a href="#systems" data-command="systems iot web tracking monitoring logistics cad">
+              <strong>Systems</strong><span>What can be built</span>
             </a>
-            <a href="#case-studies" data-command="case studies featured traffic racing biosphere">
-              <strong>Case Studies</strong><span>Featured systems</span>
+            <a href="#capabilities" data-command="capabilities connect build track monitor">
+              <strong>Capabilities</strong><span>Core service areas</span>
             </a>
-            <a href="#fields" data-command="fields motorsport engineering environment business">
-              <strong>Operating Fields</strong><span>Four focus areas</span>
+            <a href="#builds" data-command="build examples case studies traffic tracking monitoring">
+              <strong>Build Examples</strong><span>System files</span>
             </a>
-            <a href="#now" data-command="now current active queue">
-              <strong>Now</strong><span>Current build queue</span>
+            <a href="#live-demos" data-command="live demos working proof traffic control">
+              <strong>Live Demos</strong><span>Working project layers</span>
             </a>
-            <a href="/traffic-control/" data-command="traffic control lab signal nodemcu">
-              <strong>Traffic Control</strong><span>Protected lab</span>
+            <a href="#process" data-command="process brief map build test deploy">
+              <strong>Process</strong><span>How systems are built</span>
+            </a>
+            <a href="/traffic-control/" data-command="traffic control iot live relay nodemcu">
+              <strong>Traffic Control</strong><span>Live IoT demo</span>
             </a>
             <a href="#contact" data-command="contact email instagram github phone">
-              <strong>Contact</strong><span>Communication links</span>
+              <strong>Contact</strong><span>Start a build</span>
             </a>
           </div>
         </div>
@@ -2157,38 +2213,41 @@
       const commandItems = $$("#commandList a");
 
       const caseData = {
-        traffic: {
-          kicker: "Physical Web System",
-          title: "Traffic Signal Build",
+        iot: {
+          kicker: "Live IoT System",
+          title: "Traffic Light Control",
           copy:
-            "A physical relay-controlled traffic signal connected to a public website through a Cloudflare Worker, with protected commands, public visibility, stable local timing, and timer modes.",
-          objective: "Control a physical signal remotely without exposing the local device.",
+            "A connected control system linking a physical traffic light setup to a web interface, Cloudflare Worker, live state, password-protected commands, and local hardware logic.",
+          objective: "Control physical hardware remotely without exposing the local device.",
           architecture: "Website → Worker → KV state → ESP8266 polling loop.",
-          proof: "Live commands, password lock, public viewer state, local timing safety.",
-          next: "Enclosure, audit logs, fail-safe logic, and hardware polish.",
+          proof: "A live control panel connected to a real relay-based lighting system.",
+          next: "IoT control, device dashboards, connected hardware, and automation prototypes.",
           link: "/traffic-control/",
+          button: "Open Live Demo →",
         },
-        racing: {
-          kicker: "Driver Platform",
-          title: "Motorsport Credibility",
+        tracking: {
+          kicker: "Operations System",
+          title: "Product & Asset Tracking",
           copy:
-            "A structured driver platform connecting F4 testing, drift instruction, simulator discipline, Indian-driver positioning, and a sponsor-ready narrative.",
-          objective: "Convert raw driving ability and obsession into visible credibility.",
-          architecture: "Track work → simulator evidence → media kit → outreach path.",
-          proof: "F4 testing, drift instruction, sim practice, and motorsport positioning.",
-          next: "Portfolio deck, testing calendar, video proof, and sponsor conversations.",
+            "A custom system layer for businesses that need to track products, assets, inventory, batches, movement, or operational status across a workflow.",
+          objective: "Make products, assets, and movement visible instead of scattered across messages or manual records.",
+          architecture: "IDs or QR codes → status updates → database → dashboard → reports.",
+          proof: "A clear operational interface for status, ownership, movement, and exceptions.",
+          next: "Manufacturing, warehousing, service businesses, logistics teams, and product operations.",
           link: "#contact",
+          button: "Start This Build →",
         },
-        biosphere: {
-          kicker: "Environmental Asset",
-          title: "Rajaji Raghati Biosphere",
+        monitoring: {
+          kicker: "Oversight System",
+          title: "Monitoring Dashboard",
           copy:
-            "A long-term restoration asset built around land, ecology, biodiversity, native planting, fencing-first implementation, cost logic, and institutional storytelling.",
-          objective: "Turn degraded or underused land into a real ecological asset.",
-          architecture: "Land → protection → native planting → monitoring → narrative.",
-          proof: "Reforestation strategy, biodiversity lens, phased cost and execution planning.",
-          next: "Visual documentation, partners, implementation sequencing, and monitoring.",
+            "A monitoring and visibility system for authorized site oversight, camera-linked review, event logs, alerts, and operational reporting.",
+          objective: "Give a business better visibility over sites, workflows, events, equipment, or field conditions.",
+          architecture: "Cameras or sensors → event layer → dashboard → alerts → records.",
+          proof: "A practical monitoring layer that helps teams see, respond, and document activity.",
+          next: "Site monitoring, process oversight, environmental data, field systems, and controlled surveillance use cases.",
           link: "#contact",
+          button: "Discuss Monitoring →",
         },
       };
 
@@ -2240,8 +2299,8 @@
           card.addEventListener("click", (event) => {
             if (event.target.closest("a")) return;
 
-            modalTitle.textContent = card.dataset.title || "Project";
-            modalSub.textContent = card.dataset.status || "System";
+            modalTitle.textContent = card.dataset.title || "System";
+            modalSub.textContent = card.dataset.status || "Capability";
             modalSummary.textContent = card.dataset.summary || "";
 
             modalDetails.innerHTML = "";
@@ -2293,6 +2352,7 @@
             $("#caseProof").textContent = data.proof;
             $("#caseNext").textContent = data.next;
             $("#caseLink").href = data.link;
+            $("#caseLink").textContent = data.button;
           });
         });
       }
