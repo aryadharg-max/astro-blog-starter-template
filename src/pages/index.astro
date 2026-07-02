@@ -882,162 +882,6 @@
         gap: 8px;
       }
 
-      .fields-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
-      }
-
-      .field-card {
-        border: 1px solid var(--line);
-        background: var(--panel);
-        border-radius: 28px;
-        padding: 20px;
-        box-shadow: var(--soft-shadow);
-        min-height: 300px;
-        transition: 0.18s ease;
-      }
-
-      .field-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(214, 61, 49, 0.22);
-        background: rgba(255, 255, 255, 0.72);
-      }
-
-      .field-card span {
-        color: var(--muted);
-        font-family: var(--mono);
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        font-size: 11px;
-        text-transform: uppercase;
-      }
-
-      .field-card h3 {
-        margin: 30px 0 0;
-        font-family: var(--display);
-        font-size: 36px;
-        line-height: 0.92;
-        letter-spacing: -0.065em;
-        font-weight: 720;
-      }
-
-      .field-card p {
-        color: var(--muted);
-        line-height: 1.52;
-      }
-
-      .process-grid {
-        display: grid;
-        grid-template-columns: 1.12fr 0.88fr;
-        gap: 14px;
-      }
-
-      .panel {
-        border: 1px solid var(--line);
-        background: var(--panel);
-        border-radius: var(--radius-xl);
-        padding: 22px;
-        box-shadow: var(--soft-shadow);
-      }
-
-      .queue {
-        display: grid;
-        gap: 10px;
-      }
-
-      .queue-item {
-        display: grid;
-        grid-template-columns: 120px 1fr auto;
-        gap: 14px;
-        align-items: center;
-        border: 1px solid var(--line);
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.52);
-        padding: 14px;
-      }
-
-      .queue-item span {
-        color: var(--muted);
-        font-family: var(--mono);
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 0.11em;
-        font-weight: 700;
-      }
-
-      .queue-item strong {
-        letter-spacing: -0.03em;
-      }
-
-      .queue-item em {
-        font-style: normal;
-        color: var(--muted);
-        font-size: 13px;
-      }
-
-      .velocity-panel {
-        background:
-          linear-gradient(135deg, rgba(214, 61, 49, 0.18), transparent 34%),
-          #10100e;
-        color: white;
-        border-radius: var(--radius-xl);
-        padding: 24px;
-        min-height: 100%;
-        display: grid;
-        align-content: space-between;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .velocity-panel::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image:
-          linear-gradient(115deg, transparent 0 42%, rgba(214, 61, 49, 0.28) 42.2% 42.7%, transparent 43%),
-          linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-        background-size: auto, 30px 30px, 30px 30px;
-        opacity: 0.66;
-        pointer-events: none;
-      }
-
-      .velocity-panel > * {
-        position: relative;
-        z-index: 1;
-      }
-
-      .velocity-panel h3 {
-        margin: 0;
-        font-family: var(--display);
-        font-size: 48px;
-        line-height: 0.84;
-        letter-spacing: -0.075em;
-        font-weight: 720;
-      }
-
-      .velocity-panel p {
-        color: rgba(255, 255, 255, 0.62);
-        line-height: 1.5;
-      }
-
-      .velocity-links {
-        display: grid;
-        gap: 10px;
-        margin-top: 22px;
-      }
-
-      .velocity-links a {
-        border: 1px solid rgba(255, 255, 255, 0.13);
-        border-radius: 16px;
-        padding: 12px;
-        background: rgba(255, 255, 255, 0.06);
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-      }
-
       .timeline-list {
         display: grid;
         gap: 10px;
@@ -1281,7 +1125,6 @@
 
       @media (max-width: 1160px) {
         .hero,
-        .process-grid,
         .contact-card {
           grid-template-columns: 1fr;
         }
@@ -1296,7 +1139,6 @@
           grid-column: span 6;
         }
 
-        .fields-grid,
         .live-grid {
           grid-template-columns: repeat(2, 1fr);
         }
@@ -1334,7 +1176,6 @@
 
         .hero-proof,
         .side-grid,
-        .fields-grid,
         .live-grid {
           grid-template-columns: 1fr 1fr;
         }
@@ -1347,14 +1188,6 @@
         .section-head {
           align-items: flex-start;
           flex-direction: column;
-        }
-
-        .queue-item {
-          grid-template-columns: 100px 1fr;
-        }
-
-        .queue-item em {
-          grid-column: 2;
         }
 
         .timeline-item {
@@ -1377,7 +1210,6 @@
 
         .hero-proof,
         .side-grid,
-        .fields-grid,
         .live-grid {
           grid-template-columns: 1fr;
         }
@@ -1411,7 +1243,6 @@
 
         <div class="nav-links" id="navLinks">
           <a href="#systems">Systems</a>
-          <a href="#capabilities">Capabilities</a>
           <a href="#live-demos">Live Demos</a>
           <a href="#process">Process</a>
           <a href="#contact">Contact</a>
@@ -1805,39 +1636,6 @@
         </div>
       </section>
 
-      <section id="capabilities">
-        <div class="section-head reveal">
-          <h2>Capabilities</h2>
-          <p>
-            The goal is not to sell generic software. The goal is to understand the operation,
-            then build the technology layer that makes it easier to control, track, monitor, or scale.
-          </p>
-        </div>
-
-        <div class="fields-grid">
-          <div class="field-card reveal">
-            <span>01 / Connect</span>
-            <h3>IoT systems</h3>
-            <p>Sensors, relays, devices, physical controls, connected machines, dashboards, and automation logic.</p>
-          </div>
-          <div class="field-card reveal">
-            <span>02 / Build</span>
-            <h3>Web systems</h3>
-            <p>Websites, dashboards, portals, internal tools, admin panels, and command interfaces.</p>
-          </div>
-          <div class="field-card reveal">
-            <span>03 / Track</span>
-            <h3>Operational visibility</h3>
-            <p>Product tracking, asset tracking, inventory records, logistics tools, movement data, and reporting systems.</p>
-          </div>
-          <div class="field-card reveal">
-            <span>04 / Monitor</span>
-            <h3>Oversight tools</h3>
-            <p>Authorized surveillance, site visibility, alerts, camera-linked systems, field data, and process monitoring.</p>
-          </div>
-        </div>
-      </section>
-
       <section id="live-demos">
         <div class="section-head reveal">
           <h2>Live<br />Demos</h2>
@@ -1864,17 +1662,6 @@
             </div>
             <div class="hero-actions">
               <a class="btn primary" href="/serviceloop/">Open Now →</a>
-              <button
-                class="btn"
-                type="button"
-                data-demo-modal
-                data-title="ServiceLoop Employee Feedback & Incentive System"
-                data-status="Live Demo"
-                data-summary="A transaction-linked review system that connects customer feedback to employee performance records and incentive scoring."
-                data-link="/serviceloop/"
-              >
-                Brief
-              </button>
             </div>
           </article>
 
@@ -1894,17 +1681,6 @@
             </div>
             <div class="hero-actions">
               <a class="btn primary" href="/traffic-control/">Open Now →</a>
-              <button
-                class="btn"
-                type="button"
-                data-demo-modal
-                data-title="IoT Traffic Control System"
-                data-status="Live Demo"
-                data-summary="A live web-to-hardware system that controls physical relays through a protected browser interface."
-                data-link="/traffic-control/"
-              >
-                Brief
-              </button>
             </div>
           </article>
         </div>
@@ -2033,9 +1809,6 @@
           <div class="command-list" id="commandList">
             <a href="#systems" data-command="systems iot web tracking monitoring logistics cad">
               <strong>Systems</strong><span>What can be built</span>
-            </a>
-            <a href="#capabilities" data-command="capabilities connect build track monitor">
-              <strong>Capabilities</strong><span>Core service areas</span>
             </a>
             <a href="#live-demos" data-command="live demos working proof traffic control serviceloop employee feedback">
               <strong>Live Demos</strong><span>Active working pages</span>
@@ -2178,18 +1951,6 @@
               details: card.dataset.details,
               link: card.dataset.link,
               linkLabel: card.dataset.linkLabel,
-            });
-          });
-        });
-
-        $$("[data-demo-modal]").forEach((button) => {
-          button.addEventListener("click", () => {
-            openSystemModal({
-              title: button.dataset.title,
-              status: button.dataset.status,
-              summary: button.dataset.summary,
-              link: button.dataset.link,
-              linkLabel: "Test Now",
             });
           });
         });
