@@ -9,31 +9,30 @@
     <title>ServiceLoop | Employee Feedback & Incentive System</title>
     <meta
       name="description"
-      content="A live proof of concept for transaction-linked employee reviews, customer feedback capture, and incentive-ready service scoring."
+      content="ServiceLoop is a transaction-linked employee review and incentive system for malls, retailers, restaurants, and service-led businesses."
     />
 
     <style>
       :root {
-        --bg: #f3efe7;
-        --bg2: #e7dccd;
-        --ink: #11110f;
-        --muted: #70685d;
-        --line: rgba(17, 17, 15, 0.12);
-        --line2: rgba(17, 17, 15, 0.2);
-        --panel: rgba(255, 255, 255, 0.68);
-        --panel2: rgba(255, 255, 255, 0.86);
-        --dark: #10100e;
-        --navy: #0b243f;
-        --blue: #143d68;
-        --green: #167a55;
-        --red: #d63d31;
-        --gold: #ad7e2b;
-        --yellow: #d49b1f;
-        --shadow: 0 34px 90px rgba(17, 17, 15, 0.12);
-        --soft: 0 16px 42px rgba(17, 17, 15, 0.08);
-        --radius-xl: 34px;
-        --radius-lg: 26px;
-        --radius-md: 18px;
+        --bg: #0b0d10;
+        --panel: #11151b;
+        --panel-2: #171d25;
+        --panel-3: #202733;
+        --text: #f5f2ea;
+        --soft: #cfd6df;
+        --muted: #8792a2;
+        --line: rgba(255, 255, 255, 0.1);
+        --line-strong: rgba(255, 255, 255, 0.18);
+        --gold: #d6b46a;
+        --gold-2: #f2d990;
+        --green: #70d6b7;
+        --red: #ff7b7b;
+        --blue: #8ab4ff;
+        --shadow: 0 28px 90px rgba(0, 0, 0, 0.38);
+        --radius-xl: 30px;
+        --radius-lg: 22px;
+        --radius-md: 16px;
+        --max: 1240px;
       }
 
       * {
@@ -47,18 +46,14 @@
       body {
         margin: 0;
         min-height: 100vh;
-        color: var(--ink);
+        color: var(--text);
         font-family:
           Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
         background:
-          radial-gradient(circle at 15% 0%, rgba(11, 36, 63, 0.12), transparent 34rem),
-          radial-gradient(circle at 90% 12%, rgba(214, 61, 49, 0.08), transparent 28rem),
-          linear-gradient(180deg, var(--bg), var(--bg2));
-      }
-
-      body.locked {
-        overflow: hidden;
+          radial-gradient(circle at 16% 0%, rgba(214, 180, 106, 0.16), transparent 34rem),
+          radial-gradient(circle at 90% 4%, rgba(112, 214, 183, 0.12), transparent 30rem),
+          linear-gradient(180deg, #0b0d10, #08090b);
       }
 
       a {
@@ -77,60 +72,60 @@
         cursor: pointer;
       }
 
-      .noise {
-        position: fixed;
-        inset: 0;
-        z-index: -1;
-        opacity: 0.21;
-        pointer-events: none;
-        background-image:
-          linear-gradient(rgba(17, 17, 15, 0.035) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(17, 17, 15, 0.035) 1px, transparent 1px);
-        background-size: 42px 42px;
-        mask-image: linear-gradient(to bottom, black, transparent 95%);
+      .customer-view {
+        display: none;
+      }
+
+      body.customer-mode .platform-view {
+        display: none;
+      }
+
+      body.customer-mode .customer-view {
+        display: block;
       }
 
       .shell {
-        width: min(1440px, calc(100% - 32px));
+        width: min(var(--max), calc(100% - 36px));
         margin: 0 auto;
       }
 
-      .topbar {
+      .nav {
         position: sticky;
-        top: 12px;
-        z-index: 50;
-        margin-top: 12px;
-        border: 1px solid var(--line);
-        border-radius: 22px;
-        background: rgba(243, 239, 231, 0.82);
-        backdrop-filter: blur(24px);
-        min-height: 66px;
-        padding: 10px 12px;
-        box-shadow: 0 16px 38px rgba(17, 17, 15, 0.08);
+        top: 0;
+        z-index: 20;
+        background: rgba(11, 13, 16, 0.78);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-inner {
+        width: min(var(--max), calc(100% - 36px));
+        margin: 0 auto;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 14px;
+        gap: 18px;
+        padding: 14px 0;
       }
 
       .brand {
         display: flex;
         align-items: center;
         gap: 12px;
+        min-width: fit-content;
       }
 
       .brand-mark {
-        width: 44px;
-        height: 44px;
-        border-radius: 15px;
-        background:
-          radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.46), transparent 22px),
-          linear-gradient(135deg, var(--navy), #061421);
-        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--gold-2), #8a6b2e);
+        color: #12100a;
         display: grid;
         place-items: center;
         font-weight: 950;
         letter-spacing: -0.08em;
+        box-shadow: 0 14px 38px rgba(214, 180, 106, 0.22);
       }
 
       .brand strong {
@@ -145,370 +140,212 @@
         font-size: 12px;
       }
 
-      .nav-actions {
+      .nav-links {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
         gap: 8px;
         flex-wrap: wrap;
-        justify-content: flex-end;
       }
 
-      .nav-actions a,
-      .nav-actions button {
+      .nav-links a {
         border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.62);
-        color: var(--muted);
+        background: rgba(255, 255, 255, 0.035);
+        color: var(--soft);
         border-radius: 999px;
-        padding: 10px 12px;
-        font-weight: 850;
-        font-size: 13px;
-        transition: 0.18s ease;
+        padding: 10px 13px;
+        font-size: 14px;
+        font-weight: 750;
+        transition: 160ms ease;
       }
 
-      .nav-actions a:hover,
-      .nav-actions button:hover {
-        color: var(--ink);
-        border-color: var(--line2);
-        background: rgba(255, 255, 255, 0.86);
+      .nav-links a:hover {
+        color: var(--text);
+        border-color: rgba(214, 180, 106, 0.45);
+        background: rgba(214, 180, 106, 0.09);
       }
 
       .hero {
-        padding: clamp(38px, 6vw, 94px) 0 46px;
+        padding: 72px 0 36px;
         display: grid;
-        grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
-        gap: 16px;
-        min-height: calc(100vh - 95px);
-      }
-
-      .glass {
-        border: 1px solid var(--line);
-        background: var(--panel);
-        backdrop-filter: blur(24px);
-        box-shadow: var(--shadow);
-      }
-
-      .hero-main {
-        border-radius: var(--radius-xl);
-        padding: clamp(24px, 5vw, 58px);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        position: relative;
-        overflow: hidden;
-        min-height: 690px;
-      }
-
-      .hero-main::before {
-        content: "";
-        position: absolute;
-        inset: 20px;
-        border: 1px solid rgba(17, 17, 15, 0.08);
-        border-radius: 26px;
-        pointer-events: none;
-      }
-
-      .sweep {
-        position: absolute;
-        left: -18%;
-        bottom: 18%;
-        width: 140%;
-        height: 100px;
-        background:
-          linear-gradient(104deg, transparent 0 22%, rgba(214, 61, 49, 0.42) 22.3% 23%, transparent 23.3% 100%),
-          linear-gradient(104deg, transparent 0 50%, rgba(11, 36, 63, 0.16) 50.3% 51%, transparent 51.3% 100%);
-        transform: rotate(-7deg);
-        pointer-events: none;
-        opacity: 0.72;
-      }
-
-      .hero-content,
-      .proof-row {
-        position: relative;
-        z-index: 1;
-      }
-
-      .pill-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 30px;
-      }
-
-      .pill {
-        display: inline-flex;
+        grid-template-columns: 1.08fr 0.92fr;
+        gap: 28px;
         align-items: center;
-        gap: 8px;
-        border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.6);
-        color: var(--muted);
-        border-radius: 999px;
-        padding: 9px 12px;
-        font-weight: 850;
-        font-size: 13px;
       }
 
-      .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--green);
-        box-shadow: 0 0 0 7px rgba(22, 122, 85, 0.13);
-      }
-
-      .kicker {
-        margin: 0 0 14px;
-        color: var(--red);
-        font-family:
-          "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
-          Consolas, monospace;
-        font-size: 12px;
-        font-weight: 800;
+      .eyebrow {
+        color: var(--gold);
         text-transform: uppercase;
+        font-weight: 850;
         letter-spacing: 0.16em;
+        font-size: 12px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
       }
 
       h1 {
-        margin: 0;
-        max-width: 980px;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(54px, 8vw, 126px);
-        font-weight: 500;
-        line-height: 0.86;
-        letter-spacing: -0.075em;
+        font-size: clamp(48px, 7vw, 86px);
+        line-height: 0.9;
+        letter-spacing: -0.07em;
+        margin-bottom: 18px;
       }
 
-      h1 em {
-        color: var(--red);
-        font-style: italic;
+      h2 {
+        font-size: clamp(34px, 4vw, 54px);
+        line-height: 0.94;
+        letter-spacing: -0.055em;
+        margin-bottom: 12px;
       }
 
-      .hero-copy {
-        margin: 30px 0 0;
-        color: var(--muted);
-        font-size: clamp(17px, 2vw, 22px);
-        line-height: 1.55;
-        max-width: 850px;
+      h3 {
+        font-size: 22px;
+        letter-spacing: -0.04em;
+        margin-bottom: 10px;
       }
 
-      .hero-copy strong {
-        color: var(--ink);
+      p {
+        color: var(--soft);
+        line-height: 1.58;
+      }
+
+      .lead {
+        font-size: 18px;
+        max-width: 780px;
       }
 
       .actions {
         display: flex;
-        flex-wrap: wrap;
         gap: 10px;
-        margin-top: 34px;
+        flex-wrap: wrap;
+        margin-top: 24px;
       }
 
       .btn {
-        border: 1px solid var(--line);
-        border-radius: 16px;
+        border: 1px solid transparent;
+        border-radius: 15px;
+        background: var(--gold);
+        color: #14110a;
         padding: 13px 16px;
-        background: rgba(255, 255, 255, 0.68);
-        color: var(--ink);
-        font-weight: 900;
+        font-weight: 850;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
-        transition:
-          transform 0.16s ease,
-          border-color 0.16s ease,
-          box-shadow 0.16s ease,
-          background 0.16s ease;
+        transition: 160ms ease;
       }
 
       .btn:hover {
-        transform: translateY(-2px);
-        border-color: var(--line2);
-        box-shadow: 0 16px 36px rgba(17, 17, 15, 0.1);
+        transform: translateY(-1px);
+        filter: brightness(1.04);
       }
 
-      .btn.primary {
-        background: linear-gradient(135deg, var(--navy), #061421);
-        color: white;
-        border-color: rgba(11, 36, 63, 0.7);
-      }
-
-      .btn.red {
-        background: linear-gradient(135deg, var(--red), #8f1e19);
-        border-color: rgba(214, 61, 49, 0.52);
-        color: white;
-      }
-
-      .btn.small {
-        padding: 10px 12px;
-        border-radius: 14px;
-        font-size: 13px;
-      }
-
-      .proof-row {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-        margin-top: 48px;
-      }
-
-      .proof {
-        border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.58);
-        border-radius: 20px;
-        padding: 16px;
-        min-height: 136px;
-        display: grid;
-        align-content: space-between;
-      }
-
-      .proof span {
-        color: var(--muted);
-        font-size: 11px;
-        font-weight: 850;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-
-      .proof strong {
-        display: block;
-        margin-top: 18px;
-        font-size: 17px;
-        letter-spacing: -0.04em;
-        line-height: 1.15;
-      }
-
-      .side-panel {
-        border-radius: var(--radius-xl);
-        padding: 18px;
-        display: grid;
-        gap: 14px;
-        min-height: 690px;
-      }
-
-      .black-card {
-        border-radius: 28px;
-        background:
-          linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent),
-          var(--dark);
-        color: white;
-        padding: 20px;
-        min-height: 440px;
-        position: relative;
-        overflow: hidden;
-        display: grid;
-        align-content: space-between;
-      }
-
-      .black-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image:
-          linear-gradient(rgba(255, 255, 255, 0.048) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.048) 1px, transparent 1px);
-        background-size: 31px 31px;
-        opacity: 0.5;
-      }
-
-      .black-card > * {
-        position: relative;
-        z-index: 1;
-      }
-
-      .mini-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        color: rgba(255, 255, 255, 0.58);
-        font-size: 12px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.13em;
-      }
-
-      .black-card h2 {
-        margin: 24px 0 0;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(40px, 5vw, 70px);
-        font-weight: 500;
-        line-height: 0.9;
-        letter-spacing: -0.07em;
-      }
-
-      .black-card p {
-        color: rgba(255, 255, 255, 0.64);
-        line-height: 1.5;
-      }
-
-      .flow {
-        display: grid;
-        gap: 10px;
-        margin-top: 26px;
-      }
-
-      .flow-item {
-        border: 1px solid rgba(255, 255, 255, 0.13);
-        border-radius: 18px;
+      .btn.secondary {
         background: rgba(255, 255, 255, 0.06);
-        padding: 14px;
-        display: grid;
-        grid-template-columns: 92px 1fr;
-        gap: 12px;
-        align-items: center;
+        color: var(--text);
+        border-color: var(--line);
       }
 
-      .flow-item span {
-        color: rgba(255, 255, 255, 0.55);
-        font-size: 11px;
-        font-weight: 850;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
+      .btn.ghost {
+        background: transparent;
+        color: var(--soft);
+        border-color: var(--line);
       }
 
-      .flow-item strong {
-        line-height: 1.25;
-      }
-
-      .mini-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-      }
-
-      .mini-card {
+      .panel {
         border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.58);
-        border-radius: 24px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025));
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .panel-pad {
+        padding: 24px;
+      }
+
+      .phone {
+        width: min(100%, 360px);
+        margin: 0 auto;
+        border-radius: 34px;
+        padding: 14px;
+        background: #07080a;
+        border: 1px solid rgba(255, 255, 255, 0.13);
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.58);
+      }
+
+      .phone-screen {
+        min-height: 440px;
+        border-radius: 25px;
+        background: linear-gradient(180deg, #f9faf7, #e9edf2);
+        color: #141922;
         padding: 18px;
-        min-height: 190px;
       }
 
-      .mini-card span {
-        color: var(--muted);
-        font-size: 11px;
-        font-weight: 850;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
+      .phone-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #6b7280;
+        font-size: 12px;
+        margin-bottom: 22px;
       }
 
-      .mini-card strong {
-        display: block;
-        margin-top: 22px;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 32px;
-        font-weight: 500;
-        letter-spacing: -0.06em;
-        line-height: 0.95;
+      .mini-logo {
+        width: 46px;
+        height: 46px;
+        border-radius: 16px;
+        background: #141922;
+        color: #f2d990;
+        display: grid;
+        place-items: center;
+        font-weight: 950;
+        letter-spacing: -0.08em;
+        margin-bottom: 22px;
       }
 
-      .mini-card p {
-        margin: 10px 0 0;
-        color: var(--muted);
-        line-height: 1.43;
+      .phone-screen h3 {
+        color: #111827;
+        font-size: 26px;
+        line-height: 1.02;
+      }
+
+      .phone-screen p {
+        color: #5b6472;
         font-size: 14px;
       }
 
-      section {
+      .phone-stars {
+        display: flex;
+        gap: 5px;
+        color: #c39223;
+        font-size: 34px;
+        margin: 18px 0;
+      }
+
+      .phone-chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 20px;
+      }
+
+      .phone-chip {
+        background: #fff;
+        border: 1px solid #d9dee6;
+        color: #1f2937;
+        border-radius: 999px;
+        padding: 8px 10px;
+        font-size: 12px;
+        font-weight: 750;
+      }
+
+      .section {
         padding: 56px 0;
       }
 
@@ -516,67 +353,60 @@
         display: flex;
         align-items: flex-end;
         justify-content: space-between;
-        gap: 20px;
-        margin-bottom: 22px;
-      }
-
-      .section-head h2 {
-        margin: 0;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(42px, 6vw, 90px);
-        font-weight: 500;
-        line-height: 0.86;
-        letter-spacing: -0.075em;
+        gap: 22px;
+        margin-bottom: 18px;
       }
 
       .section-head p {
-        margin: 0;
         max-width: 620px;
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 1.55;
+        margin-bottom: 0;
       }
 
-      .workspace {
+      .grid-2 {
         display: grid;
-        grid-template-columns: 0.9fr 1.1fr;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 18px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 14px;
       }
 
-      .card {
+      .mini-card,
+      .employee-card,
+      .review-card,
+      .metric {
         border: 1px solid var(--line);
-        background: var(--panel);
-        backdrop-filter: blur(24px);
-        border-radius: var(--radius-xl);
-        box-shadow: var(--soft);
+        background: rgba(255, 255, 255, 0.045);
+        border-radius: var(--radius-lg);
+      }
+
+      .mini-card {
         padding: 20px;
       }
 
-      .card h3 {
-        margin: 0;
-        font-size: 22px;
-        letter-spacing: -0.055em;
+      .mini-card span {
+        color: var(--gold);
+        font-size: 11px;
+        font-weight: 850;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
       }
 
-      .card p {
-        color: var(--muted);
-        line-height: 1.48;
-      }
-
-      .field-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+      .mini-card p {
+        margin-bottom: 0;
       }
 
       label {
         display: block;
-        margin: 0 0 6px;
+        margin-bottom: 7px;
         color: var(--muted);
         font-size: 11px;
         font-weight: 850;
-        letter-spacing: 0.1em;
         text-transform: uppercase;
+        letter-spacing: 0.11em;
       }
 
       input,
@@ -584,80 +414,93 @@
       textarea {
         width: 100%;
         border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.055);
+        color: var(--text);
         border-radius: 15px;
-        background: rgba(255, 255, 255, 0.84);
-        color: var(--ink);
-        outline: none;
         padding: 12px;
+        outline: none;
+      }
+
+      select option {
+        background: #11151b;
       }
 
       textarea {
-        min-height: 106px;
+        min-height: 96px;
         resize: vertical;
       }
 
       input:focus,
       select:focus,
       textarea:focus {
-        border-color: rgba(20, 61, 104, 0.36);
-        box-shadow: 0 0 0 4px rgba(20, 61, 104, 0.08);
+        border-color: rgba(214, 180, 106, 0.48);
+        box-shadow: 0 0 0 4px rgba(214, 180, 106, 0.08);
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
       }
 
       .qr-box {
-        margin-top: 14px;
-        border: 1px solid var(--line);
-        border-radius: 24px;
-        background: rgba(255, 255, 255, 0.62);
-        padding: 16px;
-        display: grid;
-        grid-template-columns: 160px 1fr;
+        display: none;
+        grid-template-columns: 150px 1fr;
         gap: 16px;
         align-items: center;
+        margin-top: 16px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: var(--radius-lg);
+        padding: 16px;
       }
 
       .qr-box img {
-        width: 160px;
-        height: 160px;
+        width: 150px;
+        height: 150px;
         border-radius: 18px;
         background: white;
         padding: 10px;
-        border: 1px solid var(--line);
       }
 
-      .link-box {
+      .link-output {
         word-break: break-all;
         color: var(--muted);
         font-size: 13px;
         line-height: 1.45;
       }
 
-      .dashboard-grid {
+      .metrics {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 10px;
-        margin-bottom: 12px;
+        margin-bottom: 14px;
       }
 
       .metric {
-        border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.62);
-        border-radius: 20px;
         padding: 15px;
       }
 
       .metric span {
+        display: block;
         color: var(--muted);
         font-size: 11px;
         font-weight: 850;
-        letter-spacing: 0.1em;
         text-transform: uppercase;
+        letter-spacing: 0.11em;
       }
 
       .metric strong {
         display: block;
         margin-top: 10px;
-        font-size: 28px;
+        font-size: 30px;
         letter-spacing: -0.06em;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
       }
 
       .employee-list,
@@ -666,31 +509,28 @@
         gap: 10px;
       }
 
-      .employee-card,
-      .review-card {
-        border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.58);
-        border-radius: 20px;
-        padding: 14px;
-      }
-
       .employee-card {
+        padding: 14px;
         display: grid;
         grid-template-columns: 46px 1fr auto;
         gap: 12px;
         align-items: center;
       }
 
+      .review-card {
+        padding: 14px;
+      }
+
       .avatar {
         width: 46px;
         height: 46px;
         border-radius: 16px;
-        background: var(--navy);
-        color: white;
+        background: linear-gradient(135deg, var(--gold), #7f642c);
+        color: #14110a;
         display: grid;
         place-items: center;
         font-weight: 950;
-        letter-spacing: -0.06em;
+        letter-spacing: -0.08em;
       }
 
       .employee-card strong,
@@ -719,102 +559,182 @@
         justify-content: center;
         border: 1px solid var(--line);
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.68);
+        background: rgba(255, 255, 255, 0.055);
         color: var(--muted);
         padding: 7px 9px;
         font-size: 12px;
-        font-weight: 850;
+        font-weight: 800;
         white-space: nowrap;
       }
 
       .badge.green {
         color: var(--green);
-        border-color: rgba(22, 122, 85, 0.22);
+        border-color: rgba(112, 214, 183, 0.28);
       }
 
       .badge.red {
         color: var(--red);
-        border-color: rgba(214, 61, 49, 0.22);
+        border-color: rgba(255, 123, 123, 0.28);
+      }
+
+      .badge.gold {
+        color: var(--gold);
+        border-color: rgba(214, 180, 106, 0.32);
       }
 
       .divider {
         height: 1px;
         background: var(--line);
-        margin: 16px 0;
+        margin: 18px 0;
       }
 
-      .review-view {
-        display: none;
+      .customer-shell {
+        width: min(980px, calc(100% - 28px));
+        margin: 0 auto;
         min-height: 100vh;
-        place-items: center;
-        padding: 40px 0;
-      }
-
-      body.review-mode .review-view {
         display: grid;
+        align-items: center;
+        padding: 34px 0;
       }
 
-      body.review-mode .platform-view {
-        display: none;
-      }
-
-      .review-shell {
-        width: min(760px, calc(100% - 28px));
-      }
-
-      .review-card-main {
-        border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.78);
-        backdrop-filter: blur(24px);
-        border-radius: 36px;
+      .customer-card {
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 34px;
+        background:
+          radial-gradient(circle at 16% 0%, rgba(214, 180, 106, 0.13), transparent 24rem),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025));
         box-shadow: var(--shadow);
-        padding: clamp(22px, 5vw, 44px);
       }
 
-      .review-top {
+      .customer-top {
+        padding: 18px;
+        border-bottom: 1px solid var(--line);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 28px;
+        gap: 14px;
       }
 
-      .employee-strip {
+      .verified-line {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--green);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .verified-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--green);
+        border-radius: 50%;
+        box-shadow: 0 0 0 7px rgba(112, 214, 183, 0.12);
+      }
+
+      .customer-main {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 0;
+      }
+
+      .receipt-panel {
+        padding: 26px;
+        border-right: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.035);
+      }
+
+      .receipt-box {
         border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.58);
-        border-radius: 22px;
-        padding: 14px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 18px;
+      }
+
+      .receipt-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        border-bottom: 1px solid var(--line);
+        padding: 12px 0;
+        color: var(--soft);
+      }
+
+      .receipt-row:first-child {
+        padding-top: 0;
+      }
+
+      .receipt-row:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .receipt-row span {
+        color: var(--muted);
+      }
+
+      .employee-block {
+        margin-top: 18px;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 18px;
+        background: rgba(255, 255, 255, 0.05);
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-bottom: 18px;
       }
 
-      .review-card-main h1 {
-        font-size: clamp(44px, 8vw, 82px);
+      .review-panel {
+        padding: clamp(24px, 5vw, 42px);
+      }
+
+      .step-line {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 22px;
+      }
+
+      .step-dot {
+        width: 32px;
+        height: 5px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+      }
+
+      .step-dot.active {
+        background: var(--gold);
+      }
+
+      .customer-title {
+        font-size: clamp(38px, 6vw, 66px);
+        line-height: 0.92;
+        letter-spacing: -0.07em;
+        margin-bottom: 14px;
       }
 
       .stars {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         gap: 8px;
-        margin: 18px 0;
+        margin: 20px 0;
       }
 
       .star {
+        min-height: 62px;
         border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.72);
+        background: rgba(255, 255, 255, 0.055);
+        color: rgba(255, 255, 255, 0.24);
         border-radius: 18px;
-        min-height: 64px;
         font-size: 32px;
-        color: rgba(17, 17, 15, 0.25);
-        transition: 0.16s ease;
+        transition: 140ms ease;
       }
 
       .star.active {
+        background: rgba(214, 180, 106, 0.12);
+        border-color: rgba(214, 180, 106, 0.44);
         color: var(--gold);
-        background: rgba(255, 255, 255, 0.94);
-        border-color: rgba(173, 126, 43, 0.28);
         transform: translateY(-2px);
       }
 
@@ -827,86 +747,57 @@
 
       .trait {
         border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.62);
+        background: rgba(255, 255, 255, 0.055);
+        color: var(--soft);
         border-radius: 999px;
         padding: 10px 12px;
-        color: var(--muted);
-        font-weight: 850;
+        font-weight: 800;
       }
 
       .trait.active {
-        color: white;
-        background: var(--navy);
-        border-color: var(--navy);
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #14110a;
       }
 
-      .success-panel,
-      .already-panel {
+      .support-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 16px 0;
+      }
+
+      .thanks {
         display: none;
-        border: 1px solid rgba(22, 122, 85, 0.22);
-        background: rgba(22, 122, 85, 0.08);
-        border-radius: 22px;
-        padding: 18px;
-        margin-top: 16px;
+        padding: 28px;
+        border: 1px solid rgba(112, 214, 183, 0.24);
+        background: rgba(112, 214, 183, 0.08);
+        border-radius: 24px;
       }
 
-      .already-panel {
-        border-color: rgba(214, 61, 49, 0.22);
-        background: rgba(214, 61, 49, 0.07);
-      }
-
-      .success-panel.show,
-      .already-panel.show {
+      .thanks.show {
         display: block;
       }
 
-      .requirements {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-      }
-
-      .requirement {
-        border: 1px solid var(--line);
-        background: var(--panel);
-        border-radius: 24px;
-        padding: 18px;
-      }
-
-      .requirement span {
-        color: var(--red);
-        font-size: 11px;
-        font-weight: 900;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-
-      .requirement h3 {
-        margin: 22px 0 0;
-        font-size: 22px;
-        letter-spacing: -0.05em;
-      }
-
-      .requirement p {
-        color: var(--muted);
-        line-height: 1.48;
+      .review-form.hidden {
+        display: none;
       }
 
       .toast {
         position: fixed;
         right: 18px;
         bottom: 18px;
-        background: var(--dark);
-        color: white;
-        padding: 14px 16px;
+        z-index: 60;
+        max-width: 360px;
+        background: #f5f2ea;
+        color: #11151b;
         border-radius: 18px;
+        padding: 14px 16px;
         box-shadow: var(--shadow);
         opacity: 0;
-        transform: translateY(14px);
+        transform: translateY(12px);
         pointer-events: none;
-        transition: 0.18s ease;
-        z-index: 100;
-        max-width: 360px;
+        transition: 160ms ease;
       }
 
       .toast.show {
@@ -914,43 +805,41 @@
         transform: translateY(0);
       }
 
-      @media (max-width: 1120px) {
+      @media (max-width: 980px) {
         .hero,
-        .workspace {
+        .grid-2,
+        .dashboard-grid,
+        .customer-main {
           grid-template-columns: 1fr;
         }
 
-        .hero-main,
-        .side-panel {
-          min-height: auto;
+        .receipt-panel {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
         }
 
-        .requirements {
-          grid-template-columns: 1fr 1fr;
+        .grid-3,
+        .metrics {
+          grid-template-columns: repeat(2, 1fr);
         }
       }
 
-      @media (max-width: 760px) {
-        .topbar,
-        .review-top,
-        .section-head {
+      @media (max-width: 650px) {
+        .nav-inner,
+        .section-head,
+        .customer-top {
           align-items: flex-start;
           flex-direction: column;
         }
 
-        .nav-actions {
+        .nav-links {
           justify-content: flex-start;
         }
 
-        .proof-row,
-        .mini-grid,
-        .dashboard-grid,
-        .field-grid,
-        .requirements {
-          grid-template-columns: 1fr;
-        }
-
-        .qr-box {
+        .form-grid,
+        .qr-box,
+        .grid-3,
+        .metrics {
           grid-template-columns: 1fr;
         }
 
@@ -976,221 +865,103 @@
   </head>
 
   <body>
-    <div class="noise"></div>
-
-    <div class="review-view" id="reviewView">
-      <div class="review-shell">
-        <div class="review-card-main">
-          <div class="review-top">
-            <a class="brand" href="/serviceloop/">
-              <div class="brand-mark">SL</div>
-              <div>
-                <strong>ServiceLoop</strong>
-                <span>Employee Feedback</span>
-              </div>
-            </a>
-
-            <span class="badge" id="reviewStore">Transaction review</span>
-          </div>
-
-          <p class="kicker">Customer feedback</p>
-          <h1>How was your service?</h1>
-
-          <p class="hero-copy" style="font-size: 17px; margin-top: 18px;">
-            Your feedback is linked to the team member who assisted you. It helps the store improve service quality and reward strong performance.
-          </p>
-
-          <div class="employee-strip">
-            <div class="avatar" id="reviewAvatar">—</div>
-            <div>
-              <strong id="reviewEmployee">Employee</strong>
-              <small id="reviewMeta">Transaction linked review</small>
-            </div>
-          </div>
-
-          <form id="reviewForm">
-            <label>Rating</label>
-            <div class="stars" id="stars">
-              <button class="star" type="button" data-rating="1">★</button>
-              <button class="star" type="button" data-rating="2">★</button>
-              <button class="star" type="button" data-rating="3">★</button>
-              <button class="star" type="button" data-rating="4">★</button>
-              <button class="star" type="button" data-rating="5">★</button>
-            </div>
-
-            <label>What stood out?</label>
-            <div class="trait-grid" id="traits">
-              <button class="trait" type="button" data-trait="Helpful">Helpful</button>
-              <button class="trait" type="button" data-trait="Fast service">Fast service</button>
-              <button class="trait" type="button" data-trait="Product knowledge">Product knowledge</button>
-              <button class="trait" type="button" data-trait="Clear communication">Clear communication</button>
-              <button class="trait" type="button" data-trait="Billing support">Billing support</button>
-              <button class="trait" type="button" data-trait="Needs improvement">Needs improvement</button>
-            </div>
-
-            <label for="comment">Comment optional</label>
-            <textarea id="comment" placeholder="Add a short note for the store team."></textarea>
-
-            <div style="height: 14px;"></div>
-
-            <button class="btn primary" type="submit" style="width: 100%;">Submit feedback</button>
-
-            <div class="success-panel" id="successPanel">
-              <strong>Feedback submitted.</strong>
-              <p style="margin-bottom: 0;">
-                This review has been added to the employee performance record for this demo transaction.
-              </p>
-            </div>
-
-            <div class="already-panel" id="alreadyPanel">
-              <strong>This transaction has already been reviewed.</strong>
-              <p style="margin-bottom: 0;">
-                In a real deployment, each transaction token can only be used once to prevent repeated or fake reviews.
-              </p>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
     <div class="platform-view">
-      <header class="topbar shell">
-        <a class="brand" href="/">
-          <div class="brand-mark">SL</div>
-          <div>
-            <strong>ServiceLoop</strong>
-            <span>Employee Feedback & Incentive System</span>
-          </div>
-        </a>
+      <nav class="nav">
+        <div class="nav-inner">
+          <a class="brand" href="/">
+            <div class="brand-mark">SL</div>
+            <div>
+              <strong>ServiceLoop</strong>
+              <span>Employee Feedback & Incentive System</span>
+            </div>
+          </a>
 
-        <div class="nav-actions">
-          <a href="/">Portfolio</a>
-          <a href="#demo">Live Demo</a>
-          <a href="#dashboard">Dashboard</a>
-          <a href="#requirements">Requirements</a>
+          <div class="nav-links">
+            <a href="/">Portfolio</a>
+            <a href="#demo">Generate Link</a>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#deployment">Deployment</a>
+          </div>
         </div>
-      </header>
+      </nav>
 
       <main class="shell">
         <section class="hero">
-          <div class="hero-main glass">
-            <div class="sweep"></div>
+          <div>
+            <p class="eyebrow">Transaction-linked employee reviews</p>
+            <h1>Turn customer service into incentive-ready performance data.</h1>
+            <p class="lead">
+              ServiceLoop links every review to a verified transaction, the employee who handled it,
+              and the store where it happened. Customers get a simple review experience. Managers get
+              clear service records, incentive scores, and low-rating visibility.
+            </p>
 
-            <div class="hero-content">
-              <div class="pill-row">
-                <span class="pill"><span class="dot"></span> Live proof of concept</span>
-                <span class="pill">Retail / mall / service operations</span>
-                <span class="pill">QR-linked reviews</span>
-              </div>
-
-              <p class="kicker">Transaction-linked employee reviews</p>
-
-              <h1>
-                Turn service feedback into <em>incentive-ready</em> performance data.
-              </h1>
-
-              <p class="hero-copy">
-                ServiceLoop links each customer review to the employee who handled the transaction.
-                A receipt QR, SMS link, WhatsApp link, or kiosk flow captures feedback after purchase,
-                then converts it into a structured record for managers, service quality teams, and salary incentive logic.
-              </p>
-
-              <div class="actions">
-                <a class="btn primary" href="#demo">Generate Review Link →</a>
-                <a class="btn red" href="#dashboard">View Manager Dashboard</a>
-                <button class="btn" id="openSampleReview" type="button">Open Sample Review</button>
-              </div>
-            </div>
-
-            <div class="proof-row">
-              <div class="proof">
-                <span>Input</span>
-                <strong>QR or link issued after purchase from POS, receipt, SMS, WhatsApp, or kiosk.</strong>
-              </div>
-              <div class="proof">
-                <span>Linking</span>
-                <strong>Review is tied to employee ID, transaction ID, store, time, and service context.</strong>
-              </div>
-              <div class="proof">
-                <span>Output</span>
-                <strong>Ratings, comments, flags, review history, and incentive score per employee.</strong>
-              </div>
-              <div class="proof">
-                <span>Control</span>
-                <strong>Duplicate transaction protection and manager visibility for exceptions.</strong>
-              </div>
+            <div class="actions">
+              <a class="btn" href="#demo">Generate Review Link →</a>
+              <button class="btn secondary" id="openSampleCustomer" type="button">Open Customer Experience</button>
+              <a class="btn ghost" href="#dashboard">View Dashboard</a>
             </div>
           </div>
 
-          <aside class="side-panel glass">
-            <div class="black-card">
-              <div>
-                <div class="mini-top">
-                  <span>Operating Flow</span>
+          <div class="panel panel-pad">
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="phone-top">
                   <span>ServiceLoop</span>
+                  <span>Verified purchase</span>
                 </div>
-
-                <h2>Simple enough for the floor. Useful enough for management.</h2>
+                <div class="mini-logo">SL</div>
+                <h3>How was your experience with Aarav?</h3>
                 <p>
-                  The worker does not manage the review. The POS or billing system generates the link.
-                  The customer scans. The system logs the record.
+                  Your feedback is linked to the team member who assisted you and helps the store reward strong service.
                 </p>
-
-                <div class="flow">
-                  <div class="flow-item">
-                    <span>01</span>
-                    <strong>Purchase completed by identified employee</strong>
-                  </div>
-                  <div class="flow-item">
-                    <span>02</span>
-                    <strong>Unique review link generated for that transaction</strong>
-                  </div>
-                  <div class="flow-item">
-                    <span>03</span>
-                    <strong>Customer submits rating, tags, and optional comment</strong>
-                  </div>
-                  <div class="flow-item">
-                    <span>04</span>
-                    <strong>Employee score updates for incentive review</strong>
-                  </div>
+                <div class="phone-stars">★ ★ ★ ★ ★</div>
+                <div class="phone-chip-row">
+                  <span class="phone-chip">Helpful</span>
+                  <span class="phone-chip">Fast service</span>
+                  <span class="phone-chip">Product knowledge</span>
+                  <span class="phone-chip">Clear communication</span>
                 </div>
               </div>
             </div>
-
-            <div class="mini-grid">
-              <div class="mini-card">
-                <span>Delivery</span>
-                <strong>Receipt QR + WhatsApp link</strong>
-                <p>Best first deployment: printed receipt QR with optional link sent through the billing system.</p>
-              </div>
-
-              <div class="mini-card">
-                <span>Incentives</span>
-                <strong>Score, not guesswork</strong>
-                <p>Management sees review count, average rating, low-score flags, and incentive points.</p>
-              </div>
-            </div>
-          </aside>
+          </div>
         </section>
 
-        <section id="demo">
+        <section class="section">
+          <div class="grid-3">
+            <div class="mini-card">
+              <span>01 / Link</span>
+              <h3>Generated after purchase</h3>
+              <p>The POS, receipt, WhatsApp message, SMS, or kiosk creates a unique review link for the transaction.</p>
+            </div>
+            <div class="mini-card">
+              <span>02 / Review</span>
+              <h3>Customer-facing experience</h3>
+              <p>The customer sees the employee, transaction context, rating controls, quick tags, and optional comment box.</p>
+            </div>
+            <div class="mini-card">
+              <span>03 / Incentive</span>
+              <h3>Manager-ready score</h3>
+              <p>Reviews update employee records with rating quality, volume, low-score flags, and incentive points.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="demo">
           <div class="section-head">
-            <h2>Live Demo</h2>
+            <div>
+              <p class="eyebrow">Live proof of concept</p>
+              <h2>POS Review Link Generator</h2>
+            </div>
             <p>
-              Simulate a checkout. Select the employee who handled the transaction, generate a unique review link,
-              then open the customer-facing review page.
+              Simulate a checkout. Select the employee, store, transaction amount, and delivery channel.
+              The system generates the customer-facing review page.
             </p>
           </div>
 
-          <div class="workspace">
-            <div class="card">
-              <h3>POS Review Link Generator</h3>
-              <p>
-                In a real mall deployment, this happens automatically through the billing system.
-                The employee ID comes from the cashier login or sales associate assignment.
-              </p>
-
-              <div class="field-grid">
+          <div class="grid-2">
+            <div class="panel panel-pad">
+              <div class="form-grid">
                 <div>
                   <label for="employeeSelect">Employee</label>
                   <select id="employeeSelect"></select>
@@ -1223,75 +994,71 @@
                 </div>
               </div>
 
-              <div style="height: 14px;"></div>
+              <div class="actions">
+                <button class="btn" id="generateButton" type="button">Generate customer review link</button>
+                <button class="btn secondary" id="seedButton" type="button">Load sample data</button>
+                <button class="btn ghost" id="resetButton" type="button">Reset demo data</button>
+              </div>
 
-              <button class="btn primary" id="generateButton" type="button" style="width: 100%;">
-                Generate transaction review link
-              </button>
-
-              <div class="qr-box" id="qrBox" style="display: none;">
-                <img id="qrImage" alt="Generated QR code" />
+              <div class="qr-box" id="qrBox">
+                <img id="qrImage" alt="Generated review QR code" />
                 <div>
-                  <span class="badge green" id="generatedChannel">Receipt QR</span>
-                  <h3 style="margin: 12px 0 8px;">Review link ready</h3>
-                  <div class="link-box" id="generatedLink"></div>
-
-                  <div class="actions" style="margin-top: 14px;">
-                    <button class="btn small" id="copyButton" type="button">Copy link</button>
-                    <a class="btn small primary" id="openReviewLink" href="#" target="_blank">Open review</a>
+                  <span class="badge gold" id="generatedChannel">Receipt QR</span>
+                  <h3 style="margin-top: 12px;">Customer page ready</h3>
+                  <div class="link-output" id="generatedLink"></div>
+                  <div class="actions">
+                    <button class="btn secondary" id="copyButton" type="button">Copy link</button>
+                    <a class="btn" id="openReviewLink" href="#" target="_blank" rel="noreferrer">Open customer page</a>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="card">
-              <h3>Recommended Deployment Logic</h3>
+            <div class="panel panel-pad">
+              <h3>How this reaches the customer</h3>
               <p>
-                The QR should not be generic. Every purchase should create a unique review token
-                linked to a transaction and employee record.
+                The safest first deployment is a receipt QR code with a WhatsApp/SMS fallback when the customer number is available.
+                The QR should never be generic. It should carry a one-time transaction token.
               </p>
+
+              <div class="divider"></div>
 
               <div class="review-list">
                 <div class="review-card">
                   <strong>Receipt QR</strong>
-                  <small>Printed directly on the bill. Lowest friction and no staff explanation required.</small>
+                  <small>Printed directly on the bill. The customer scans before leaving the store or mall.</small>
                 </div>
-
                 <div class="review-card">
-                  <strong>WhatsApp or SMS link</strong>
-                  <small>Sent automatically after payment when the customer number is available.</small>
+                  <strong>WhatsApp / SMS link</strong>
+                  <small>Sent automatically after checkout when contact details are available.</small>
                 </div>
-
                 <div class="review-card">
-                  <strong>Kiosk fallback</strong>
-                  <small>Useful near exits or help desks for customers who do not scan receipts.</small>
+                  <strong>Exit kiosk</strong>
+                  <small>Useful near mall exits or service desks for customers who miss the receipt QR.</small>
                 </div>
-
                 <div class="review-card">
-                  <strong>Duplicate control</strong>
-                  <small>Each transaction token can be reviewed once. Repeated attempts are flagged or blocked.</small>
-                </div>
-
-                <div class="review-card">
-                  <strong>Incentive layer</strong>
-                  <small>Employee score can combine average rating, review volume, low-score penalties, and manager approval.</small>
+                  <strong>Duplicate protection</strong>
+                  <small>Each transaction token can submit one review. Repeated attempts are blocked or flagged.</small>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="dashboard">
+        <section class="section" id="dashboard">
           <div class="section-head">
-            <h2>Manager Dashboard</h2>
+            <div>
+              <p class="eyebrow">Management view</p>
+              <h2>Employee Incentive Dashboard</h2>
+            </div>
             <p>
-              The dashboard converts raw reviews into service visibility: performance scores,
-              low-rating flags, review volume, and incentive-ready records.
+              The dashboard converts customer feedback into service visibility: review count,
+              average rating, positive reviews, low-rating flags, and incentive-ready scoring.
             </p>
           </div>
 
-          <div class="card">
-            <div class="dashboard-grid">
+          <div class="panel panel-pad">
+            <div class="metrics">
               <div class="metric">
                 <span>Total reviews</span>
                 <strong id="totalReviews">0</strong>
@@ -1310,109 +1077,181 @@
               </div>
             </div>
 
-            <div class="divider"></div>
-
-            <div class="workspace" style="grid-template-columns: 1fr 1fr;">
+            <div class="dashboard-grid">
               <div>
-                <h3>Employee Incentive View</h3>
-                <p>
-                  Demo formula: rating quality + review volume - low-score penalty.
-                  Final payroll logic should be approved by management.
-                </p>
+                <h3>Employee records</h3>
+                <p>Demo formula: rating quality + review volume - low-score penalty.</p>
                 <div class="employee-list" id="employeeList"></div>
               </div>
 
               <div>
-                <h3>Recent Feedback</h3>
-                <p>
-                  Each review is tied to transaction, store, employee, rating, and timestamp.
-                </p>
+                <h3>Recent feedback</h3>
+                <p>Each review is tied to transaction, store, employee, rating, and timestamp.</p>
                 <div class="review-list" id="reviewList"></div>
               </div>
             </div>
-
-            <div class="actions">
-              <button class="btn small" id="seedButton" type="button">Load sample data</button>
-              <button class="btn small" id="resetButton" type="button">Reset demo data</button>
-            </div>
           </div>
         </section>
 
-        <section id="requirements">
+        <section class="section" id="deployment">
           <div class="section-head">
-            <h2>Company Requirements</h2>
+            <div>
+              <p class="eyebrow">Production requirements</p>
+              <h2>What companies will need</h2>
+            </div>
             <p>
-              What a mall, retailer, restaurant, or service business will usually need before this becomes production-ready.
+              This page is a proof of concept. For production, the system needs secure transaction tokens,
+              database storage, admin login, POS integration, and exportable reports.
             </p>
           </div>
 
-          <div class="requirements">
-            <div class="requirement">
-              <span>01 / Transaction source</span>
-              <h3>POS integration</h3>
-              <p>
-                The system needs transaction ID, store ID, employee ID, time, and optional customer contact
-                from the billing or order system.
-              </p>
+          <div class="grid-3">
+            <div class="mini-card">
+              <span>POS</span>
+              <h3>Transaction source</h3>
+              <p>Transaction ID, employee ID, store ID, time, amount, and optional customer contact.</p>
             </div>
-
-            <div class="requirement">
-              <span>02 / Review token</span>
-              <h3>Unique secure link</h3>
-              <p>
-                Every purchase should generate a one-time review token with expiry, duplicate protection,
-                and employee mapping.
-              </p>
+            <div class="mini-card">
+              <span>Review</span>
+              <h3>One-time token</h3>
+              <p>A secure review link with expiry, duplicate protection, and employee mapping.</p>
             </div>
-
-            <div class="requirement">
-              <span>03 / Dashboard</span>
-              <h3>Manager visibility</h3>
-              <p>
-                Management needs review counts, employee scores, trends, low-rating flags,
-                exportable reports, and store-level comparison.
-              </p>
-            </div>
-
-            <div class="requirement">
-              <span>04 / Incentives</span>
-              <h3>Approved scoring logic</h3>
-              <p>
-                Incentive rules must be transparent: review volume, average rating, verified transactions,
-                complaint penalties, and manager overrides.
-              </p>
-            </div>
-
-            <div class="requirement">
-              <span>05 / Abuse control</span>
-              <h3>Fraud prevention</h3>
-              <p>
-                The system should block repeat reviews, suspicious patterns, fake tokens,
-                self-review attempts, and unusual rating spikes.
-              </p>
-            </div>
-
-            <div class="requirement">
-              <span>06 / Rollout</span>
-              <h3>Low-training workflow</h3>
-              <p>
-                Store staff should not manage the review manually. The receipt, WhatsApp message,
-                or kiosk should carry the customer into the right review automatically.
-              </p>
+            <div class="mini-card">
+              <span>Admin</span>
+              <h3>Incentive logic</h3>
+              <p>Transparent scoring rules for review quality, volume, complaint flags, and manager approval.</p>
             </div>
           </div>
         </section>
+      </main>
+    </div>
 
-        <section>
-          <div class="card" style="text-align: center;">
-            <p class="kicker">Implementation path</p>
-            <h2 style="font-family: Georgia, 'Times New Roman', serif; font-size: clamp(40px, 6vw, 84px); line-height: 0.9; letter-spacing: -0.075em; font-weight: 500; margin: 0;">
-              Built for a pilot before full rollout.
-            </h2>
-            <p style="max-width: 760px; margin: 20px auto 0;">
-              Start with one mall zone, one store, or one department. Connect the transaction source,
-              print QR codes on receipts, capture reviews, validate employee mapping, then refine the incentive logic.
-            </p>
+    <div class="customer-view">
+      <main class="customer-shell">
+        <section class="customer-card">
+          <div class="customer-top">
+            <a class="brand" href="/serviceloop/">
+              <div class="brand-mark">SL</div>
+              <div>
+                <strong>ServiceLoop</strong>
+                <span>Customer feedback</span>
+              </div>
+            </a>
+
+            <div class="verified-line">
+              <span class="verified-dot"></span>
+              <span>Verified transaction</span>
+            </div>
+          </div>
+
+          <div class="customer-main">
+            <aside class="receipt-panel">
+              <p class="eyebrow">Purchase review</p>
+              <h2 style="margin-bottom: 18px;">Your feedback goes to the right person.</h2>
+              <p>
+                This review is linked to your transaction and the team member who assisted you.
+                It helps the store improve service and reward strong performance.
+              </p>
+
+              <div class="receipt-box">
+                <div class="receipt-row">
+                  <span>Transaction</span>
+                  <strong id="cTx">—</strong>
+                </div>
+                <div class="receipt-row">
+                  <span>Store</span>
+                  <strong id="cStore">—</strong>
+                </div>
+                <div class="receipt-row">
+                  <span>Amount</span>
+                  <strong id="cAmount">—</strong>
+                </div>
+                <div class="receipt-row">
+                  <span>Channel</span>
+                  <strong id="cChannel">—</strong>
+                </div>
+              </div>
+
+              <div class="employee-block">
+                <div class="avatar" id="cAvatar">—</div>
+                <div>
+                  <strong id="cEmployee">Employee</strong>
+                  <small id="cRole">Transaction-linked review</small>
+                </div>
+              </div>
+            </aside>
+
+            <section class="review-panel">
+              <div class="step-line">
+                <span class="step-dot active"></span>
+                <span class="step-dot active"></span>
+                <span class="step-dot"></span>
+              </div>
+
+              <form class="review-form" id="customerReviewForm">
+                <h1 class="customer-title" id="customerTitle">How was your experience?</h1>
+                <p>
+                  Rate the service you received. Your written comment is optional,
+                  but it helps the store understand what went well or what needs attention.
+                </p>
+
+                <label>Rating</label>
+                <div class="stars" id="stars">
+                  <button class="star" type="button" data-rating="1">★</button>
+                  <button class="star" type="button" data-rating="2">★</button>
+                  <button class="star" type="button" data-rating="3">★</button>
+                  <button class="star" type="button" data-rating="4">★</button>
+                  <button class="star" type="button" data-rating="5">★</button>
+                </div>
+
+                <label>What stood out?</label>
+                <div class="trait-grid" id="traits">
+                  <button class="trait" type="button" data-trait="Helpful">Helpful</button>
+                  <button class="trait" type="button" data-trait="Fast service">Fast service</button>
+                  <button class="trait" type="button" data-trait="Product knowledge">Product knowledge</button>
+                  <button class="trait" type="button" data-trait="Clear communication">Clear communication</button>
+                  <button class="trait" type="button" data-trait="Billing support">Billing support</button>
+                  <button class="trait" type="button" data-trait="Needs improvement">Needs improvement</button>
+                </div>
+
+                <label for="comment">Comment optional</label>
+                <textarea id="comment" placeholder="Add a short note for the store team."></textarea>
+
+                <div class="support-row">
+                  <button class="btn" type="submit">Submit feedback</button>
+                  <button class="btn secondary" id="needHelpButton" type="button">I need help</button>
+                </div>
+
+                <p style="font-size: 13px; color: var(--muted); margin-bottom: 0;">
+                  Demo note: this proof of concept stores reviews in this browser only.
+                  A production version would use secure server storage and admin access.
+                </p>
+              </form>
+
+              <div class="thanks" id="thanksPanel">
+                <p class="eyebrow">Feedback submitted</p>
+                <h2>Thank you. Your review has been recorded.</h2>
+                <p>
+                  This feedback has been added to the employee performance record for this transaction.
+                  In a real deployment, management would see it in the incentive dashboard.
+                </p>
+
+                <div class="receipt-box">
+                  <div class="receipt-row">
+                    <span>Reference</span>
+                    <strong id="thanksRef">—</strong>
+                  </div>
+                  <div class="receipt-row">
+                    <span>Status</span>
+                    <strong>Submitted</strong>
+                  </div>
+                </div>
+
+                <div class="actions">
+                  <a class="btn" href="/serviceloop/">Back to ServiceLoop</a>
+                </div>
+              </div>
+            </section>
           </div>
         </section>
       </main>
@@ -1422,37 +1261,13 @@
 
     <script is:inline>
       const employees = [
-        {
-          id: "EMP-014",
-          name: "Aarav Malhotra",
-          role: "Sales Associate",
-          zone: "Electronics",
-          initials: "AM",
-        },
-        {
-          id: "EMP-021",
-          name: "Meera Kapoor",
-          role: "Senior Associate",
-          zone: "Fashion",
-          initials: "MK",
-        },
-        {
-          id: "EMP-033",
-          name: "Rohan Sen",
-          role: "Floor Executive",
-          zone: "Food Court",
-          initials: "RS",
-        },
-        {
-          id: "EMP-047",
-          name: "Kabir Anand",
-          role: "Client Advisor",
-          zone: "Luxury Arcade",
-          initials: "KA",
-        },
+        { id: "EMP-014", name: "Aarav Malhotra", role: "Sales Associate", zone: "Electronics", initials: "AM" },
+        { id: "EMP-021", name: "Meera Kapoor", role: "Senior Associate", zone: "Fashion", initials: "MK" },
+        { id: "EMP-033", name: "Rohan Sen", role: "Floor Executive", zone: "Food Court", initials: "RS" },
+        { id: "EMP-047", name: "Kabir Anand", role: "Client Advisor", zone: "Luxury Arcade", initials: "KA" },
       ];
 
-      const STORAGE_KEY = "serviceloop_reviews_v1";
+      const STORAGE_KEY = "serviceloop_reviews_v2";
 
       const $ = (id) => document.getElementById(id);
       const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -1467,9 +1282,9 @@
         qrImage: $("qrImage"),
         generatedLink: $("generatedLink"),
         generatedChannel: $("generatedChannel"),
-        copyButton: $("copyButton"),
         openReviewLink: $("openReviewLink"),
-        openSampleReview: $("openSampleReview"),
+        copyButton: $("copyButton"),
+        openSampleCustomer: $("openSampleCustomer"),
 
         totalReviews: $("totalReviews"),
         averageRating: $("averageRating"),
@@ -1480,30 +1295,42 @@
         seedButton: $("seedButton"),
         resetButton: $("resetButton"),
 
-        reviewStore: $("reviewStore"),
-        reviewAvatar: $("reviewAvatar"),
-        reviewEmployee: $("reviewEmployee"),
-        reviewMeta: $("reviewMeta"),
-        reviewForm: $("reviewForm"),
+        cTx: $("cTx"),
+        cStore: $("cStore"),
+        cAmount: $("cAmount"),
+        cChannel: $("cChannel"),
+        cAvatar: $("cAvatar"),
+        cEmployee: $("cEmployee"),
+        cRole: $("cRole"),
+        customerTitle: $("customerTitle"),
+        customerReviewForm: $("customerReviewForm"),
         comment: $("comment"),
-        successPanel: $("successPanel"),
-        alreadyPanel: $("alreadyPanel"),
+        thanksPanel: $("thanksPanel"),
+        thanksRef: $("thanksRef"),
+        needHelpButton: $("needHelpButton"),
 
         toast: $("toast"),
       };
 
-      let currentRating = 0;
       let generatedUrl = "";
-      let currentReviewContext = null;
+      let currentRating = 0;
+      let currentContext = null;
+
+      function uid() {
+        if (crypto?.randomUUID) return crypto.randomUUID();
+        return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      }
 
       function toast(message) {
+        if (!el.toast) return;
         el.toast.textContent = message;
         el.toast.classList.add("show");
-
         clearTimeout(el.toast._timer);
-        el.toast._timer = setTimeout(() => {
-          el.toast.classList.remove("show");
-        }, 2200);
+        el.toast._timer = setTimeout(() => el.toast.classList.remove("show"), 2200);
+      }
+
+      function getEmployee(id) {
+        return employees.find((employee) => employee.id === id) || employees[0];
       }
 
       function money(value) {
@@ -1511,16 +1338,11 @@
           style: "currency",
           currency: "INR",
           maximumFractionDigits: 0,
-        }).format(value);
-      }
-
-      function nowIso() {
-        return new Date().toISOString();
+        }).format(Number(value || 0));
       }
 
       function timeLabel(iso) {
-        const date = new Date(iso);
-        return date.toLocaleString("en-IN", {
+        return new Date(iso).toLocaleString("en-IN", {
           day: "2-digit",
           month: "short",
           hour: "2-digit",
@@ -1528,17 +1350,12 @@
         });
       }
 
-      function generateTransactionId() {
-        const date = new Date();
-        const day = String(date.getDate()).padStart(2, "0");
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const random = Math.random().toString(36).slice(2, 8).toUpperCase();
-
-        return `SL-${day}${month}-${random}`;
-      }
-
-      function getEmployee(id) {
-        return employees.find((employee) => employee.id === id) || employees[0];
+      function txId() {
+        const now = new Date();
+        const d = String(now.getDate()).padStart(2, "0");
+        const m = String(now.getMonth() + 1).padStart(2, "0");
+        const r = Math.random().toString(36).slice(2, 8).toUpperCase();
+        return `SL-${d}${m}-${r}`;
       }
 
       function getReviews() {
@@ -1553,110 +1370,75 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
       }
 
-      function seedReviews() {
-        const sample = [
-          {
-            id: crypto.randomUUID(),
-            employeeId: "EMP-014",
-            employeeName: "Aarav Malhotra",
-            transactionId: "SL-0107-A82KLF",
-            store: "North Wing - Electronics",
-            amount: 5490,
-            channel: "Receipt QR",
-            rating: 5,
-            traits: ["Helpful", "Product knowledge", "Clear communication"],
-            comment: "Explained the options clearly and helped compare two products.",
-            createdAt: new Date(Date.now() - 1000 * 60 * 14).toISOString(),
-          },
-          {
-            id: crypto.randomUUID(),
-            employeeId: "EMP-021",
-            employeeName: "Meera Kapoor",
-            transactionId: "SL-0107-F92LQP",
-            store: "Central Atrium - Fashion",
-            amount: 3200,
-            channel: "WhatsApp Link",
-            rating: 5,
-            traits: ["Fast service", "Helpful"],
-            comment: "Very quick billing and polite service.",
-            createdAt: new Date(Date.now() - 1000 * 60 * 38).toISOString(),
-          },
-          {
-            id: crypto.randomUUID(),
-            employeeId: "EMP-047",
-            employeeName: "Kabir Anand",
-            transactionId: "SL-0107-P81XDM",
-            store: "Luxury Arcade - Watches",
-            amount: 18400,
-            channel: "Receipt QR",
-            rating: 4,
-            traits: ["Product knowledge"],
-            comment: "Good experience overall.",
-            createdAt: new Date(Date.now() - 1000 * 60 * 74).toISOString(),
-          },
-          {
-            id: crypto.randomUUID(),
-            employeeId: "EMP-033",
-            employeeName: "Rohan Sen",
-            transactionId: "SL-0107-Z18RMQ",
-            store: "Food Court - Counter 4",
-            amount: 780,
-            channel: "SMS Link",
-            rating: 2,
-            traits: ["Needs improvement"],
-            comment: "Order took longer than expected.",
-            createdAt: new Date(Date.now() - 1000 * 60 * 110).toISOString(),
-          },
-          {
-            id: crypto.randomUUID(),
-            employeeId: "EMP-014",
-            employeeName: "Aarav Malhotra",
-            transactionId: "SL-0107-Q74MNA",
-            store: "North Wing - Electronics",
-            amount: 2450,
-            channel: "Receipt QR",
-            rating: 4,
-            traits: ["Billing support", "Helpful"],
-            comment: "",
-            createdAt: new Date(Date.now() - 1000 * 60 * 180).toISOString(),
-          },
-        ];
+      function reviewExists(transactionId) {
+        return getReviews().some((review) => review.transactionId === transactionId);
+      }
 
-        saveReviews(sample);
-        renderDashboard();
-        toast("Sample data loaded");
+      function buildReviewUrl({ employeeId, transactionId, store, amount, channel }) {
+        const url = new URL(`${window.location.origin}/serviceloop/`);
+        url.searchParams.set("review", "1");
+        url.searchParams.set("employee", employeeId);
+        url.searchParams.set("tx", transactionId);
+        url.searchParams.set("store", store);
+        url.searchParams.set("amount", amount);
+        url.searchParams.set("channel", channel);
+        return url.toString();
+      }
+
+      function populateEmployees() {
+        if (!el.employeeSelect) return;
+        el.employeeSelect.innerHTML = employees
+          .map((employee) => `<option value="${employee.id}">${employee.name} — ${employee.zone}</option>`)
+          .join("");
+      }
+
+      function generateReviewLink() {
+        const transactionId = txId();
+        const employeeId = el.employeeSelect.value;
+        const store = el.storeSelect.value;
+        const amount = Number(el.amountInput.value || 0);
+        const channel = el.channelSelect.value;
+
+        generatedUrl = buildReviewUrl({ employeeId, transactionId, store, amount, channel });
+
+        el.generatedLink.textContent = generatedUrl;
+        el.generatedChannel.textContent = channel;
+        el.openReviewLink.href = generatedUrl;
+        el.qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(generatedUrl)}`;
+        el.qrBox.style.display = "grid";
+
+        toast("Customer review page generated");
+      }
+
+      async function copyLink() {
+        if (!generatedUrl) return;
+
+        try {
+          await navigator.clipboard.writeText(generatedUrl);
+          toast("Review link copied");
+        } catch {
+          toast("Copy failed. Select the link manually.");
+        }
       }
 
       function calculateEmployeeStats(employee, reviews) {
         const own = reviews.filter((review) => review.employeeId === employee.id);
         const count = own.length;
-        const average = count
-          ? own.reduce((sum, review) => sum + review.rating, 0) / count
-          : 0;
-
+        const average = count ? own.reduce((sum, review) => sum + review.rating, 0) / count : 0;
         const positive = own.filter((review) => review.rating >= 4).length;
         const low = own.filter((review) => review.rating <= 2).length;
-
         const score = Math.max(0, Math.round(average * 18 + positive * 7 - low * 10));
         const incentive = score * 25;
 
-        return {
-          count,
-          average,
-          positive,
-          low,
-          score,
-          incentive,
-        };
+        return { count, average, positive, low, score, incentive };
       }
 
       function renderDashboard() {
+        if (!el.totalReviews) return;
+
         const reviews = getReviews();
         const total = reviews.length;
-        const average = total
-          ? reviews.reduce((sum, review) => sum + review.rating, 0) / total
-          : 0;
-
+        const average = total ? reviews.reduce((sum, review) => sum + review.rating, 0) / total : 0;
         const positive = reviews.filter((review) => review.rating >= 4).length;
         const flagged = reviews.filter((review) => review.rating <= 2).length;
 
@@ -1665,17 +1447,11 @@
         el.positiveReviews.textContent = positive;
         el.flaggedReviews.textContent = flagged;
 
-        const employeesWithStats = employees
-          .map((employee) => ({
-            ...employee,
-            stats: calculateEmployeeStats(employee, reviews),
-          }))
-          .sort((a, b) => b.stats.score - a.stats.score);
-
-        el.employeeList.innerHTML = employeesWithStats
+        el.employeeList.innerHTML = employees
+          .map((employee) => ({ ...employee, stats: calculateEmployeeStats(employee, reviews) }))
+          .sort((a, b) => b.stats.score - a.stats.score)
           .map((employee) => {
             const avg = employee.stats.count ? employee.stats.average.toFixed(1) : "—";
-
             return `
               <div class="employee-card">
                 <div class="avatar">${employee.initials}</div>
@@ -1697,15 +1473,15 @@
 
         el.reviewList.innerHTML =
           sorted.slice(0, 8).map((review) => {
-            const badgeClass = review.rating <= 2 ? "red" : "green";
             const traits = review.traits?.length ? review.traits.join(", ") : "No tags";
             const comment = review.comment ? `“${review.comment}”` : "No written comment.";
+            const badge = review.rating <= 2 ? "red" : "green";
 
             return `
               <div class="review-card">
-                <div style="display: flex; justify-content: space-between; gap: 12px; align-items: center;">
+                <div style="display:flex; justify-content:space-between; gap:12px; align-items:center;">
                   <strong>${review.employeeName}</strong>
-                  <span class="badge ${badgeClass}">${review.rating}/5</span>
+                  <span class="badge ${badge}">${review.rating}/5</span>
                 </div>
                 <small>
                   ${review.store} · ${review.transactionId} · ${timeLabel(review.createdAt)}<br />
@@ -1717,203 +1493,184 @@
           }).join("") || `
             <div class="review-card">
               <strong>No reviews yet</strong>
-              <small>Generate a review link and submit the customer form to populate the dashboard.</small>
+              <small>Generate a customer review link and submit a review to populate this dashboard.</small>
             </div>
           `;
       }
 
-      function populateEmployees() {
-        el.employeeSelect.innerHTML = employees
-          .map((employee) => {
-            return `<option value="${employee.id}">${employee.name} — ${employee.zone}</option>`;
-          })
-          .join("");
+      function seedReviews() {
+        const sample = [
+          {
+            id: uid(),
+            employeeId: "EMP-014",
+            employeeName: "Aarav Malhotra",
+            transactionId: "SL-0107-A82KLF",
+            store: "North Wing - Electronics",
+            amount: 5490,
+            channel: "Receipt QR",
+            rating: 5,
+            traits: ["Helpful", "Product knowledge", "Clear communication"],
+            comment: "Explained the options clearly and helped compare two products.",
+            createdAt: new Date(Date.now() - 1000 * 60 * 18).toISOString(),
+          },
+          {
+            id: uid(),
+            employeeId: "EMP-021",
+            employeeName: "Meera Kapoor",
+            transactionId: "SL-0107-F92LQP",
+            store: "Central Atrium - Fashion",
+            amount: 3200,
+            channel: "WhatsApp Link",
+            rating: 5,
+            traits: ["Fast service", "Helpful"],
+            comment: "Very quick billing and polite service.",
+            createdAt: new Date(Date.now() - 1000 * 60 * 46).toISOString(),
+          },
+          {
+            id: uid(),
+            employeeId: "EMP-033",
+            employeeName: "Rohan Sen",
+            transactionId: "SL-0107-Z18RMQ",
+            store: "Food Court - Counter 4",
+            amount: 780,
+            channel: "SMS Link",
+            rating: 2,
+            traits: ["Needs improvement"],
+            comment: "Order took longer than expected.",
+            createdAt: new Date(Date.now() - 1000 * 60 * 120).toISOString(),
+          },
+        ];
+
+        saveReviews(sample);
+        renderDashboard();
+        toast("Sample data loaded");
       }
 
-      function buildReviewUrl({ employeeId, transactionId, store, amount, channel }) {
-        const url = new URL(window.location.origin + "/serviceloop/");
-        url.searchParams.set("review", "1");
-        url.searchParams.set("employee", employeeId);
-        url.searchParams.set("tx", transactionId);
-        url.searchParams.set("store", store);
-        url.searchParams.set("amount", amount);
-        url.searchParams.set("channel", channel);
-
-        return url.toString();
-      }
-
-      function generateReviewLink() {
-        const employeeId = el.employeeSelect.value;
-        const transactionId = generateTransactionId();
-        const store = el.storeSelect.value;
-        const amount = Number(el.amountInput.value || 0);
-        const channel = el.channelSelect.value;
-
-        generatedUrl = buildReviewUrl({
-          employeeId,
-          transactionId,
-          store,
-          amount,
-          channel,
+      function setRating(value) {
+        currentRating = value;
+        $$(".star").forEach((button) => {
+          button.classList.toggle("active", Number(button.dataset.rating) <= value);
         });
-
-        el.generatedLink.textContent = generatedUrl;
-        el.generatedChannel.textContent = channel;
-        el.openReviewLink.href = generatedUrl;
-        el.qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(generatedUrl)}`;
-        el.qrBox.style.display = "grid";
-
-        toast("Transaction review link generated");
       }
 
-      async function copyGeneratedLink() {
-        if (!generatedUrl) return;
-
-        try {
-          await navigator.clipboard.writeText(generatedUrl);
-          toast("Review link copied");
-        } catch {
-          toast("Copy failed. Select the link manually.");
-        }
-      }
-
-      function setupReviewMode() {
+      function setupCustomerMode() {
         const params = new URLSearchParams(window.location.search);
-
         if (params.get("review") !== "1") return;
 
-        document.body.classList.add("review-mode");
+        document.body.classList.add("customer-mode");
 
-        const employeeId = params.get("employee") || employees[0].id;
-        const employee = getEmployee(employeeId);
-        const transactionId = params.get("tx") || generateTransactionId();
+        const employee = getEmployee(params.get("employee"));
+        const transactionId = params.get("tx") || txId();
         const store = params.get("store") || "Demo Store";
         const amount = Number(params.get("amount") || 0);
         const channel = params.get("channel") || "Review Link";
 
-        currentReviewContext = {
-          employee,
-          transactionId,
-          store,
-          amount,
-          channel,
-        };
+        currentContext = { employee, transactionId, store, amount, channel };
 
-        el.reviewStore.textContent = store;
-        el.reviewAvatar.textContent = employee.initials;
-        el.reviewEmployee.textContent = employee.name;
-        el.reviewMeta.textContent = `${employee.role} · ${transactionId}`;
+        el.cTx.textContent = transactionId;
+        el.cStore.textContent = store;
+        el.cAmount.textContent = money(amount);
+        el.cChannel.textContent = channel;
+        el.cAvatar.textContent = employee.initials;
+        el.cEmployee.textContent = employee.name;
+        el.cRole.textContent = `${employee.role} · ${employee.zone}`;
+        el.customerTitle.textContent = `How was your experience with ${employee.name.split(" ")[0]}?`;
 
-        const duplicate = getReviews().some((review) => review.transactionId === transactionId);
-
-        if (duplicate) {
-          el.reviewForm.querySelectorAll("button, textarea").forEach((item) => {
-            item.disabled = true;
-          });
-          el.alreadyPanel.classList.add("show");
+        if (reviewExists(transactionId)) {
+          el.customerReviewForm.classList.add("hidden");
+          el.thanksRef.textContent = transactionId;
+          el.thanksPanel.classList.add("show");
         }
       }
 
-      function setRating(rating) {
-        currentRating = rating;
-
-        $$(".star").forEach((button) => {
-          const value = Number(button.dataset.rating);
-          button.classList.toggle("active", value <= rating);
-        });
-      }
-
-      function submitReview(event) {
+      function submitCustomerReview(event) {
         event.preventDefault();
 
-        if (!currentReviewContext) return;
+        if (!currentContext) return;
 
         if (!currentRating) {
-          toast("Select a rating first");
+          toast("Please select a rating first");
           return;
         }
 
-        const existing = getReviews();
-        const duplicate = existing.some(
-          (review) => review.transactionId === currentReviewContext.transactionId
-        );
-
-        if (duplicate) {
-          el.alreadyPanel.classList.add("show");
+        if (reviewExists(currentContext.transactionId)) {
+          el.customerReviewForm.classList.add("hidden");
+          el.thanksRef.textContent = currentContext.transactionId;
+          el.thanksPanel.classList.add("show");
           return;
         }
 
         const traits = $$(".trait.active").map((item) => item.dataset.trait);
 
         const review = {
-          id: crypto.randomUUID(),
-          employeeId: currentReviewContext.employee.id,
-          employeeName: currentReviewContext.employee.name,
-          transactionId: currentReviewContext.transactionId,
-          store: currentReviewContext.store,
-          amount: currentReviewContext.amount,
-          channel: currentReviewContext.channel,
+          id: uid(),
+          employeeId: currentContext.employee.id,
+          employeeName: currentContext.employee.name,
+          transactionId: currentContext.transactionId,
+          store: currentContext.store,
+          amount: currentContext.amount,
+          channel: currentContext.channel,
           rating: currentRating,
           traits,
           comment: el.comment.value.trim(),
-          createdAt: nowIso(),
+          createdAt: new Date().toISOString(),
         };
 
-        saveReviews([review, ...existing]);
-
-        el.reviewForm.querySelectorAll("button, textarea").forEach((item) => {
-          item.disabled = true;
-        });
-
-        el.successPanel.classList.add("show");
+        saveReviews([review, ...getReviews()]);
+        el.customerReviewForm.classList.add("hidden");
+        el.thanksRef.textContent = currentContext.transactionId;
+        el.thanksPanel.classList.add("show");
         toast("Feedback submitted");
       }
 
       function bind() {
-        el.generateButton.addEventListener("click", generateReviewLink);
-        el.copyButton.addEventListener("click", copyGeneratedLink);
+        el.generateButton?.addEventListener("click", generateReviewLink);
+        el.copyButton?.addEventListener("click", copyLink);
 
-        el.openSampleReview.addEventListener("click", () => {
+        el.openSampleCustomer?.addEventListener("click", () => {
           const url = buildReviewUrl({
             employeeId: "EMP-014",
-            transactionId: generateTransactionId(),
+            transactionId: txId(),
             store: "North Wing - Electronics",
             amount: 2450,
             channel: "Demo Link",
           });
-
           window.open(url, "_blank");
         });
 
-        el.seedButton.addEventListener("click", seedReviews);
+        el.seedButton?.addEventListener("click", seedReviews);
 
-        el.resetButton.addEventListener("click", () => {
+        el.resetButton?.addEventListener("click", () => {
           localStorage.removeItem(STORAGE_KEY);
           renderDashboard();
           toast("Demo data reset");
         });
 
         $$(".star").forEach((button) => {
-          button.addEventListener("click", () => {
-            setRating(Number(button.dataset.rating));
-          });
+          button.addEventListener("click", () => setRating(Number(button.dataset.rating)));
         });
 
         $$(".trait").forEach((button) => {
-          button.addEventListener("click", () => {
-            button.classList.toggle("active");
-          });
+          button.addEventListener("click", () => button.classList.toggle("active"));
         });
 
-        el.reviewForm.addEventListener("submit", submitReview);
+        el.needHelpButton?.addEventListener("click", () => {
+          setRating(2);
+          const issueButton = document.querySelector('[data-trait="Needs improvement"]');
+          issueButton?.classList.add("active");
+          el.comment.focus();
+          toast("Add a short note so the store can follow up");
+        });
+
+        el.customerReviewForm?.addEventListener("submit", submitCustomerReview);
       }
 
       function init() {
         populateEmployees();
-        setupReviewMode();
         bind();
+        setupCustomerMode();
 
-        if (!document.body.classList.contains("review-mode")) {
+        if (!document.body.classList.contains("customer-mode")) {
           renderDashboard();
 
           if (!getReviews().length) {
