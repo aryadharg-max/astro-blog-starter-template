@@ -28,19 +28,15 @@
         --line: rgba(17, 17, 15, 0.13);
         --line-strong: rgba(17, 17, 15, 0.22);
         --panel: rgba(255, 255, 255, 0.58);
-        --panel-strong: rgba(255, 255, 255, 0.86);
         --navy: #0b243f;
         --navy-2: #071623;
         --red: #d63d31;
         --gold: #ad7e2b;
         --green: #177a55;
-        --yellow: #d2a218;
         --dark: #10100e;
         --shadow: 0 34px 90px rgba(17, 17, 15, 0.12);
         --soft-shadow: 0 16px 42px rgba(17, 17, 15, 0.08);
         --radius-xl: 34px;
-        --radius-lg: 26px;
-        --radius-md: 18px;
         --max: 1440px;
         --display: "Fraunces", Georgia, serif;
         --body: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -362,6 +358,7 @@
         font-weight: 900;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 10px;
         transition:
           transform 0.16s ease,
@@ -821,151 +818,68 @@
         font-weight: 900;
       }
 
-      .case-stage {
+      .live-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .live-card {
         border: 1px solid var(--line);
         border-radius: var(--radius-xl);
         background: var(--panel);
         backdrop-filter: blur(24px);
-        box-shadow: var(--shadow);
-        padding: 18px;
-        display: grid;
-        grid-template-columns: 0.42fr 0.58fr;
-        gap: 14px;
-      }
-
-      .case-tabs {
-        display: grid;
-        gap: 10px;
-        align-content: start;
-      }
-
-      .case-tab {
-        border: 1px solid var(--line);
-        border-radius: 22px;
-        background: rgba(255, 255, 255, 0.54);
-        padding: 16px;
-        text-align: left;
-        transition: 0.18s ease;
-      }
-
-      .case-tab:hover,
-      .case-tab.active {
-        color: white;
-        background: var(--navy);
-        border-color: var(--navy);
-        transform: translateX(4px);
-      }
-
-      .case-tab span {
-        display: block;
-        opacity: 0.64;
-        font-family: var(--mono);
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-
-      .case-tab strong {
-        display: block;
-        margin-top: 8px;
-        font-size: 20px;
-        letter-spacing: -0.04em;
-      }
-
-      .case-display {
-        border: 1px solid var(--line);
-        border-radius: 28px;
-        background: rgba(255, 255, 255, 0.62);
-        padding: clamp(20px, 4vw, 44px);
-        min-height: 620px;
+        box-shadow: var(--soft-shadow);
+        padding: 22px;
+        min-height: 360px;
         display: grid;
         align-content: space-between;
         position: relative;
         overflow: hidden;
       }
 
-      .case-display::after {
+      .live-card::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 4px;
+        background: var(--accent, var(--green));
+      }
+
+      .live-card::after {
         content: "";
         position: absolute;
         right: -120px;
-        top: -120px;
-        width: 300px;
-        height: 300px;
+        bottom: -160px;
+        width: 340px;
+        height: 340px;
         border-radius: 50%;
-        border: 1px solid rgba(214, 61, 49, 0.18);
+        background: var(--orb, rgba(23, 122, 85, 0.12));
+        pointer-events: none;
       }
 
-      .case-display > * {
+      .live-card > * {
         position: relative;
         z-index: 1;
       }
 
-      .case-kicker {
-        margin: 0 0 12px;
-        color: var(--red);
-        font-family: var(--mono);
-        font-size: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-      }
-
-      .case-display h3 {
-        margin: 0;
+      .live-card h3 {
+        margin: 18px 0 0;
         font-family: var(--display);
-        font-size: clamp(42px, 5vw, 78px);
-        line-height: 0.84;
+        font-size: clamp(34px, 4vw, 58px);
+        line-height: 0.88;
         letter-spacing: -0.075em;
-        font-weight: 720;
       }
 
-      .case-copy {
-        margin: 22px 0 0;
+      .live-card p {
         color: var(--muted);
-        font-size: 18px;
-        line-height: 1.58;
-        max-width: 860px;
+        line-height: 1.55;
       }
 
-      .case-matrix {
-        margin-top: 28px;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-
-      .case-cell {
-        border: 1px solid var(--line);
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.58);
-        padding: 16px;
-        min-height: 128px;
-      }
-
-      .case-cell span {
-        display: block;
-        color: var(--muted);
-        font-family: var(--mono);
-        font-size: 11px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-      }
-
-      .case-cell strong {
-        display: block;
-        margin-top: 10px;
-        font-size: 17px;
-        letter-spacing: -0.03em;
-        line-height: 1.25;
-      }
-
-      .case-actions {
-        margin-top: 32px;
+      .live-meta {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 8px;
       }
 
       .fields-grid {
@@ -1326,6 +1240,13 @@
         background: rgba(255, 255, 255, 0.56);
       }
 
+      .modal-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
       .command-input {
         width: 100%;
         border: 1px solid var(--line);
@@ -1360,7 +1281,6 @@
 
       @media (max-width: 1160px) {
         .hero,
-        .case-stage,
         .process-grid,
         .contact-card {
           grid-template-columns: 1fr;
@@ -1376,7 +1296,8 @@
           grid-column: span 6;
         }
 
-        .fields-grid {
+        .fields-grid,
+        .live-grid {
           grid-template-columns: repeat(2, 1fr);
         }
       }
@@ -1413,8 +1334,8 @@
 
         .hero-proof,
         .side-grid,
-        .case-matrix,
-        .fields-grid {
+        .fields-grid,
+        .live-grid {
           grid-template-columns: 1fr 1fr;
         }
 
@@ -1456,8 +1377,8 @@
 
         .hero-proof,
         .side-grid,
-        .case-matrix,
-        .fields-grid {
+        .fields-grid,
+        .live-grid {
           grid-template-columns: 1fr;
         }
 
@@ -1469,10 +1390,6 @@
         .contact-links a,
         .contact-links div {
           flex-direction: column;
-        }
-
-        .case-display {
-          min-height: auto;
         }
       }
     </style>
@@ -1495,9 +1412,7 @@
         <div class="nav-links" id="navLinks">
           <a href="#systems">Systems</a>
           <a href="#capabilities">Capabilities</a>
-          <a href="#builds">Builds</a>
           <a href="#live-demos">Live Demos</a>
-          <a href="/serviceloop/">ServiceLoop</a>
           <a href="#process">Process</a>
           <a href="#contact">Contact</a>
         </div>
@@ -1538,8 +1453,8 @@
 
             <div class="hero-actions">
               <a class="btn primary" href="#systems">Explore Systems →</a>
-              <a class="btn redline" href="/serviceloop/">Open ServiceLoop Demo</a>
-              <a class="btn" href="/traffic-control/">Traffic Control Demo</a>
+              <a class="btn redline" href="#live-demos">View Live Demos</a>
+              <a class="btn" href="#contact">Start a Build</a>
             </div>
           </div>
 
@@ -1660,8 +1575,10 @@
             data-tags="iot engineering live"
             data-status="Live Demo"
             data-title="IoT & Connected Hardware"
-            data-summary="Custom connected systems for sensors, relays, devices, lights, machines, dashboards, automation, and remote control."
-            data-details="Device-to-web control systems|Sensor and relay-based hardware setups|Remote control dashboards|Automation logic for physical systems|Live device state and monitoring|Prototype-to-deployment planning"
+            data-summary="A web-to-hardware system that proves physical devices can be controlled, monitored, and automated from a clean browser-based interface."
+            data-details="Live device state visible on the web|Password-protected command interface|Cloudflare Worker state layer|ESP8266 polling logic|Relay-based physical output|Useful for lights, sensors, machines, access systems, and automation prototypes"
+            data-link="/traffic-control/"
+            data-link-label="Test Now"
             style="--orb: rgba(27, 93, 145, 0.12); --accent: var(--navy)"
           >
             <div class="project-top">
@@ -1688,6 +1605,8 @@
             data-title="ServiceLoop Employee Feedback & Incentive System"
             data-summary="A transaction-linked employee feedback system that turns customer reviews into structured performance records, incentive logic, and management visibility."
             data-details="QR or link-based review flow after purchase|Employee-linked feedback records|Customer rating and comment capture|Performance dashboard for management|Incentive-ready scoring logic|Designed for malls, retail stores, restaurants, and service-led businesses"
+            data-link="/serviceloop/"
+            data-link-label="Test Now"
             style="--orb: rgba(214, 61, 49, 0.12); --accent: var(--red)"
           >
             <div class="project-top">
@@ -1704,7 +1623,7 @@
             </div>
             <div class="project-bottom">
               <span>Review system</span>
-              <a class="open-btn" href="/serviceloop/">Open</a>
+              <button class="open-btn" type="button">Open</button>
             </div>
           </article>
 
@@ -1883,31 +1802,6 @@
               <button class="open-btn" type="button">Open</button>
             </div>
           </article>
-
-          <article
-            class="project-card reveal"
-            data-tags="motorsport tracking web"
-            data-status="Capability"
-            data-title="Motorsport Telemetry Systems"
-            data-summary="Driver-development dashboards that turn session data into readable proof of speed, inputs, consistency, and progression."
-            data-details="Session data dashboards|Speed, throttle, brake, and g-force visibility|Driver progression proof|Simulator and real-session reporting|Sponsor-ready technical presentation|Performance data storytelling"
-            style="--orb: rgba(214, 61, 49, 0.1); --accent: var(--red)"
-          >
-            <div class="project-top">
-              <div class="project-meta">
-                <span class="tag">Motorsport</span>
-                <span class="tag">Telemetry</span>
-              </div>
-              <h3>Motorsport Telemetry Systems</h3>
-              <p>
-                Motorsport data systems that turn driving into evidence, not just claim.
-              </p>
-            </div>
-            <div class="project-bottom">
-              <span>Performance data</span>
-              <button class="open-btn" type="button">Open</button>
-            </div>
-          </article>
         </div>
       </section>
 
@@ -1944,143 +1838,75 @@
         </div>
       </section>
 
-      <section id="builds">
-        <div class="section-head reveal">
-          <h2>Build<br />Examples</h2>
-          <p>
-            Example operating files. Each system is framed by objective, architecture, output, and the type of problem it is built to solve.
-          </p>
-        </div>
-
-        <div class="case-stage reveal">
-          <div class="case-tabs">
-            <button class="case-tab active" data-case="serviceloop" type="button">
-              <span>Service System</span>
-              <strong>Employee Review Incentives</strong>
-            </button>
-            <button class="case-tab" data-case="iot" type="button">
-              <span>Live IoT System</span>
-              <strong>Traffic Light Control</strong>
-            </button>
-            <button class="case-tab" data-case="tracking" type="button">
-              <span>Operations System</span>
-              <strong>Product & Asset Tracking</strong>
-            </button>
-            <button class="case-tab" data-case="monitoring" type="button">
-              <span>Oversight System</span>
-              <strong>Monitoring Dashboard</strong>
-            </button>
-          </div>
-
-          <div class="case-display">
-            <div>
-              <p class="case-kicker" id="caseKicker">Service System</p>
-              <h3 id="caseTitle">Employee Review Incentives</h3>
-              <p class="case-copy" id="caseCopy">
-                A transaction-linked review system for malls and service businesses, connecting customer feedback to the employee who handled the purchase.
-              </p>
-
-              <div class="case-matrix">
-                <div class="case-cell">
-                  <span>Objective</span>
-                  <strong id="caseObjective">Turn customer feedback into a structured employee performance and incentive record.</strong>
-                </div>
-                <div class="case-cell">
-                  <span>Architecture</span>
-                  <strong id="caseArchitecture">POS transaction → review token → QR/link → customer review → dashboard.</strong>
-                </div>
-                <div class="case-cell">
-                  <span>Output</span>
-                  <strong id="caseProof">A live review flow with employee scores, recent feedback, and incentive-ready metrics.</strong>
-                </div>
-                <div class="case-cell">
-                  <span>Best Fit</span>
-                  <strong id="caseNext">Malls, retail stores, restaurants, service counters, and customer-facing teams.</strong>
-                </div>
-              </div>
-            </div>
-
-            <div class="case-actions">
-              <a class="btn primary" id="caseLink" href="/serviceloop/">Open ServiceLoop Demo →</a>
-              <a class="btn" href="#contact">Start a Build</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section id="live-demos">
         <div class="section-head reveal">
           <h2>Live<br />Demos</h2>
           <p>
-            Some systems should not just be described. They should show live state, a working panel,
-            a viewer, a dashboard, or a data layer that proves the system is in use.
+            Active builds with working pages. Each demo has a short brief and an “Open Now” button
+            that takes you to the sub-website where the system can be tested.
           </p>
         </div>
 
-        <div class="process-grid">
-          <div class="panel reveal">
-            <div class="queue">
-              <div class="queue-item">
-                <span>Review</span>
-                <strong>ServiceLoop Employee Feedback & Incentive System</strong>
-                <em>live</em>
-              </div>
-              <div class="queue-item">
-                <span>IoT</span>
-                <strong>Traffic Light Control System</strong>
-                <em>live</em>
-              </div>
-              <div class="queue-item">
-                <span>Tracking</span>
-                <strong>Product or asset tracking dashboard</strong>
-                <em>buildable</em>
-              </div>
-              <div class="queue-item">
-                <span>CAD/CAM</span>
-                <strong>Interactive part model viewer</strong>
-                <em>buildable</em>
-              </div>
-              <div class="queue-item">
-                <span>Field</span>
-                <strong>Environmental sensor dashboard</strong>
-                <em>buildable</em>
-              </div>
-              <div class="queue-item">
-                <span>Monitor</span>
-                <strong>Authorized camera or site monitoring layer</strong>
-                <em>buildable</em>
-              </div>
-            </div>
-          </div>
-
-          <div class="velocity-panel reveal">
+        <div class="live-grid">
+          <article class="live-card reveal" style="--accent: var(--red); --orb: rgba(214, 61, 49, 0.12);">
             <div>
-              <h3>Built, then connected.</h3>
+              <div class="live-meta">
+                <span class="tag live">Live Now</span>
+                <span class="tag">Employee Feedback</span>
+                <span class="tag">Incentive System</span>
+              </div>
+              <h3>ServiceLoop</h3>
               <p>
-                A live layer should prove a specific claim: engineering ability, system reliability,
-                manufacturing thinking, operational visibility, or field deployment.
+                A transaction-linked employee review system for malls, retailers, restaurants, and service teams.
+                The proof of concept shows how a purchase can generate a QR or link, capture customer feedback,
+                connect it to the employee who served the customer, and turn it into incentive-ready performance data.
               </p>
             </div>
-
-            <div class="velocity-links">
-              <a href="/serviceloop/">
-                <strong>ServiceLoop</strong>
-                <span>Open →</span>
-              </a>
-              <a href="/traffic-control/">
-                <strong>Traffic Control</strong>
-                <span>Open →</span>
-              </a>
-              <a href="#systems">
-                <strong>Systems Index</strong>
-                <span>View →</span>
-              </a>
-              <a href="#contact">
-                <strong>Start a Build</strong>
-                <span>Contact →</span>
-              </a>
+            <div class="hero-actions">
+              <a class="btn primary" href="/serviceloop/">Open Now →</a>
+              <button
+                class="btn"
+                type="button"
+                data-demo-modal
+                data-title="ServiceLoop Employee Feedback & Incentive System"
+                data-status="Live Demo"
+                data-summary="A transaction-linked review system that connects customer feedback to employee performance records and incentive scoring."
+                data-link="/serviceloop/"
+              >
+                Brief
+              </button>
             </div>
-          </div>
+          </article>
+
+          <article class="live-card reveal" style="--accent: var(--navy); --orb: rgba(11, 36, 63, 0.12);">
+            <div>
+              <div class="live-meta">
+                <span class="tag live">Live Now</span>
+                <span class="tag">IoT</span>
+                <span class="tag">Hardware Control</span>
+              </div>
+              <h3>Traffic Control</h3>
+              <p>
+                A web-controlled physical lighting system using a Cloudflare Worker, public state endpoint,
+                protected commands, and ESP8266 relay logic. It proves the bridge between software,
+                cloud state, and real-world hardware output.
+              </p>
+            </div>
+            <div class="hero-actions">
+              <a class="btn primary" href="/traffic-control/">Open Now →</a>
+              <button
+                class="btn"
+                type="button"
+                data-demo-modal
+                data-title="IoT Traffic Control System"
+                data-status="Live Demo"
+                data-summary="A live web-to-hardware system that controls physical relays through a protected browser interface."
+                data-link="/traffic-control/"
+              >
+                Brief
+              </button>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -2192,6 +2018,7 @@
         <div class="modal-body">
           <p id="modalSummary"></p>
           <ul class="detail-list" id="modalDetails"></ul>
+          <div class="modal-actions" id="modalActions"></div>
         </div>
       </div>
     </div>
@@ -2210,20 +2037,17 @@
             <a href="#capabilities" data-command="capabilities connect build track monitor">
               <strong>Capabilities</strong><span>Core service areas</span>
             </a>
-            <a href="#builds" data-command="build examples case studies traffic tracking monitoring serviceloop employee review incentive">
-              <strong>Build Examples</strong><span>System files</span>
-            </a>
             <a href="#live-demos" data-command="live demos working proof traffic control serviceloop employee feedback">
-              <strong>Live Demos</strong><span>Working project layers</span>
+              <strong>Live Demos</strong><span>Active working pages</span>
             </a>
             <a href="/serviceloop/" data-command="serviceloop employee feedback review incentive mall retail service live demo">
               <strong>ServiceLoop</strong><span>Employee feedback & incentive demo</span>
             </a>
-            <a href="#process" data-command="process brief map build test deploy">
-              <strong>Process</strong><span>How systems are built</span>
-            </a>
             <a href="/traffic-control/" data-command="traffic control iot live relay nodemcu">
               <strong>Traffic Control</strong><span>Live IoT demo</span>
+            </a>
+            <a href="#process" data-command="process brief map build test deploy">
+              <strong>Process</strong><span>How systems are built</span>
             </a>
             <a href="#contact" data-command="contact email instagram github phone">
               <strong>Contact</strong><span>Start a build</span>
@@ -2248,63 +2072,13 @@
       const modalSub = $("#modalSub");
       const modalSummary = $("#modalSummary");
       const modalDetails = $("#modalDetails");
+      const modalActions = $("#modalActions");
 
       const commandPalette = $("#commandPalette");
       const commandOpen = $("#commandOpen");
       const commandClose = $("#commandClose");
       const commandInput = $("#commandInput");
       const commandItems = $$("#commandList a");
-
-      const caseData = {
-        serviceloop: {
-          kicker: "Service System",
-          title: "Employee Review Incentives",
-          copy:
-            "A transaction-linked review system for malls and service businesses, connecting customer feedback to the employee who handled the purchase.",
-          objective: "Turn customer feedback into a structured employee performance and incentive record.",
-          architecture: "POS transaction → review token → QR/link → customer review → dashboard.",
-          proof: "A live review flow with employee scores, recent feedback, and incentive-ready metrics.",
-          next: "Malls, retail stores, restaurants, service counters, and customer-facing teams.",
-          link: "/serviceloop/",
-          button: "Open ServiceLoop Demo →",
-        },
-        iot: {
-          kicker: "Live IoT System",
-          title: "Traffic Light Control",
-          copy:
-            "A connected control system linking a physical traffic light setup to a web interface, Cloudflare Worker, live state, password-protected commands, and local hardware logic.",
-          objective: "Control physical hardware remotely without exposing the local device.",
-          architecture: "Website → Worker → KV state → ESP8266 polling loop.",
-          proof: "A live control panel connected to a real relay-based lighting system.",
-          next: "IoT control, device dashboards, connected hardware, and automation prototypes.",
-          link: "/traffic-control/",
-          button: "Open Live Demo →",
-        },
-        tracking: {
-          kicker: "Operations System",
-          title: "Product & Asset Tracking",
-          copy:
-            "A custom system layer for businesses that need to track products, assets, inventory, batches, movement, or operational status across a workflow.",
-          objective: "Make products, assets, and movement visible instead of scattered across messages or manual records.",
-          architecture: "IDs or QR codes → status updates → database → dashboard → reports.",
-          proof: "A clear operational interface for status, ownership, movement, and exceptions.",
-          next: "Manufacturing, warehousing, service businesses, logistics teams, and product operations.",
-          link: "#contact",
-          button: "Start This Build →",
-        },
-        monitoring: {
-          kicker: "Oversight System",
-          title: "Monitoring Dashboard",
-          copy:
-            "A monitoring and visibility system for authorized site oversight, camera-linked review, event logs, alerts, and operational reporting.",
-          objective: "Give a business better visibility over sites, workflows, events, equipment, or field conditions.",
-          architecture: "Cameras or sensors → event layer → dashboard → alerts → records.",
-          proof: "A practical monitoring layer that helps teams see, respond, and document activity.",
-          next: "Site monitoring, process oversight, environmental data, field systems, and controlled surveillance use cases.",
-          link: "#contact",
-          button: "Discuss Monitoring →",
-        },
-      };
 
       function updateProgress() {
         const scrollTop = window.scrollY;
@@ -2349,66 +2123,81 @@
         });
       }
 
-      function setupProjectModal() {
-        $$(".project-card").forEach((card) => {
-          card.addEventListener("click", (event) => {
-            if (event.target.closest("a")) return;
+      function openSystemModal(data) {
+        modalTitle.textContent = data.title || "System";
+        modalSub.textContent = data.status || "Capability";
+        modalSummary.textContent = data.summary || "";
 
-            modalTitle.textContent = card.dataset.title || "System";
-            modalSub.textContent = card.dataset.status || "Capability";
-            modalSummary.textContent = card.dataset.summary || "";
+        modalDetails.innerHTML = "";
+        modalActions.innerHTML = "";
 
-            modalDetails.innerHTML = "";
-            const details = (card.dataset.details || "")
-              .split("|")
-              .map((item) => item.trim())
-              .filter(Boolean);
+        const details = (data.details || "")
+          .split("|")
+          .map((item) => item.trim())
+          .filter(Boolean);
 
-            details.forEach((item) => {
-              const li = document.createElement("li");
-              li.textContent = item;
-              modalDetails.appendChild(li);
-            });
-
-            projectModal.classList.add("open");
-            projectModal.setAttribute("aria-hidden", "false");
-            document.body.classList.add("locked");
-          });
+        details.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          modalDetails.appendChild(li);
         });
 
-        function close() {
-          projectModal.classList.remove("open");
-          projectModal.setAttribute("aria-hidden", "true");
-          document.body.classList.remove("locked");
+        if (data.link) {
+          const testLink = document.createElement("a");
+          testLink.className = "btn primary";
+          testLink.href = data.link;
+          testLink.textContent = data.linkLabel || "Test Now";
+          modalActions.appendChild(testLink);
         }
 
-        modalClose.addEventListener("click", close);
-        projectModal.addEventListener("click", (event) => {
-          if (event.target === projectModal) close();
-        });
+        const contactLink = document.createElement("a");
+        contactLink.className = "btn";
+        contactLink.href = "#contact";
+        contactLink.textContent = "Discuss Build";
+        contactLink.addEventListener("click", closeProjectModal);
+        modalActions.appendChild(contactLink);
+
+        projectModal.classList.add("open");
+        projectModal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("locked");
       }
 
-      function setupCases() {
-        const tabs = $$(".case-tab");
+      function closeProjectModal() {
+        projectModal.classList.remove("open");
+        projectModal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("locked");
+      }
 
-        tabs.forEach((tab) => {
-          tab.addEventListener("click", () => {
-            const data = caseData[tab.dataset.case];
-            if (!data) return;
-
-            tabs.forEach((item) => item.classList.remove("active"));
-            tab.classList.add("active");
-
-            $("#caseKicker").textContent = data.kicker;
-            $("#caseTitle").textContent = data.title;
-            $("#caseCopy").textContent = data.copy;
-            $("#caseObjective").textContent = data.objective;
-            $("#caseArchitecture").textContent = data.architecture;
-            $("#caseProof").textContent = data.proof;
-            $("#caseNext").textContent = data.next;
-            $("#caseLink").href = data.link;
-            $("#caseLink").textContent = data.button;
+      function setupProjectModal() {
+        $$(".project-card").forEach((card) => {
+          card.addEventListener("click", () => {
+            openSystemModal({
+              title: card.dataset.title,
+              status: card.dataset.status,
+              summary: card.dataset.summary,
+              details: card.dataset.details,
+              link: card.dataset.link,
+              linkLabel: card.dataset.linkLabel,
+            });
           });
+        });
+
+        $$("[data-demo-modal]").forEach((button) => {
+          button.addEventListener("click", () => {
+            openSystemModal({
+              title: button.dataset.title,
+              status: button.dataset.status,
+              summary: button.dataset.summary,
+              link: button.dataset.link,
+              linkLabel: "Test Now",
+            });
+          });
+        });
+
+        modalClose.addEventListener("click", closeProjectModal);
+
+        projectModal.addEventListener("click", (event) => {
+          if (event.target === projectModal) closeProjectModal();
         });
       }
 
@@ -2458,8 +2247,7 @@
 
           if (key === "escape") {
             close();
-            projectModal.classList.remove("open");
-            document.body.classList.remove("locked");
+            closeProjectModal();
           }
         });
       }
@@ -2483,7 +2271,6 @@
         setupReveal();
         setupFilters();
         setupProjectModal();
-        setupCases();
         setupCommandPalette();
         setupMobileMenu();
 
