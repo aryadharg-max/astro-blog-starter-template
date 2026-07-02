@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ServiceLoop Review</title>
+
+  <style>
+    :root {
+      --bg: #f4f1ec;
+      --panel: #ffffff;
+      --ink: #181714;
+      --muted: #6f6a61;
+      --line: #ded8cf;
+      --soft: #eee9e1;
+      --dark: #11110f;
+      --accent: #9b6b43;
+      --accent-dark: #76512f;
+      --success: #1f7a4d;
+      --warning: #a86519;
+      --danger: #a13d32;
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --shadow: 0 24px 80px rgba(24, 23, 20, 0.12);
+      --shadow-soft: 0 12px 35px rgba(24, 23, 20, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(155, 107, 67, 0.14), transparent 32rem),
+        radial-gradient(circle at bottom right, rgba(17, 17, 15, 0.08), transparent 36rem),
+        var(--bg);
+      color: var(--ink);
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 32px;
+      align-items: center;
+      padding: 42px 0;
+    }
+
+    .brand-panel {
+      min-height: 620px;
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(145deg, rgba(17, 17, 15, 0.98), rgba(37, 33, 28, 0.96)),
+        #11110f;
+      color: white;
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-panel::before {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 999px;
+      right: -180px;
+      top: -160px;
+      background: rgba(155, 107, 67, 0.34);
+      filter: blur(2px);
+    }
+
+    .brand-panel::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 22px;
+      pointer-events: none;
+    }
+
+    .brand-top,
+    .brand-main,
+    .brand-bottom {
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+    }
+
+    .mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #d7ad82, #815733);
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      font-weight: 800;
+      color: #171511;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.78);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .brand-main h1 {
+      margin: 0;
+      max-width: 430px;
+      font-size: clamp(38px, 5vw, 66px);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+    }
+
+    .brand-main p {
+      max-width: 390px;
+      margin: 22px 0 0;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .brand-bottom {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .metric {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 21px;
+      letter-spacing: -0.04em;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      color: rgba(255, 255, 255, 0.56);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .review-card {
+      border-radius: var(--radius-lg);
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .review-header {
+      padding: 28px 30px 22px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.64));
+    }
+
+    .review-eyebrow {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: #edf7f1;
+      color: var(--success);
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .verified-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: currentColor;
+    }
+
+    .store-row {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .store-avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: var(--dark);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .store-copy h2 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: -0.045em;
+    }
+
+    .store-copy p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .review-body {
+      padding: 30px;
+    }
+
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: baseline;
+      margin-bottom: 14px;
+    }
+
+    .section-title h3 {
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .stars {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .star-btn {
+      height: 68px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      color: #b8b0a5;
+      font-size: 30px;
+      cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .star-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(155, 107, 67, 0.42);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .star-btn.active {
+      color: #9b6b43;
+      background: #fff7ed;
+      border-color: rgba(155, 107, 67, 0.5);
+    }
+
+    .pill-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 13px 14px;
+      cursor: pointer;
+      color: #3d3933;
+      transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+      text-align: left;
+    }
+
+    .pill:hover {
+      transform: translateY(-1px);
+      border-color: rgba(155, 107, 67, 0.38);
+    }
+
+    .pill.selected {
+      background: var(--dark);
+      border-color: var(--dark);
+      color: white;
+    }
+
+    .scale-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .scale-option {
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 14px;
+      min-height: 76px;
+      border-radius: 18px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 160ms ease;
+    }
+
+    .scale-option strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: var(--ink);
+    }
+
+    .scale-option span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .scale-option:hover {
+      transform: translateY(-1px);
+      border-color: rgba(155, 107, 67, 0.42);
+    }
+
+    .scale-option.selected {
+      background: #fff7ed;
+      border-color: rgba(155, 107, 67, 0.55);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 112px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      color: var(--ink);
+      background: white;
+      outline: none;
+      line-height: 1.55;
+    }
+
+    textarea:focus {
+      border-color: rgba(155, 107, 67, 0.7);
+      box-shadow: 0 0 0 4px rgba(155, 107, 67, 0.10);
+    }
+
+    .submit-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 4px;
+    }
+
+    .fineprint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      max-width: 330px;
+    }
+
+    .primary {
+      border: 0;
+      border-radius: 999px;
+      background: var(--dark);
+      color: white;
+      padding: 15px 22px;
+      min-width: 170px;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+
+    .primary:hover {
+      transform: translateY(-2px);
+      background: #000;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .primary:disabled {
+      cursor: not-allowed;
+      opacity: 0.42;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .toast {
+      display: none;
+      padding: 18px;
+      border-radius: 18px;
+      background: #edf7f1;
+      color: var(--success);
+      border: 1px solid rgba(31, 122, 77, 0.18);
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    .submitted {
+      display: none;
+      padding: 34px;
+      text-align: center;
+    }
+
+    .submitted.show {
+      display: block;
+    }
+
+    .submitted-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 18px;
+      border-radius: 24px;
+      background: #edf7f1;
+      color: var(--success);
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      font-weight: 800;
+    }
+
+    .submitted h2 {
+      margin: 0;
+      font-size: 31px;
+      letter-spacing: -0.05em;
+    }
+
+    .submitted p {
+      margin: 12px auto 0;
+      max-width: 420px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 920px) {
+      .page {
+        grid-template-columns: 1fr;
+        padding: 24px 0;
+      }
+
+      .brand-panel {
+        min-height: auto;
+        gap: 80px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page {
+        width: min(100% - 22px, 1180px);
+      }
+
+      .brand-panel,
+      .review-card {
+        border-radius: 22px;
+      }
+
+      .brand-panel {
+        padding: 24px;
+      }
+
+      .brand-main h1 {
+        font-size: 42px;
+      }
+
+      .brand-bottom {
+        grid-template-columns: 1fr;
+      }
+
+      .review-header,
+      .review-body {
+        padding: 22px;
+      }
+
+      .review-eyebrow {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .store-row {
+        grid-template-columns: 48px 1fr;
+      }
+
+      .store-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 15px;
+      }
+
+      .store-copy h2 {
+        font-size: 23px;
+      }
+
+      .stars {
+        gap: 7px;
+      }
+
+      .star-btn {
+        height: 58px;
+        font-size: 25px;
+        border-radius: 15px;
+      }
+
+      .pill-grid,
+      .scale-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .submit-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .primary {
+        width: 100%;
+      }
+
+      .fineprint {
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <aside class="brand-panel">
+      <div class="brand-top">
+        <div class="logo">
+          <div class="mark">S</div>
+          <div>ServiceLoop</div>
+        </div>
+      </div>
+
+      <div class="brand-main">
+        <div class="label">Verified service review</div>
+        <h1>Feedback that reaches the right person.</h1>
+        <p>
+          Your response is linked to a verified purchase and helps the store recognise
+          consistent, high-quality service.
+        </p>
+      </div>
+
+      <div class="brand-bottom">
+        <div class="metric">
+          <strong>01</strong>
+          <span>Purchase verified</span>
+        </div>
+        <div class="metric">
+          <strong>20s</strong>
+          <span>Average review time</span>
+        </div>
+        <div class="metric">
+          <strong>Private</strong>
+          <span>Customer details hidden</span>
+        </div>
+      </div>
+    </aside>
+
+    <section class="review-card">
+      <div id="formView">
+        <header class="review-header">
+          <div class="review-eyebrow">
+            <span id="transactionText">Transaction SL-28491 · Today</span>
+            <span class="verified"><span class="verified-dot"></span> Verified purchase</span>
+          </div>
+
+          <div class="store-row">
+            <div class="store-avatar" id="storeInitials">AV</div>
+            <div class="store-copy">
+              <h2 id="headline">How was your experience?</h2>
+              <p id="subline">You were assisted by <strong id="employeeName">Aarav Mehta</strong> at <span id="storeName">Aurum Vault</span>.</p>
+            </div>
+          </div>
+        </header>
+
+        <div class="review-body">
+          <div class="toast" id="validationToast">
+            Please select a star rating before submitting your review.
+          </div>
+
+          <div class="section">
+            <div class="section-title">
+              <h3>Overall service</h3>
+              <span id="ratingLabel">Select one</span>
+            </div>
+
+            <div class="stars" aria-label="Star rating">
+              <button class="star-btn" data-rating="1" aria-label="1 star">★</button>
+              <button class="star-btn" data-rating="2" aria-label="2 stars">★</button>
+              <button class="star-btn" data-rating="3" aria-label="3 stars">★</button>
+              <button class="star-btn" data-rating="4" aria-label="4 stars">★</button>
+              <button class="star-btn" data-rating="5" aria-label="5 stars">★</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">
+              <h3>What stood out?</h3>
+              <span>Choose any</span>
+            </div>
+
+            <div class="pill-grid">
+              <button class="pill" data-tag="Polite and well-spoken">Polite and well-spoken</button>
+              <button class="pill" data-tag="Helpful product guidance">Helpful product guidance</button>
+              <button class="pill" data-tag="Fast billing">Fast billing</button>
+              <button class="pill" data-tag="Clear communication">Clear communication</button>
+              <button class="pill" data-tag="Patient support">Patient support</button>
+              <button class="pill" data-tag="Store could improve">Store could improve</button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">
+              <h3>Service pace</h3>
+              <span>Optional</span>
+            </div>
+
+            <div class="scale-grid">
+              <button class="scale-option" data-pace="Slow">
+                <strong>Slow</strong>
+                <span>I had to wait longer than expected.</span>
+              </button>
+
+              <button class="scale-option" data-pace="Comfortable">
+                <strong>Comfortable</strong>
+                <span>The interaction moved at a normal pace.</span>
+              </button>
+
+              <button class="scale-option" data-pace="Fast">
+                <strong>Fast</strong>
+                <span>The service was quick and efficient.</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">
+              <h3>Add a note</h3>
+              <span>Optional</span>
+            </div>
+
+            <textarea id="comment" placeholder="Share anything specific about the service, billing, product help, or overall experience."></textarea>
+          </div>
+
+          <div class="submit-row">
+            <p class="fineprint">
+              Your feedback is used by the store to improve service quality. It is not shown publicly.
+            </p>
+
+            <button class="primary" id="submitBtn">Submit review</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="submitted" id="submittedView">
+        <div class="submitted-icon">✓</div>
+        <h2>Review received.</h2>
+        <p>
+          Thank you for sharing your experience. Your feedback has been recorded against this verified transaction.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const demoTransactions = {
+      "SL-A7K29Q": {
+        transactionId: "SL-A7K29Q",
+        store: "Aurum Vault",
+        employee: "Aarav Mehta",
+        floor: "Ground Floor",
+        dateLabel: "Today"
+      },
+      "SL-M4P81X": {
+        transactionId: "SL-M4P81X",
+        store: "Northline Apparel",
+        employee: "Meera Kapoor",
+        floor: "First Floor",
+        dateLabel: "Today"
+      },
+      "SL-R9Q44B": {
+        transactionId: "SL-R9Q44B",
+        store: "Forma Home",
+        employee: "Kabir Sethi",
+        floor: "Second Floor",
+        dateLabel: "Today"
+      }
+    };
+
+    const fallbackTransaction = {
+      transactionId: "SL-28491",
+      store: "Aurum Vault",
+      employee: "Aarav Mehta",
+      floor: "Ground Floor",
+      dateLabel: "Today"
+    };
+
+    const state = {
+      rating: 0,
+      tags: [],
+      pace: "",
+      transaction: fallbackTransaction
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const tokenFromQuery = params.get("t");
+    const tokenFromHash = window.location.hash.replace("#review/", "").replace("#", "");
+    const token = tokenFromQuery || tokenFromHash;
+
+    if (token && demoTransactions[token]) {
+      state.transaction = demoTransactions[token];
+    }
+
+    const employeeName = document.getElementById("employeeName");
+    const storeName = document.getElementById("storeName");
+    const storeInitials = document.getElementById("storeInitials");
+    const transactionText = document.getElementById("transactionText");
+    const ratingLabel = document.getElementById("ratingLabel");
+    const validationToast = document.getElementById("validationToast");
+    const submitBtn = document.getElementById("submitBtn");
+    const formView = document.getElementById("formView");
+    const submittedView = document.getElementById("submittedView");
+
+    function initials(name) {
+      return name
+        .split(" ")
+        .map(word => word[0])
+        .slice(0, 2)
+        .join("")
+        .toUpperCase();
+    }
+
+    function hydrateTransaction() {
+      employeeName.textContent = state.transaction.employee;
+      storeName.textContent = state.transaction.store;
+      storeInitials.textContent = initials(state.transaction.store);
+      transactionText.textContent = `${state.transaction.transactionId} · ${state.transaction.floor} · ${state.transaction.dateLabel}`;
+    }
+
+    function setRating(value) {
+      state.rating = value;
+      validationToast.classList.remove("show");
+
+      document.querySelectorAll(".star-btn").forEach(button => {
+        const buttonRating = Number(button.dataset.rating);
+        button.classList.toggle("active", buttonRating <= value);
+      });
+
+      const labels = {
+        1: "Poor",
+        2: "Could be better",
+        3: "Good",
+        4: "Very good",
+        5: "Excellent"
+      };
+
+      ratingLabel.textContent = labels[value];
+    }
+
+    function toggleTag(tag, button) {
+      if (state.tags.includes(tag)) {
+        state.tags = state.tags.filter(item => item !== tag);
+        button.classList.remove("selected");
+      } else {
+        state.tags.push(tag);
+        button.classList.add("selected");
+      }
+    }
+
+    function setPace(value, button) {
+      state.pace = value;
+
+      document.querySelectorAll(".scale-option").forEach(option => {
+        option.classList.remove("selected");
+      });
+
+      button.classList.add("selected");
+    }
+
+    function saveReview() {
+      if (!state.rating) {
+        validationToast.classList.add("show");
+        return;
+      }
+
+      const review = {
+        transactionId: state.transaction.transactionId,
+        store: state.transaction.store,
+        employee: state.transaction.employee,
+        rating: state.rating,
+        tags: state.tags,
+        pace: state.pace,
+        comment: document.getElementById("comment").value.trim(),
+        submittedAt: new Date().toISOString()
+      };
+
+      const existing = JSON.parse(localStorage.getItem("serviceloop_reviews") || "[]");
+      existing.push(review);
+      localStorage.setItem("serviceloop_reviews", JSON.stringify(existing));
+
+      formView.classList.add("hidden");
+      submittedView.classList.add("show");
+    }
+
+    document.querySelectorAll(".star-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        setRating(Number(button.dataset.rating));
+      });
+    });
+
+    document.querySelectorAll(".pill").forEach(button => {
+      button.addEventListener("click", () => {
+        toggleTag(button.dataset.tag, button);
+      });
+    });
+
+    document.querySelectorAll(".scale-option").forEach(button => {
+      button.addEventListener("click", () => {
+        setPace(button.dataset.pace, button);
+      });
+    });
+
+    submitBtn.addEventListener("click", saveReview);
+
+    hydrateTransaction();
+  </script>
+</body>
+</html>
