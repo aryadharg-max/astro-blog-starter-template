@@ -1497,6 +1497,7 @@
           <a href="#capabilities">Capabilities</a>
           <a href="#builds">Builds</a>
           <a href="#live-demos">Live Demos</a>
+          <a href="/serviceloop/">ServiceLoop</a>
           <a href="#process">Process</a>
           <a href="#contact">Contact</a>
         </div>
@@ -1537,8 +1538,8 @@
 
             <div class="hero-actions">
               <a class="btn primary" href="#systems">Explore Systems →</a>
-              <a class="btn redline" href="#capabilities">View Capabilities</a>
-              <a class="btn" href="/traffic-control/">Live Demo</a>
+              <a class="btn redline" href="/serviceloop/">Open ServiceLoop Demo</a>
+              <a class="btn" href="/traffic-control/">Traffic Control Demo</a>
             </div>
           </div>
 
@@ -1677,6 +1678,33 @@
             <div class="project-bottom">
               <span>Hardware + software</span>
               <button class="open-btn" type="button">Open</button>
+            </div>
+          </article>
+
+          <article
+            class="project-card feature reveal"
+            data-tags="web business tracking live"
+            data-status="Live Demo"
+            data-title="ServiceLoop Employee Feedback & Incentive System"
+            data-summary="A transaction-linked employee feedback system that turns customer reviews into structured performance records, incentive logic, and management visibility."
+            data-details="QR or link-based review flow after purchase|Employee-linked feedback records|Customer rating and comment capture|Performance dashboard for management|Incentive-ready scoring logic|Designed for malls, retail stores, restaurants, and service-led businesses"
+            style="--orb: rgba(214, 61, 49, 0.12); --accent: var(--red)"
+          >
+            <div class="project-top">
+              <div class="project-meta">
+                <span class="tag live">Live Demo</span>
+                <span class="tag">Employee Feedback</span>
+                <span class="tag">Incentives</span>
+              </div>
+              <h3>ServiceLoop Employee Feedback & Incentive System</h3>
+              <p>
+                A review and incentive platform that links customer feedback to the employee who served them,
+                creating a clearer performance record for service-led businesses.
+              </p>
+            </div>
+            <div class="project-bottom">
+              <span>Review system</span>
+              <a class="open-btn" href="/serviceloop/">Open</a>
             </div>
           </article>
 
@@ -1926,7 +1954,11 @@
 
         <div class="case-stage reveal">
           <div class="case-tabs">
-            <button class="case-tab active" data-case="iot" type="button">
+            <button class="case-tab active" data-case="serviceloop" type="button">
+              <span>Service System</span>
+              <strong>Employee Review Incentives</strong>
+            </button>
+            <button class="case-tab" data-case="iot" type="button">
               <span>Live IoT System</span>
               <strong>Traffic Light Control</strong>
             </button>
@@ -1942,35 +1974,34 @@
 
           <div class="case-display">
             <div>
-              <p class="case-kicker" id="caseKicker">Live IoT System</p>
-              <h3 id="caseTitle">Traffic Light Control</h3>
+              <p class="case-kicker" id="caseKicker">Service System</p>
+              <h3 id="caseTitle">Employee Review Incentives</h3>
               <p class="case-copy" id="caseCopy">
-                A connected control system linking a physical traffic light setup to a web interface,
-                Cloudflare Worker, live state, password-protected commands, and local hardware logic.
+                A transaction-linked review system for malls and service businesses, connecting customer feedback to the employee who handled the purchase.
               </p>
 
               <div class="case-matrix">
                 <div class="case-cell">
                   <span>Objective</span>
-                  <strong id="caseObjective">Control physical hardware remotely without exposing the local device.</strong>
+                  <strong id="caseObjective">Turn customer feedback into a structured employee performance and incentive record.</strong>
                 </div>
                 <div class="case-cell">
                   <span>Architecture</span>
-                  <strong id="caseArchitecture">Website → Worker → KV state → ESP8266 polling loop.</strong>
+                  <strong id="caseArchitecture">POS transaction → review token → QR/link → customer review → dashboard.</strong>
                 </div>
                 <div class="case-cell">
                   <span>Output</span>
-                  <strong id="caseProof">A live control panel connected to a real relay-based lighting system.</strong>
+                  <strong id="caseProof">A live review flow with employee scores, recent feedback, and incentive-ready metrics.</strong>
                 </div>
                 <div class="case-cell">
                   <span>Best Fit</span>
-                  <strong id="caseNext">IoT control, device dashboards, connected hardware, and automation prototypes.</strong>
+                  <strong id="caseNext">Malls, retail stores, restaurants, service counters, and customer-facing teams.</strong>
                 </div>
               </div>
             </div>
 
             <div class="case-actions">
-              <a class="btn primary" id="caseLink" href="/traffic-control/">Open Live Demo →</a>
+              <a class="btn primary" id="caseLink" href="/serviceloop/">Open ServiceLoop Demo →</a>
               <a class="btn" href="#contact">Start a Build</a>
             </div>
           </div>
@@ -1989,6 +2020,11 @@
         <div class="process-grid">
           <div class="panel reveal">
             <div class="queue">
+              <div class="queue-item">
+                <span>Review</span>
+                <strong>ServiceLoop Employee Feedback & Incentive System</strong>
+                <em>live</em>
+              </div>
               <div class="queue-item">
                 <span>IoT</span>
                 <strong>Traffic Light Control System</strong>
@@ -2027,6 +2063,10 @@
             </div>
 
             <div class="velocity-links">
+              <a href="/serviceloop/">
+                <strong>ServiceLoop</strong>
+                <span>Open →</span>
+              </a>
               <a href="/traffic-control/">
                 <strong>Traffic Control</strong>
                 <span>Open →</span>
@@ -2102,7 +2142,7 @@
             <h2>Build the system around it.</h2>
             <p>
               For IoT systems, web platforms, product tracking, dashboards, logistics tools, monitoring systems,
-              CAD/CAM workflows, connected hardware, or serious project development.
+              CAD/CAM workflows, connected hardware, employee feedback systems, or serious project development.
             </p>
             <p>
               Send the brief. I’ll tell you what can be built, what it will take, and where to start.
@@ -2170,11 +2210,14 @@
             <a href="#capabilities" data-command="capabilities connect build track monitor">
               <strong>Capabilities</strong><span>Core service areas</span>
             </a>
-            <a href="#builds" data-command="build examples case studies traffic tracking monitoring">
+            <a href="#builds" data-command="build examples case studies traffic tracking monitoring serviceloop employee review incentive">
               <strong>Build Examples</strong><span>System files</span>
             </a>
-            <a href="#live-demos" data-command="live demos working proof traffic control">
+            <a href="#live-demos" data-command="live demos working proof traffic control serviceloop employee feedback">
               <strong>Live Demos</strong><span>Working project layers</span>
+            </a>
+            <a href="/serviceloop/" data-command="serviceloop employee feedback review incentive mall retail service live demo">
+              <strong>ServiceLoop</strong><span>Employee feedback & incentive demo</span>
             </a>
             <a href="#process" data-command="process brief map build test deploy">
               <strong>Process</strong><span>How systems are built</span>
@@ -2213,6 +2256,18 @@
       const commandItems = $$("#commandList a");
 
       const caseData = {
+        serviceloop: {
+          kicker: "Service System",
+          title: "Employee Review Incentives",
+          copy:
+            "A transaction-linked review system for malls and service businesses, connecting customer feedback to the employee who handled the purchase.",
+          objective: "Turn customer feedback into a structured employee performance and incentive record.",
+          architecture: "POS transaction → review token → QR/link → customer review → dashboard.",
+          proof: "A live review flow with employee scores, recent feedback, and incentive-ready metrics.",
+          next: "Malls, retail stores, restaurants, service counters, and customer-facing teams.",
+          link: "/serviceloop/",
+          button: "Open ServiceLoop Demo →",
+        },
         iot: {
           kicker: "Live IoT System",
           title: "Traffic Light Control",
