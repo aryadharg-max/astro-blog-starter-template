@@ -1,0 +1,1222 @@
+---
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Air Quality Monitoring Dashboard | Aryadhar Gupta</title>
+    <meta
+      name="description"
+      content="A live air quality monitoring dashboard showing PM readings, device status, and environmental sensor data from a connected monitoring unit."
+    />
+
+    <style>
+      :root {
+        --bg: #eef3ef;
+        --bg-2: #dfe8df;
+        --ink: #101310;
+        --muted: #68736b;
+        --line: rgba(16, 19, 16, 0.12);
+        --panel: rgba(255, 255, 255, 0.72);
+        --panel-strong: rgba(255, 255, 255, 0.9);
+        --dark: #0d1510;
+        --green: #167a55;
+        --green-2: #0f5f42;
+        --yellow: #b88718;
+        --orange: #c45f22;
+        --red: #bb332d;
+        --blue: #173f62;
+        --shadow: 0 28px 78px rgba(16, 19, 16, 0.12);
+        --soft-shadow: 0 16px 38px rgba(16, 19, 16, 0.08);
+        --radius-xl: 30px;
+        --radius-lg: 22px;
+        --radius-md: 16px;
+        --max: 1360px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at 10% 0%, rgba(22, 122, 85, 0.14), transparent 28rem),
+          radial-gradient(circle at 92% 6%, rgba(23, 63, 98, 0.1), transparent 30rem),
+          linear-gradient(180deg, var(--bg), var(--bg-2));
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button {
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .noise {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        opacity: 0.14;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(16, 19, 16, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(16, 19, 16, 0.04) 1px, transparent 1px);
+        background-size: 46px 46px;
+      }
+
+      .shell {
+        width: min(var(--max), calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .nav {
+        position: sticky;
+        top: 12px;
+        z-index: 20;
+        margin-top: 12px;
+      }
+
+      .nav-inner {
+        min-height: 62px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: rgba(238, 243, 239, 0.84);
+        backdrop-filter: blur(22px);
+        box-shadow: 0 14px 32px rgba(16, 19, 16, 0.07);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 10px 12px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand-mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--green), var(--green-2));
+        color: white;
+        display: grid;
+        place-items: center;
+        font-weight: 950;
+        letter-spacing: -0.08em;
+      }
+
+      .brand strong {
+        display: block;
+        letter-spacing: -0.04em;
+      }
+
+      .brand span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .nav-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .nav-actions a,
+      .nav-actions button {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.62);
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 9px 12px;
+        font-weight: 850;
+        font-size: 13px;
+      }
+
+      .nav-actions a:hover,
+      .nav-actions button:hover {
+        color: var(--ink);
+        border-color: rgba(16, 19, 16, 0.22);
+        background: rgba(255, 255, 255, 0.86);
+      }
+
+      .hero {
+        padding: clamp(36px, 6vw, 74px) 0 34px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+        gap: 16px;
+        align-items: stretch;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        background: var(--panel);
+        backdrop-filter: blur(22px);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-main {
+        padding: clamp(24px, 4.5vw, 50px);
+        min-height: 610px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .hero-main::after {
+        content: "";
+        position: absolute;
+        left: -12%;
+        bottom: 16%;
+        width: 130%;
+        height: 82px;
+        background:
+          linear-gradient(105deg, transparent 0 20%, rgba(22, 122, 85, 0.2) 20.4% 21.2%, transparent 21.6% 100%),
+          linear-gradient(105deg, transparent 0 48%, rgba(23, 63, 98, 0.14) 48.4% 49.2%, transparent 49.6% 100%);
+        transform: rotate(-7deg);
+        opacity: 0.8;
+      }
+
+      .hero-content,
+      .hero-proof {
+        position: relative;
+        z-index: 1;
+      }
+
+      .status-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 26px;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.66);
+        border-radius: 999px;
+        padding: 8px 11px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 850;
+      }
+
+      .pulse {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 0 7px rgba(22, 122, 85, 0.12);
+      }
+
+      .kicker {
+        margin: 0 0 14px;
+        color: var(--green);
+        font-size: 11px;
+        font-weight: 850;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 900px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(48px, 7vw, 100px);
+        font-weight: 500;
+        line-height: 0.88;
+        letter-spacing: -0.075em;
+      }
+
+      h1 em {
+        color: var(--green);
+        font-style: italic;
+      }
+
+      .hero-copy {
+        margin: 26px 0 0;
+        max-width: 780px;
+        color: var(--muted);
+        font-size: clamp(16px, 1.5vw, 20px);
+        line-height: 1.58;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 30px;
+      }
+
+      .btn {
+        border: 1px solid var(--line);
+        border-radius: 15px;
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.68);
+        color: var(--ink);
+        font-weight: 850;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: 150ms ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(16, 19, 16, 0.09);
+      }
+
+      .btn.primary {
+        background: linear-gradient(135deg, var(--green), var(--green-2));
+        color: white;
+        border-color: rgba(22, 122, 85, 0.58);
+      }
+
+      .btn.dark {
+        background: var(--dark);
+        color: white;
+      }
+
+      .hero-proof {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 42px;
+      }
+
+      .proof-tile {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 18px;
+        padding: 15px;
+        min-height: 120px;
+        display: grid;
+        align-content: space-between;
+      }
+
+      .proof-tile span {
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 850;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .proof-tile strong {
+        display: block;
+        margin-top: 15px;
+        font-size: 15px;
+        line-height: 1.22;
+      }
+
+      .device-panel {
+        padding: 16px;
+        min-height: 610px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .black-card {
+        border-radius: 26px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent),
+          var(--dark);
+        color: white;
+        padding: 20px;
+        min-height: 380px;
+        overflow: hidden;
+        position: relative;
+        display: grid;
+        align-content: space-between;
+      }
+
+      .black-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+        background-size: 34px 34px;
+        opacity: 0.42;
+      }
+
+      .black-card > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .device-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        color: rgba(255, 255, 255, 0.62);
+        font-size: 11px;
+        font-weight: 850;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .device-title {
+        margin-top: 22px;
+      }
+
+      .device-title h2 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(42px, 5vw, 68px);
+        line-height: 0.88;
+        letter-spacing: -0.07em;
+        font-weight: 500;
+      }
+
+      .device-title p {
+        color: rgba(255, 255, 255, 0.64);
+        line-height: 1.55;
+        margin: 15px 0 0;
+      }
+
+      .pm-reading {
+        margin-top: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 22px;
+        padding: 18px;
+      }
+
+      .pm-reading span {
+        color: rgba(255, 255, 255, 0.58);
+        font-size: 11px;
+        font-weight: 850;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .pm-reading strong {
+        display: block;
+        margin-top: 8px;
+        font-size: clamp(58px, 8vw, 96px);
+        line-height: 0.9;
+        letter-spacing: -0.08em;
+      }
+
+      .pm-reading small {
+        color: rgba(255, 255, 255, 0.58);
+      }
+
+      .mini-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .mini-card {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.62);
+        border-radius: 22px;
+        padding: 17px;
+        min-height: 154px;
+      }
+
+      .mini-card span {
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 850;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .mini-card strong {
+        display: block;
+        margin-top: 18px;
+        font-size: 30px;
+        letter-spacing: -0.06em;
+        line-height: 1;
+      }
+
+      .mini-card p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      section {
+        padding: 50px 0;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(38px, 5.2vw, 76px);
+        line-height: 0.88;
+        letter-spacing: -0.07em;
+        font-weight: 500;
+      }
+
+      .section-head p {
+        max-width: 620px;
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .dashboard {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 14px;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        background: var(--panel);
+        backdrop-filter: blur(22px);
+        box-shadow: var(--soft-shadow);
+        border-radius: var(--radius-xl);
+        padding: 20px;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+
+      .metric {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.62);
+        border-radius: 20px;
+        padding: 16px;
+      }
+
+      .metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 850;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 10px;
+        font-size: 34px;
+        letter-spacing: -0.065em;
+      }
+
+      .metric small {
+        color: var(--muted);
+      }
+
+      .chart-wrap {
+        margin-top: 14px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.62);
+        border-radius: 22px;
+        padding: 14px;
+      }
+
+      canvas {
+        width: 100%;
+        height: 260px;
+        display: block;
+      }
+
+      .status-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .status-item {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.62);
+        border-radius: 18px;
+        padding: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .status-item span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .status-item strong {
+        text-align: right;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        padding: 7px 9px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.62);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 850;
+      }
+
+      .badge.good {
+        color: var(--green);
+        border-color: rgba(22, 122, 85, 0.22);
+      }
+
+      .badge.warn {
+        color: var(--yellow);
+        border-color: rgba(184, 135, 24, 0.22);
+      }
+
+      .badge.bad {
+        color: var(--red);
+        border-color: rgba(187, 51, 45, 0.22);
+      }
+
+      .implementation {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+
+      .implementation-card {
+        border: 1px solid var(--line);
+        background: var(--panel);
+        border-radius: 24px;
+        padding: 18px;
+        box-shadow: var(--soft-shadow);
+      }
+
+      .implementation-card span {
+        color: var(--green);
+        font-size: 11px;
+        font-weight: 850;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .implementation-card h3 {
+        margin: 22px 0 0;
+        font-size: 22px;
+        letter-spacing: -0.045em;
+      }
+
+      .implementation-card p {
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .footer {
+        padding: 28px 0 42px;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        font-size: 14px;
+      }
+
+      @media (max-width: 1080px) {
+        .hero,
+        .dashboard {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-main,
+        .device-panel {
+          min-height: auto;
+        }
+
+        .implementation {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .nav-inner,
+        .section-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .nav-actions {
+          justify-content: flex-start;
+        }
+
+        .hero-proof,
+        .mini-grid,
+        .metric-grid,
+        .implementation {
+          grid-template-columns: 1fr;
+        }
+
+        .status-item {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .status-item strong {
+          text-align: left;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="noise"></div>
+
+    <nav class="nav shell">
+      <div class="nav-inner">
+        <a class="brand" href="/">
+          <div class="brand-mark">AQ</div>
+          <div>
+            <strong>Air Quality Monitoring Dashboard</strong>
+            <span>Live environmental system</span>
+          </div>
+        </a>
+
+        <div class="nav-actions">
+          <a href="/">Portfolio</a>
+          <a href="#dashboard">Dashboard</a>
+          <a href="#implementation">Implementation</a>
+          <button id="refreshButton" type="button">Refresh</button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="shell">
+      <section class="hero">
+        <div class="hero-main panel">
+          <div class="hero-content">
+            <div class="status-strip">
+              <span class="pill"><span class="pulse" id="livePulse"></span> <span id="feedLabel">Demo Feed</span></span>
+              <span class="pill" id="deviceName">AQM-01</span>
+              <span class="pill" id="locationLabel">Prototype Bench</span>
+            </div>
+
+            <p class="kicker">Sensor-backed environmental monitoring</p>
+            <h1>Air quality data from a <em>connected</em> monitoring unit.</h1>
+
+            <p class="hero-copy">
+              A dashboard for live PM readings, device health, sensor status, and environmental visibility.
+              The system proves the link between a physical sensor unit, a data layer, and an owner-facing dashboard.
+            </p>
+
+            <div class="actions">
+              <a class="btn primary" href="#dashboard">View Dashboard →</a>
+              <button class="btn" id="simulateButton" type="button">Simulate Update</button>
+              <a class="btn dark" href="/">Back to Portfolio</a>
+            </div>
+          </div>
+
+          <div class="hero-proof">
+            <div class="proof-tile">
+              <span>Sensor Data</span>
+              <strong>PM1, PM2.5, PM10 and device readings.</strong>
+            </div>
+            <div class="proof-tile">
+              <span>Device Health</span>
+              <strong>Sensor status, Wi-Fi signal, uptime, and freshness.</strong>
+            </div>
+            <div class="proof-tile">
+              <span>Dashboard</span>
+              <strong>Owner-facing visibility without technical noise.</strong>
+            </div>
+            <div class="proof-tile">
+              <span>Deployment</span>
+              <strong>Built for schools, offices, malls, and facilities.</strong>
+            </div>
+          </div>
+        </div>
+
+        <aside class="device-panel panel">
+          <div class="black-card">
+            <div>
+              <div class="device-top">
+                <span>Primary Reading</span>
+                <span id="lastUpdated">—</span>
+              </div>
+
+              <div class="device-title">
+                <h2 id="statusTitle">Reading air quality.</h2>
+                <p id="statusCopy">
+                  Waiting for the latest device update.
+                </p>
+              </div>
+
+              <div class="pm-reading">
+                <span>PM2.5</span>
+                <strong><span id="pm25Value">—</span></strong>
+                <small>µg/m³</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="mini-grid">
+            <div class="mini-card">
+              <span>PM10</span>
+              <strong id="pm10Value">—</strong>
+              <p>Coarser particulate reading.</p>
+            </div>
+
+            <div class="mini-card">
+              <span>PM1</span>
+              <strong id="pm1Value">—</strong>
+              <p>Fine particulate reading.</p>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="dashboard">
+        <div class="section-head">
+          <h2>Live<br />Dashboard</h2>
+          <p>
+            A compact monitoring layer for air quality readings, trend visibility, and device health.
+          </p>
+        </div>
+
+        <div class="dashboard">
+          <div class="card">
+            <div class="metric-grid">
+              <div class="metric">
+                <span>PM2.5</span>
+                <strong id="metricPm25">—</strong>
+                <small>µg/m³</small>
+              </div>
+              <div class="metric">
+                <span>PM10</span>
+                <strong id="metricPm10">—</strong>
+                <small>µg/m³</small>
+              </div>
+              <div class="metric">
+                <span>PM1</span>
+                <strong id="metricPm1">—</strong>
+                <small>µg/m³</small>
+              </div>
+            </div>
+
+            <div class="chart-wrap">
+              <canvas id="trendChart" width="900" height="320" aria-label="PM2.5 trend chart"></canvas>
+            </div>
+          </div>
+
+          <aside class="card">
+            <h3 style="margin-top: 0;">Device Status</h3>
+            <p style="color: var(--muted); line-height: 1.55;">
+              This panel separates the air reading from system health, so the operator can see if the data is fresh and the device is online.
+            </p>
+
+            <div class="status-list">
+              <div class="status-item">
+                <span>Device</span>
+                <strong id="deviceStatus"><span class="badge">Checking</span></strong>
+              </div>
+              <div class="status-item">
+                <span>Sensor</span>
+                <strong id="sensorStatus"><span class="badge">Checking</span></strong>
+              </div>
+              <div class="status-item">
+                <span>Wi-Fi RSSI</span>
+                <strong id="wifiRssi">—</strong>
+              </div>
+              <div class="status-item">
+                <span>Temperature</span>
+                <strong id="temperature">—</strong>
+              </div>
+              <div class="status-item">
+                <span>Humidity</span>
+                <strong id="humidity">—</strong>
+              </div>
+              <div class="status-item">
+                <span>Source</span>
+                <strong id="sourceLabel">Browser demo</strong>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="implementation">
+        <div class="section-head">
+          <h2>What it<br />proves</h2>
+          <p>
+            This demo is the front-end layer. A production build connects the device feed, storage, alerts, and owner reporting.
+          </p>
+        </div>
+
+        <div class="implementation">
+          <div class="implementation-card">
+            <span>01 / Hardware</span>
+            <h3>Sensor-backed readings</h3>
+            <p>
+              The system is designed around a real air quality unit sending PM readings and health data to a dashboard.
+            </p>
+          </div>
+
+          <div class="implementation-card">
+            <span>02 / Data Layer</span>
+            <h3>Cloud-fed dashboard</h3>
+            <p>
+              Device readings can be posted to an API, stored in a database, and displayed as a clean owner-facing view.
+            </p>
+          </div>
+
+          <div class="implementation-card">
+            <span>03 / Operations</span>
+            <h3>Useful visibility</h3>
+            <p>
+              Facilities can track air quality, monitor device health, and use alerts or reports for operational decisions.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer shell">
+      <span>Air Quality Monitoring Dashboard</span>
+      <span>Connected sensor system demo</span>
+    </footer>
+
+    <script is:inline>
+      /*
+        Backend hook:
+        Later, set AQM_API_ENDPOINT to your real endpoint.
+
+        Expected response shape:
+        {
+          deviceName: "AQM-01",
+          location: "Prototype Bench",
+          pm1: 22,
+          pm25: 38,
+          pm10: 55,
+          temperature: 25.4,
+          humidity: 48,
+          wifiRssi: -52,
+          deviceOnline: true,
+          sensorOnline: true,
+          source: "esp32_cloud",
+          updatedAt: "2026-07-13T10:30:00.000Z"
+        }
+      */
+
+      const AQM_API_ENDPOINT = "";
+      const POLL_INTERVAL_MS = 5000;
+
+      const $ = (id) => document.getElementById(id);
+
+      const el = {
+        feedLabel: $("feedLabel"),
+        deviceName: $("deviceName"),
+        locationLabel: $("locationLabel"),
+        lastUpdated: $("lastUpdated"),
+        statusTitle: $("statusTitle"),
+        statusCopy: $("statusCopy"),
+        pm25Value: $("pm25Value"),
+        pm10Value: $("pm10Value"),
+        pm1Value: $("pm1Value"),
+        metricPm25: $("metricPm25"),
+        metricPm10: $("metricPm10"),
+        metricPm1: $("metricPm1"),
+        deviceStatus: $("deviceStatus"),
+        sensorStatus: $("sensorStatus"),
+        wifiRssi: $("wifiRssi"),
+        temperature: $("temperature"),
+        humidity: $("humidity"),
+        sourceLabel: $("sourceLabel"),
+        trendChart: $("trendChart"),
+        refreshButton: $("refreshButton"),
+        simulateButton: $("simulateButton"),
+      };
+
+      const history = [];
+
+      function rand(min, max) {
+        return Math.round(min + Math.random() * (max - min));
+      }
+
+      function makeDemoReading() {
+        const base = history.length ? history[history.length - 1].pm25 : 38;
+        const pm25 = Math.max(8, Math.min(110, base + rand(-7, 8)));
+
+        return {
+          deviceName: "AQM-01",
+          location: "Prototype Bench",
+          pm1: Math.max(4, Math.round(pm25 * 0.68 + rand(-3, 3))),
+          pm25,
+          pm10: Math.max(pm25 + 4, Math.round(pm25 * 1.42 + rand(-4, 8))),
+          temperature: 24 + Math.random() * 4,
+          humidity: 42 + Math.random() * 12,
+          wifiRssi: -48 - rand(0, 12),
+          deviceOnline: true,
+          sensorOnline: true,
+          source: "Browser demo",
+          updatedAt: new Date().toISOString(),
+        };
+      }
+
+      function getStatus(pm25) {
+        if (pm25 <= 30) {
+          return {
+            label: "Good",
+            className: "good",
+            title: "Air quality is good.",
+            copy: "PM2.5 is currently within the low range for this demo dashboard.",
+          };
+        }
+
+        if (pm25 <= 60) {
+          return {
+            label: "Satisfactory",
+            className: "good",
+            title: "Air quality is satisfactory.",
+            copy: "PM2.5 is elevated but still acceptable for the current demo threshold.",
+          };
+        }
+
+        if (pm25 <= 90) {
+          return {
+            label: "Moderate",
+            className: "warn",
+            title: "Air quality is moderate.",
+            copy: "PM2.5 has moved into a range that should be monitored.",
+          };
+        }
+
+        return {
+          label: "High",
+          className: "bad",
+          title: "Air quality needs attention.",
+          copy: "PM2.5 is high in this demo feed. The system would flag this for review.",
+        };
+      }
+
+      function timeAgo(iso) {
+        const seconds = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 1000));
+
+        if (seconds < 10) return "Just now";
+        if (seconds < 60) return `${seconds}s ago`;
+
+        const minutes = Math.round(seconds / 60);
+        return `${minutes}m ago`;
+      }
+
+      function badge(label, className = "") {
+        return `<span class="badge ${className}">${label}</span>`;
+      }
+
+      function formatNumber(value, digits = 0) {
+        if (value === null || value === undefined || Number.isNaN(Number(value))) return "—";
+        return Number(value).toFixed(digits);
+      }
+
+      function updateUI(reading) {
+        const status = getStatus(Number(reading.pm25));
+
+        el.feedLabel.textContent = AQM_API_ENDPOINT ? "Live Feed" : "Demo Feed";
+        el.deviceName.textContent = reading.deviceName || "AQM-01";
+        el.locationLabel.textContent = reading.location || "Prototype Bench";
+        el.lastUpdated.textContent = timeAgo(reading.updatedAt);
+
+        el.statusTitle.textContent = status.title;
+        el.statusCopy.textContent = status.copy;
+
+        el.pm25Value.textContent = formatNumber(reading.pm25);
+        el.pm10Value.textContent = formatNumber(reading.pm10);
+        el.pm1Value.textContent = formatNumber(reading.pm1);
+
+        el.metricPm25.textContent = formatNumber(reading.pm25);
+        el.metricPm10.textContent = formatNumber(reading.pm10);
+        el.metricPm1.textContent = formatNumber(reading.pm1);
+
+        el.deviceStatus.innerHTML = reading.deviceOnline ? badge("Online", "good") : badge("Offline", "bad");
+        el.sensorStatus.innerHTML = reading.sensorOnline ? badge("Online", "good") : badge("Offline", "bad");
+
+        el.wifiRssi.textContent = reading.wifiRssi ? `${reading.wifiRssi} dBm` : "—";
+        el.temperature.textContent = reading.temperature ? `${formatNumber(reading.temperature, 1)} °C` : "—";
+        el.humidity.textContent = reading.humidity ? `${formatNumber(reading.humidity, 0)}%` : "—";
+        el.sourceLabel.textContent = reading.source || (AQM_API_ENDPOINT ? "API feed" : "Browser demo");
+
+        history.push({
+          pm25: Number(reading.pm25),
+          updatedAt: reading.updatedAt,
+        });
+
+        if (history.length > 32) history.shift();
+
+        drawChart();
+      }
+
+      function drawChart() {
+        const canvas = el.trendChart;
+        const ctx = canvas.getContext("2d");
+        const width = canvas.width;
+        const height = canvas.height;
+        const pad = 34;
+
+        ctx.clearRect(0, 0, width, height);
+
+        ctx.fillStyle = "rgba(255,255,255,0.55)";
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.strokeStyle = "rgba(16,19,16,0.10)";
+        ctx.lineWidth = 1;
+
+        for (let i = 0; i <= 4; i++) {
+          const y = pad + ((height - pad * 2) / 4) * i;
+          ctx.beginPath();
+          ctx.moveTo(pad, y);
+          ctx.lineTo(width - pad, y);
+          ctx.stroke();
+        }
+
+        if (history.length < 2) {
+          ctx.fillStyle = "rgba(16,19,16,0.45)";
+          ctx.font = "16px Inter, system-ui, sans-serif";
+          ctx.fillText("Waiting for readings…", pad, height / 2);
+          return;
+        }
+
+        const values = history.map((point) => point.pm25);
+        const max = Math.max(100, Math.max(...values) + 12);
+        const min = 0;
+
+        function x(index) {
+          return pad + ((width - pad * 2) / Math.max(1, history.length - 1)) * index;
+        }
+
+        function y(value) {
+          return height - pad - ((value - min) / (max - min)) * (height - pad * 2);
+        }
+
+        const gradient = ctx.createLinearGradient(0, pad, 0, height - pad);
+        gradient.addColorStop(0, "rgba(22,122,85,0.28)");
+        gradient.addColorStop(1, "rgba(22,122,85,0.02)");
+
+        ctx.beginPath();
+        ctx.moveTo(x(0), height - pad);
+        values.forEach((value, index) => ctx.lineTo(x(index), y(value)));
+        ctx.lineTo(x(values.length - 1), height - pad);
+        ctx.closePath();
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        ctx.beginPath();
+        values.forEach((value, index) => {
+          const px = x(index);
+          const py = y(value);
+          if (index === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        });
+
+        ctx.strokeStyle = "#167a55";
+        ctx.lineWidth = 4;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        ctx.stroke();
+
+        const latest = values[values.length - 1];
+        ctx.beginPath();
+        ctx.arc(x(values.length - 1), y(latest), 7, 0, Math.PI * 2);
+        ctx.fillStyle = "#167a55";
+        ctx.fill();
+
+        ctx.fillStyle = "rgba(16,19,16,0.58)";
+        ctx.font = "13px Inter, system-ui, sans-serif";
+        ctx.fillText("PM2.5 trend", pad, 22);
+      }
+
+      async function fetchReading() {
+        if (!AQM_API_ENDPOINT) {
+          const reading = makeDemoReading();
+          updateUI(reading);
+          return;
+        }
+
+        try {
+          const response = await fetch(AQM_API_ENDPOINT, { cache: "no-store" });
+
+          if (!response.ok) {
+            throw new Error("AQM API failed");
+          }
+
+          const reading = await response.json();
+          updateUI(reading);
+        } catch (error) {
+          const fallback = makeDemoReading();
+          fallback.deviceOnline = false;
+          fallback.sensorOnline = false;
+          fallback.source = "Fallback demo";
+          updateUI(fallback);
+        }
+      }
+
+      function init() {
+        for (let i = 0; i < 12; i++) {
+          const reading = makeDemoReading();
+          reading.updatedAt = new Date(Date.now() - (12 - i) * 5000).toISOString();
+          history.push({ pm25: reading.pm25, updatedAt: reading.updatedAt });
+        }
+
+        fetchReading();
+
+        el.refreshButton.addEventListener("click", fetchReading);
+        el.simulateButton.addEventListener("click", fetchReading);
+
+        setInterval(fetchReading, POLL_INTERVAL_MS);
+      }
+
+      init();
+    </script>
+  </body>
+</html>
