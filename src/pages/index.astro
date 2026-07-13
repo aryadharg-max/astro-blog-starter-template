@@ -1,7 +1,7 @@
 ---
 const pageTitle = "AG Systems | Custom Technology Systems for Physical Operations";
 const pageDescription =
-  "AG Systems builds custom software, dashboards, connected hardware workflows, and operational technology systems for businesses with real-world processes.";
+  "AG Systems builds custom operational technology systems, dashboards, connected hardware workflows, backend infrastructure, and ground-up technology solutions for physical businesses.";
 ---
 
 <!doctype html>
@@ -14,17 +14,18 @@ const pageDescription =
 
     <style>
       :root {
-        --paper: #f4f0e8;
-        --paper-deep: #ebe4d8;
-        --surface: #fffaf1;
-        --ink: #14120f;
-        --body: #3b3832;
-        --muted: #71695f;
-        --quiet: #a1988a;
-        --rule: rgba(20, 18, 15, 0.16);
-        --rule-strong: rgba(20, 18, 15, 0.32);
-        --black: #14120f;
-        --max: 1200px;
+        --paper: #f3eee5;
+        --paper-2: #e9e1d3;
+        --surface: #fffaf0;
+        --ink: #15130f;
+        --body: #3b372f;
+        --muted: #70675b;
+        --quiet: #9b9080;
+        --rule: rgba(21, 19, 15, 0.15);
+        --rule-strong: rgba(21, 19, 15, 0.34);
+        --black: #15130f;
+        --white: #fffaf0;
+        --max: 1210px;
       }
 
       * {
@@ -37,7 +38,9 @@ const pageDescription =
 
       body {
         margin: 0;
-        background: var(--paper);
+        background:
+          radial-gradient(circle at top left, rgba(255, 250, 240, 0.72), transparent 34%),
+          linear-gradient(180deg, var(--paper), #f6f1e8 46%, var(--paper));
         color: var(--ink);
         font-family:
           "Segoe UI", Inter, ui-sans-serif, system-ui, -apple-system,
@@ -51,12 +54,12 @@ const pageDescription =
         position: fixed;
         inset: 0;
         pointer-events: none;
-        opacity: 0.22;
+        opacity: 0.16;
         background-image:
-          linear-gradient(rgba(20, 18, 15, 0.025) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(20, 18, 15, 0.02) 1px, transparent 1px);
-        background-size: 28px 28px;
-        mask-image: linear-gradient(to bottom, black, transparent 72%);
+          linear-gradient(rgba(21, 19, 15, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(21, 19, 15, 0.025) 1px, transparent 1px);
+        background-size: 34px 34px;
+        mask-image: linear-gradient(to bottom, black, transparent 68%);
       }
 
       a {
@@ -74,7 +77,7 @@ const pageDescription =
         top: 0;
         z-index: 30;
         border-bottom: 1px solid var(--rule);
-        background: rgba(244, 240, 232, 0.9);
+        background: rgba(243, 238, 229, 0.9);
         backdrop-filter: blur(16px);
       }
 
@@ -123,21 +126,21 @@ const pageDescription =
       }
 
       .nav-action {
-        color: var(--surface) !important;
+        color: var(--white) !important;
         background: var(--black);
         padding: 9px 13px !important;
         border-bottom: 0 !important;
       }
 
       .hero {
-        padding: 52px 0 38px;
+        padding: 52px 0 36px;
         border-bottom: 1px solid var(--rule);
       }
 
       .hero-layout {
         display: grid;
-        grid-template-columns: minmax(0, 1.54fr) minmax(310px, 0.72fr);
-        gap: 52px;
+        grid-template-columns: minmax(0, 1.52fr) minmax(315px, 0.72fr);
+        gap: 54px;
         align-items: stretch;
       }
 
@@ -145,7 +148,7 @@ const pageDescription =
         margin: 0 0 16px;
         color: var(--muted);
         font-size: 12px;
-        letter-spacing: 0.075em;
+        letter-spacing: 0.07em;
         text-transform: uppercase;
       }
 
@@ -159,23 +162,35 @@ const pageDescription =
         background: var(--rule-strong);
       }
 
-      h1 {
-        margin: 0;
-        max-width: 860px;
+      h1,
+      .section-title,
+      .contact-panel h2,
+      .hero-note h2,
+      .principle h2 {
         font-family: Georgia, "Times New Roman", ui-serif, serif;
-        font-size: clamp(48px, 5.7vw, 82px);
-        line-height: 0.94;
-        letter-spacing: -0.065em;
         font-weight: 520;
       }
 
+      h1 {
+        margin: 0;
+        max-width: 900px;
+        font-size: clamp(50px, 5.8vw, 84px);
+        line-height: 0.94;
+        letter-spacing: -0.068em;
+      }
+
       .hero-copy {
-        max-width: 735px;
+        max-width: 765px;
         margin: 23px 0 0;
         color: var(--body);
         font-size: clamp(17px, 1.45vw, 20px);
         line-height: 1.52;
         letter-spacing: -0.022em;
+      }
+
+      .hero-copy strong {
+        color: var(--ink);
+        font-weight: 650;
       }
 
       .hero-actions {
@@ -202,13 +217,13 @@ const pageDescription =
       .button:hover {
         background: var(--black);
         border-color: var(--black);
-        color: var(--surface);
+        color: var(--white);
       }
 
       .button-dark {
         background: var(--black);
         border-color: var(--black);
-        color: var(--surface);
+        color: var(--white);
       }
 
       .button-dark:hover {
@@ -227,16 +242,14 @@ const pageDescription =
 
       .hero-note h2 {
         margin: 0;
-        max-width: 360px;
-        font-family: Georgia, "Times New Roman", ui-serif, serif;
+        max-width: 390px;
         font-size: 24px;
         line-height: 1.08;
         letter-spacing: -0.045em;
-        font-weight: 520;
       }
 
       .note-text {
-        max-width: 360px;
+        max-width: 385px;
         margin: 14px 0 0;
         color: var(--muted);
         font-size: 14px;
@@ -252,7 +265,7 @@ const pageDescription =
 
       .scope-list li {
         display: grid;
-        grid-template-columns: 90px 1fr;
+        grid-template-columns: 92px 1fr;
         gap: 18px;
         padding: 10px 0;
         border-bottom: 1px solid var(--rule);
@@ -267,30 +280,57 @@ const pageDescription =
         font-weight: 650;
       }
 
+      .principle {
+        border-bottom: 1px solid var(--rule);
+        padding: 30px 0;
+      }
+
+      .principle-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: start;
+      }
+
+      .principle h2 {
+        margin: 0;
+        max-width: 560px;
+        font-size: clamp(28px, 3vw, 44px);
+        line-height: 1;
+        letter-spacing: -0.055em;
+      }
+
+      .principle p {
+        margin: 0;
+        max-width: 610px;
+        color: var(--body);
+        font-size: 16px;
+        line-height: 1.62;
+        letter-spacing: -0.012em;
+      }
+
       .section {
-        padding: 54px 0;
+        padding: 52px 0;
         border-bottom: 1px solid var(--rule);
       }
 
       .section-grid {
         display: grid;
-        grid-template-columns: 235px minmax(0, 1fr);
+        grid-template-columns: 232px minmax(0, 1fr);
         gap: 48px;
       }
 
       .section-title {
         margin: 0;
         max-width: 850px;
-        font-family: Georgia, "Times New Roman", ui-serif, serif;
         font-size: clamp(33px, 3.5vw, 54px);
         line-height: 0.98;
         letter-spacing: -0.055em;
-        font-weight: 520;
       }
 
       .section-intro {
         margin: 13px 0 0;
-        max-width: 760px;
+        max-width: 765px;
         color: var(--muted);
         font-size: 16px;
         line-height: 1.58;
@@ -320,7 +360,7 @@ const pageDescription =
 
       .capability-row p {
         margin: 0;
-        max-width: 720px;
+        max-width: 725px;
         color: var(--muted);
         font-size: 15px;
         line-height: 1.58;
@@ -335,10 +375,10 @@ const pageDescription =
 
       .system-row {
         display: grid;
-        grid-template-columns: 160px minmax(0, 1fr) 170px;
+        grid-template-columns: 158px minmax(0, 1fr) 170px;
         gap: 28px;
         align-items: center;
-        padding: 22px 0;
+        padding: 23px 0;
         border-bottom: 1px solid var(--rule);
       }
 
@@ -359,7 +399,7 @@ const pageDescription =
       }
 
       .system-row p {
-        max-width: 760px;
+        max-width: 790px;
         margin: 8px 0 0;
         color: var(--muted);
         font-size: 15px;
@@ -380,8 +420,40 @@ const pageDescription =
 
       .system-row a:hover {
         background: var(--black);
-        color: var(--surface);
+        color: var(--white);
         border-color: var(--black);
+      }
+
+      .case-note {
+        margin-top: 26px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        border-top: 1px solid var(--rule-strong);
+        border-left: 1px solid var(--rule);
+        background: rgba(255, 250, 240, 0.44);
+      }
+
+      .case-note > div {
+        padding: 20px;
+        border-right: 1px solid var(--rule);
+        border-bottom: 1px solid var(--rule);
+      }
+
+      .case-note span {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--quiet);
+        font-size: 12px;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+
+      .case-note p {
+        margin: 0;
+        color: var(--body);
+        font-size: 14px;
+        line-height: 1.55;
       }
 
       .usecase-panel {
@@ -397,7 +469,7 @@ const pageDescription =
         padding: 20px;
         border-right: 1px solid var(--rule);
         border-bottom: 1px solid var(--rule);
-        background: rgba(255, 250, 241, 0.42);
+        background: rgba(255, 250, 240, 0.42);
       }
 
       .usecase h3 {
@@ -461,50 +533,48 @@ const pageDescription =
         gap: 48px;
         align-items: end;
         background: var(--black);
-        color: var(--surface);
+        color: var(--white);
         padding: 36px;
       }
 
       .contact-panel .label {
-        color: rgba(255, 250, 241, 0.58);
+        color: rgba(255, 250, 240, 0.58);
       }
 
       .contact-panel .label::before {
-        background: rgba(255, 250, 241, 0.34);
+        background: rgba(255, 250, 240, 0.34);
       }
 
       .contact-panel h2 {
         margin: 0;
         max-width: 720px;
-        font-family: Georgia, "Times New Roman", ui-serif, serif;
         font-size: clamp(36px, 4.4vw, 62px);
         line-height: 0.95;
         letter-spacing: -0.06em;
-        font-weight: 520;
       }
 
       .contact-panel p {
         max-width: 650px;
         margin: 18px 0 0;
-        color: rgba(255, 250, 241, 0.72);
+        color: rgba(255, 250, 240, 0.72);
         font-size: 16px;
         line-height: 1.58;
       }
 
       .contact-panel .button {
         margin-top: 24px;
-        color: var(--surface);
-        border-color: rgba(255, 250, 241, 0.38);
+        color: var(--white);
+        border-color: rgba(255, 250, 240, 0.38);
       }
 
       .contact-panel .button:hover {
         color: var(--black);
-        background: var(--surface);
-        border-color: var(--surface);
+        background: var(--white);
+        border-color: var(--white);
       }
 
       .contact-list {
-        border-top: 1px solid rgba(255, 250, 241, 0.24);
+        border-top: 1px solid rgba(255, 250, 240, 0.24);
       }
 
       .contact-item {
@@ -512,17 +582,17 @@ const pageDescription =
         grid-template-columns: 88px 1fr;
         gap: 18px;
         padding: 12px 0;
-        border-bottom: 1px solid rgba(255, 250, 241, 0.24);
+        border-bottom: 1px solid rgba(255, 250, 240, 0.24);
         font-size: 13px;
       }
 
       .contact-item span {
-        color: rgba(255, 250, 241, 0.48);
+        color: rgba(255, 250, 240, 0.48);
       }
 
       .contact-item a,
       .contact-item strong {
-        color: var(--surface);
+        color: var(--white);
         font-weight: 610;
       }
 
@@ -542,6 +612,7 @@ const pageDescription =
 
       @media (max-width: 980px) {
         .hero-layout,
+        .principle-inner,
         .section-grid,
         .contact-panel {
           grid-template-columns: 1fr;
@@ -554,6 +625,10 @@ const pageDescription =
 
         .system-row a {
           justify-self: start;
+        }
+
+        .case-note {
+          grid-template-columns: 1fr;
         }
 
         .method {
@@ -607,6 +682,10 @@ const pageDescription =
 
         .hero-copy {
           font-size: 16px;
+        }
+
+        .principle {
+          padding: 28px 0;
         }
 
         .section {
@@ -667,8 +746,8 @@ const pageDescription =
             <p class="label">Operational technology / dashboards / connected systems</p>
             <h1>Custom technology systems for physical operations.</h1>
             <p class="hero-copy">
-              AG Systems builds practical software, dashboards, connected hardware workflows, and data systems for
-              businesses where real-world operations need better visibility, control, and structure.
+              AG Systems builds practical software, dashboards, connected hardware workflows, backend infrastructure,
+              and data systems for businesses where real-world operations need better visibility, control, and structure.
             </p>
 
             <div class="hero-actions">
@@ -695,6 +774,17 @@ const pageDescription =
         </div>
       </section>
 
+      <section class="principle">
+        <div class="wrap principle-inner">
+          <h2>When a business process needs its own system, AG Systems builds from the ground up.</h2>
+          <p>
+            The work can begin at the hardware layer, the software layer, the dashboard layer, or the operating workflow
+            itself. The point is not to force a business into a generic tool. The point is to design the tool around the
+            way the business actually runs.
+          </p>
+        </div>
+      </section>
+
       <section class="section" id="capabilities">
         <div class="wrap section-grid">
           <div>
@@ -704,11 +794,19 @@ const pageDescription =
           <div>
             <h2 class="section-title">Systems that connect business workflows with live operational data.</h2>
             <p class="section-intro">
-              The work sits between software development, hardware communication, data workflows, dashboards, and
-              operational design.
+              The work sits between software development, hardware communication, data workflows, dashboards, backend
+              infrastructure, and operational design.
             </p>
 
             <div class="capabilities">
+              <article class="capability-row">
+                <h3>Ground-up system design</h3>
+                <p>
+                  For problems that do not fit existing tools, AG Systems designs the full operating layer: workflow,
+                  interface, data structure, backend logic, and connected-device requirements.
+                </p>
+              </article>
+
               <article class="capability-row">
                 <h3>Owner dashboards</h3>
                 <p>
@@ -726,10 +824,10 @@ const pageDescription =
               </article>
 
               <article class="capability-row">
-                <h3>Internal tools</h3>
+                <h3>Websites, portals, and backends</h3>
                 <p>
-                  Custom web tools for businesses whose process is too specific for generic SaaS platforms or manual
-                  spreadsheets.
+                  Client-facing websites, internal portals, APIs, databases, authentication flows, admin tools, and
+                  backend systems built around a real operational requirement.
                 </p>
               </article>
 
@@ -800,16 +898,34 @@ const pageDescription =
               </article>
 
               <article class="system-row">
-                <div class="system-type">Environmental data</div>
+                <div class="system-type">Manufacturing / environment</div>
                 <div>
-                  <h3>Air Quality Monitoring</h3>
+                  <h3>Air Quality Monitoring for Nirvana Being</h3>
                   <p>
-                    A live air-quality monitoring dashboard showing how sensor data can be converted into a usable
-                    interface for facilities, schools, malls, and public environments.
+                    A custom manufacturing and connected-dashboard solution built for Nirvana Being, including the
+                    physical air-quality monitoring concept, website, backend flow, and live environmental dashboard.
                   </p>
                 </div>
                 <a href="https://nirvanayours.com/" target="_blank" rel="noreferrer">Open Dashboard</a>
               </article>
+            </div>
+
+            <div class="case-note" aria-label="Nirvana Being AQM project scope">
+              <div>
+                <span>Project scope</span>
+                <p>
+                  The AQM work is positioned as a ground-up product and systems build: device concept, data flow,
+                  frontend dashboard, backend structure, and commercial-facing web layer.
+                </p>
+              </div>
+
+              <div>
+                <span>Commercial fit</span>
+                <p>
+                  The same method applies to businesses that need a custom manufactured product, live dashboard,
+                  operational backend, or full technology layer around a physical service.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -825,7 +941,7 @@ const pageDescription =
             <h2 class="section-title">For operations where the software has to match the ground reality.</h2>
             <p class="section-intro">
               The strongest fit is a business with a real process, fragmented data, manual tracking, connected hardware,
-              or a workflow that needs to become measurable.
+              a product idea, or a workflow that needs to become measurable.
             </p>
 
             <div class="usecase-panel">
@@ -845,6 +961,11 @@ const pageDescription =
               </article>
 
               <article class="usecase">
+                <h3>Custom products</h3>
+                <p>Product concepts that need hardware logic, manufacturing direction, web infrastructure, and data flow.</p>
+              </article>
+
+              <article class="usecase">
                 <h3>Logistics and movement</h3>
                 <p>Tracking workflows, dispatch visibility, status logs, product movement, and exception reporting.</p>
               </article>
@@ -857,6 +978,11 @@ const pageDescription =
               <article class="usecase">
                 <h3>Custom hardware workflows</h3>
                 <p>Interfaces that connect devices, control outputs, collect readings, and expose live system state.</p>
+              </article>
+
+              <article class="usecase">
+                <h3>Founder-led builds</h3>
+                <p>Early-stage systems where the product, backend, website, dashboard, and operating workflow all need to be shaped together.</p>
               </article>
             </div>
           </div>
@@ -880,25 +1006,25 @@ const pageDescription =
               <article class="method-step">
                 <span>01</span>
                 <h3>Map</h3>
-                <p>Understand the process, users, data, devices, and commercial objective.</p>
+                <p>Understand the process, users, data, devices, product requirements, and commercial objective.</p>
               </article>
 
               <article class="method-step">
                 <span>02</span>
                 <h3>Design</h3>
-                <p>Define the system flow, interfaces, data structure, and operating logic.</p>
+                <p>Define the system flow, interfaces, data structure, backend architecture, and operating logic.</p>
               </article>
 
               <article class="method-step">
                 <span>03</span>
                 <h3>Build</h3>
-                <p>Develop the software, backend, dashboards, integrations, and device communication.</p>
+                <p>Develop the software, backend, dashboards, integrations, hardware workflow, and device communication.</p>
               </article>
 
               <article class="method-step">
                 <span>04</span>
                 <h3>Deploy</h3>
-                <p>Put the system into a real environment with testing, security, and documentation.</p>
+                <p>Put the system into a real environment with testing, security, hosting, documentation, and handover.</p>
               </article>
 
               <article class="method-step">
@@ -918,8 +1044,8 @@ const pageDescription =
               <p class="label">Start a Project</p>
               <h2>Build a system around your operation.</h2>
               <p>
-                For dashboards, internal tools, monitoring systems, connected hardware, automation, or custom operational
-                software, send the process you want to improve.
+                For dashboards, internal tools, monitoring systems, connected hardware, automation, websites, backends,
+                custom products, or operational software, send the process you want to improve.
               </p>
               <a class="button" href="mailto:me@aryadhargupta.com">Start a Project</a>
             </div>
