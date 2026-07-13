@@ -1,7 +1,7 @@
 ---
 const pageTitle = "AG Systems | Custom Technology Systems for Physical Operations";
 const pageDescription =
-  "AG Systems designs and builds practical technology systems for businesses that need software, dashboards, automation, connected hardware, and data workflows around real-world operations.";
+  "AG Systems builds custom software, dashboards, connected hardware workflows, and operational technology systems for businesses with real-world processes.";
 ---
 
 <!doctype html>
@@ -14,18 +14,16 @@ const pageDescription =
 
     <style>
       :root {
-        --bg: #f6f3ed;
-        --bg-soft: #ebe6dc;
-        --paper: #fffdf8;
+        --page: #f7f4ee;
+        --panel: #fffdf8;
         --ink: #111111;
-        --muted: #5f5a52;
-        --muted-2: #888176;
-        --line: rgba(17, 17, 17, 0.12);
-        --line-dark: rgba(17, 17, 17, 0.22);
-        --black: #111111;
-        --radius: 28px;
-        --radius-small: 18px;
-        --max: 1180px;
+        --soft-ink: #3c3832;
+        --muted: #6e675d;
+        --faint: #9b9285;
+        --line: rgba(17, 17, 17, 0.14);
+        --line-strong: rgba(17, 17, 17, 0.28);
+        --dark: #111111;
+        --max: 1220px;
       }
 
       * {
@@ -38,14 +36,13 @@ const pageDescription =
 
       body {
         margin: 0;
-        background: var(--bg);
+        background: var(--page);
         color: var(--ink);
         font-family:
           Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
-        line-height: 1.5;
-        text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
       }
 
       a {
@@ -53,27 +50,22 @@ const pageDescription =
         text-decoration: none;
       }
 
-      .site {
-        min-height: 100vh;
-        overflow-x: hidden;
-      }
-
       .wrap {
-        width: min(var(--max), calc(100% - 40px));
+        width: min(var(--max), calc(100% - 48px));
         margin: 0 auto;
       }
 
-      .header {
+      .topbar {
+        border-bottom: 1px solid var(--line);
+        background: rgba(247, 244, 238, 0.92);
+        backdrop-filter: blur(14px);
         position: sticky;
         top: 0;
-        z-index: 50;
-        background: rgba(246, 243, 237, 0.88);
-        backdrop-filter: blur(18px);
-        border-bottom: 1px solid var(--line);
+        z-index: 20;
       }
 
       .nav {
-        height: 78px;
+        min-height: 66px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -82,477 +74,449 @@ const pageDescription =
 
       .brand {
         display: flex;
-        flex-direction: column;
-        gap: 2px;
+        align-items: baseline;
+        gap: 14px;
       }
 
       .brand-name {
         font-size: 18px;
-        font-weight: 760;
+        font-weight: 780;
         letter-spacing: -0.04em;
       }
 
       .brand-line {
-        font-size: 12px;
         color: var(--muted);
-        letter-spacing: -0.01em;
+        font-size: 13px;
+        letter-spacing: -0.02em;
       }
 
       .nav-links {
         display: flex;
         align-items: center;
-        gap: 28px;
-        font-size: 13px;
+        gap: 24px;
         color: var(--muted);
-      }
-
-      .nav-links a {
-        transition:
-          color 180ms ease,
-          opacity 180ms ease;
+        font-size: 13px;
       }
 
       .nav-links a:hover {
         color: var(--ink);
       }
 
-      .nav-cta {
-        color: var(--paper) !important;
-        background: var(--black);
-        padding: 11px 16px;
-        border-radius: 999px;
+      .nav-action {
+        color: var(--panel) !important;
+        background: var(--dark);
+        padding: 9px 14px;
+        border-radius: 2px;
         font-weight: 650;
       }
 
-      .nav-cta:hover {
-        opacity: 0.88;
-      }
-
       .hero {
-        padding: 104px 0 78px;
+        padding: 58px 0 42px;
+        border-bottom: 1px solid var(--line);
       }
 
-      .hero-grid {
+      .hero-layout {
         display: grid;
-        grid-template-columns: 1.3fr 0.7fr;
-        gap: 64px;
-        align-items: end;
+        grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.75fr);
+        gap: 54px;
+        align-items: stretch;
       }
 
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
+      .label {
+        margin: 0 0 18px;
         color: var(--muted);
-        font-size: 13px;
-        letter-spacing: 0.02em;
-        margin-bottom: 26px;
-      }
-
-      .eyebrow::before {
-        content: "";
-        width: 34px;
-        height: 1px;
-        background: var(--ink);
-        opacity: 0.45;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
       }
 
       h1 {
-        max-width: 900px;
         margin: 0;
-        font-size: clamp(52px, 7vw, 104px);
-        line-height: 0.94;
-        letter-spacing: -0.075em;
-        font-weight: 780;
+        max-width: 850px;
+        font-size: clamp(44px, 5.25vw, 76px);
+        line-height: 0.98;
+        letter-spacing: -0.065em;
+        font-weight: 790;
       }
 
       .hero-copy {
-        max-width: 620px;
-        margin: 32px 0 0;
-        color: var(--muted);
-        font-size: clamp(18px, 2vw, 22px);
-        line-height: 1.48;
+        max-width: 760px;
+        margin: 24px 0 0;
+        color: var(--soft-ink);
+        font-size: clamp(17px, 1.55vw, 21px);
+        line-height: 1.5;
         letter-spacing: -0.025em;
       }
 
       .hero-actions {
         display: flex;
         flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 38px;
+        gap: 10px;
+        margin-top: 28px;
       }
 
       .button {
+        min-height: 42px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 48px;
-        padding: 0 20px;
-        border-radius: 999px;
-        border: 1px solid var(--line-dark);
-        font-size: 14px;
-        font-weight: 650;
+        padding: 0 15px;
+        border: 1px solid var(--line-strong);
+        border-radius: 2px;
+        font-size: 13px;
+        font-weight: 680;
         letter-spacing: -0.01em;
-        transition:
-          transform 180ms ease,
-          opacity 180ms ease,
-          background 180ms ease,
-          border-color 180ms ease;
+      }
+
+      .button-dark {
+        background: var(--dark);
+        color: var(--panel);
+        border-color: var(--dark);
       }
 
       .button:hover {
-        transform: translateY(-1px);
+        opacity: 0.82;
       }
 
-      .button-primary {
-        background: var(--black);
-        color: var(--paper);
-        border-color: var(--black);
+      .hero-note {
+        border: 1px solid var(--line);
+        background: rgba(255, 253, 248, 0.62);
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
 
-      .button-secondary {
-        background: transparent;
-        color: var(--ink);
-      }
-
-      .button-secondary:hover {
-        border-color: var(--ink);
-      }
-
-      .hero-panel {
-        border-top: 1px solid var(--line-dark);
-        padding-top: 22px;
-      }
-
-      .hero-panel p {
+      .hero-note h2 {
         margin: 0;
+        font-size: 19px;
+        line-height: 1.15;
+        letter-spacing: -0.04em;
+      }
+
+      .note-text {
+        margin: 14px 0 0;
         color: var(--muted);
         font-size: 14px;
-        line-height: 1.65;
+        line-height: 1.55;
       }
 
-      .hero-panel strong {
-        display: block;
-        color: var(--ink);
-        font-size: 15px;
-        margin-bottom: 7px;
-      }
-
-      .section {
-        padding: 84px 0;
+      .scope-list {
+        margin: 30px 0 0;
+        padding: 0;
+        list-style: none;
         border-top: 1px solid var(--line);
       }
 
-      .section-head {
-        display: grid;
-        grid-template-columns: 0.72fr 1.28fr;
-        gap: 56px;
-        align-items: start;
-        margin-bottom: 42px;
-      }
-
-      .section-kicker {
-        margin: 0;
-        color: var(--muted-2);
+      .scope-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 11px 0;
+        border-bottom: 1px solid var(--line);
         font-size: 13px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
       }
 
-      h2 {
+      .scope-list span {
+        color: var(--muted);
+      }
+
+      .section {
+        padding: 58px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .section-grid {
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+        gap: 48px;
+      }
+
+      .section-title {
         margin: 0;
-        font-size: clamp(34px, 4vw, 58px);
-        line-height: 1;
+        font-size: clamp(30px, 3.2vw, 48px);
+        line-height: 1.02;
         letter-spacing: -0.055em;
         font-weight: 760;
       }
 
-      .section-copy {
-        max-width: 680px;
-        margin: 18px 0 0;
+      .section-intro {
+        margin: 12px 0 0;
+        max-width: 760px;
         color: var(--muted);
-        font-size: 17px;
-        line-height: 1.65;
+        font-size: 16px;
+        line-height: 1.6;
         letter-spacing: -0.015em;
       }
 
-      .build-grid {
+      .capabilities {
+        border-top: 1px solid var(--line-strong);
+        margin-top: 30px;
+      }
+
+      .capability-row {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        border: 1px solid var(--line);
-        background: var(--paper);
-      }
-
-      .build-card {
-        min-height: 250px;
-        padding: 30px;
-        border-right: 1px solid var(--line);
+        grid-template-columns: 0.52fr 1fr;
+        gap: 38px;
+        padding: 22px 0;
         border-bottom: 1px solid var(--line);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
       }
 
-      .build-card:nth-child(3n) {
-        border-right: 0;
-      }
-
-      .build-card:nth-last-child(-n + 3) {
-        border-bottom: 0;
-      }
-
-      .card-number {
-        color: var(--muted-2);
-        font-size: 13px;
-      }
-
-      .build-card h3,
-      .system-card h3,
-      .use-case h3 {
+      .capability-row h3 {
         margin: 0;
-        font-size: 23px;
-        line-height: 1.1;
+        font-size: 21px;
+        line-height: 1.15;
         letter-spacing: -0.04em;
-        font-weight: 720;
+        font-weight: 730;
       }
 
-      .build-card p,
-      .system-card p,
-      .use-case p {
-        margin: 16px 0 0;
+      .capability-row p {
+        margin: 0;
         color: var(--muted);
         font-size: 15px;
-        line-height: 1.65;
-      }
-
-      .systems-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-      }
-
-      .system-card {
-        min-height: 360px;
-        background: var(--paper);
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        padding: 30px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        transition:
-          transform 180ms ease,
-          border-color 180ms ease;
-      }
-
-      .system-card:hover {
-        transform: translateY(-3px);
-        border-color: var(--line-dark);
-      }
-
-      .system-meta {
-        display: flex;
-        justify-content: space-between;
-        gap: 18px;
-        align-items: center;
-        margin-bottom: 26px;
-        color: var(--muted-2);
-        font-size: 13px;
-      }
-
-      .system-status {
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        padding: 6px 10px;
-        color: var(--muted);
-      }
-
-      .system-link {
-        display: inline-flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        margin-top: 26px;
-        padding-top: 22px;
-        border-top: 1px solid var(--line);
-        color: var(--ink);
-        font-size: 14px;
-        font-weight: 700;
-      }
-
-      .system-link span {
-        font-size: 18px;
-        line-height: 1;
-      }
-
-      .use-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 12px;
-      }
-
-      .use-case {
-        min-height: 210px;
-        padding: 24px;
-        border: 1px solid var(--line);
-        border-radius: var(--radius-small);
-        background: rgba(255, 253, 248, 0.56);
-      }
-
-      .process {
-        background: var(--black);
-        color: var(--paper);
-      }
-
-      .process .section {
-        border-top: 0;
-      }
-
-      .process .section-kicker,
-      .process .section-copy {
-        color: rgba(255, 253, 248, 0.62);
-      }
-
-      .process-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-      }
-
-      .process-step {
-        min-height: 230px;
-        padding: 26px;
-        border-right: 1px solid rgba(255, 255, 255, 0.18);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-
-      .process-step:last-child {
-        border-right: 0;
-      }
-
-      .process-step span {
-        color: rgba(255, 253, 248, 0.42);
-        font-size: 13px;
-      }
-
-      .process-step h3 {
-        margin: 0;
-        font-size: 24px;
-        letter-spacing: -0.04em;
-      }
-
-      .process-step p {
-        margin: 16px 0 0;
-        color: rgba(255, 253, 248, 0.66);
-        font-size: 14px;
         line-height: 1.6;
       }
 
-      .contact {
-        padding: 96px 0;
-      }
-
-      .contact-card {
-        background: var(--paper);
-        border: 1px solid var(--line);
-        border-radius: 34px;
-        padding: clamp(32px, 6vw, 70px);
+      .systems {
         display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 60px;
-        align-items: end;
+        gap: 12px;
+        margin-top: 30px;
       }
 
-      .contact-card h2 {
-        max-width: 720px;
+      .system-row {
+        display: grid;
+        grid-template-columns: 170px minmax(0, 1fr) 180px;
+        gap: 28px;
+        align-items: center;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        padding: 22px;
       }
 
-      .contact-card p {
-        max-width: 620px;
-        margin: 22px 0 0;
+      .system-type {
         color: var(--muted);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        line-height: 1.45;
+      }
+
+      .system-row h3 {
+        margin: 0;
+        font-size: 24px;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+      }
+
+      .system-row p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .system-row a {
+        justify-self: end;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 145px;
+        min-height: 38px;
+        border: 1px solid var(--line-strong);
+        font-size: 13px;
+        font-weight: 680;
+        border-radius: 2px;
+      }
+
+      .system-row a:hover {
+        background: var(--dark);
+        color: var(--panel);
+        border-color: var(--dark);
+      }
+
+      .usecase-panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        margin-top: 30px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+      }
+
+      .usecase {
+        min-height: 142px;
+        padding: 22px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .usecase:nth-child(2n) {
+        border-right: 0;
+      }
+
+      .usecase:nth-last-child(-n + 2) {
+        border-bottom: 0;
+      }
+
+      .usecase h3 {
+        margin: 0;
         font-size: 18px;
-        line-height: 1.65;
+        line-height: 1.2;
+        letter-spacing: -0.035em;
+      }
+
+      .usecase p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .method {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        margin-top: 30px;
+        border-top: 1px solid var(--line-strong);
+      }
+
+      .method-step {
+        padding: 20px 18px 0 0;
+        border-right: 1px solid var(--line);
+        min-height: 150px;
+      }
+
+      .method-step:last-child {
+        border-right: 0;
+      }
+
+      .method-step span {
+        color: var(--faint);
+        font-size: 12px;
+      }
+
+      .method-step h3 {
+        margin: 18px 0 8px;
+        font-size: 18px;
+        letter-spacing: -0.035em;
+      }
+
+      .method-step p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .contact {
+        padding: 54px 0 64px;
+      }
+
+      .contact-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(330px, 0.7fr);
+        gap: 48px;
+        align-items: end;
+        background: var(--dark);
+        color: var(--panel);
+        padding: 38px;
+      }
+
+      .contact-panel .label {
+        color: rgba(255, 253, 248, 0.58);
+      }
+
+      .contact-panel h2 {
+        margin: 0;
+        max-width: 700px;
+        font-size: clamp(34px, 4.2vw, 58px);
+        line-height: 1;
+        letter-spacing: -0.055em;
+      }
+
+      .contact-panel p {
+        margin: 18px 0 0;
+        max-width: 650px;
+        color: rgba(255, 253, 248, 0.72);
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .contact-panel .button {
+        border-color: rgba(255, 253, 248, 0.35);
+        color: var(--panel);
+        margin-top: 24px;
+      }
+
+      .contact-panel .button:hover {
+        background: var(--panel);
+        color: var(--dark);
       }
 
       .contact-list {
+        border-top: 1px solid rgba(255, 253, 248, 0.22);
+      }
+
+      .contact-item {
         display: grid;
-        gap: 12px;
+        grid-template-columns: 90px 1fr;
+        gap: 18px;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 253, 248, 0.22);
+        font-size: 13px;
       }
 
-      .contact-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-        border-bottom: 1px solid var(--line);
-        padding: 14px 0;
-        font-size: 14px;
+      .contact-item span {
+        color: rgba(255, 253, 248, 0.48);
       }
 
-      .contact-row span {
-        color: var(--muted-2);
-      }
-
-      .contact-row a {
-        font-weight: 650;
+      .contact-item a,
+      .contact-item strong {
+        color: var(--panel);
+        font-weight: 620;
       }
 
       .footer {
+        padding: 22px 0;
         border-top: 1px solid var(--line);
-        padding: 28px 0;
         color: var(--muted);
-        font-size: 13px;
+        font-size: 12px;
       }
 
       .footer-inner {
         display: flex;
         justify-content: space-between;
-        gap: 24px;
+        gap: 18px;
         flex-wrap: wrap;
       }
 
       @media (max-width: 980px) {
-        .hero-grid,
-        .section-head,
-        .contact-card {
+        .hero-layout,
+        .section-grid,
+        .contact-panel {
           grid-template-columns: 1fr;
         }
 
-        .hero {
-          padding-top: 74px;
+        .system-row {
+          grid-template-columns: 1fr;
+          gap: 14px;
         }
 
-        .build-grid,
-        .systems-grid {
+        .system-row a {
+          justify-self: start;
+        }
+
+        .method {
           grid-template-columns: 1fr;
         }
 
-        .build-card,
-        .build-card:nth-child(3n),
-        .build-card:nth-last-child(-n + 3) {
+        .method-step {
+          min-height: auto;
+          padding: 18px 0;
           border-right: 0;
           border-bottom: 1px solid var(--line);
         }
 
-        .build-card:last-child {
-          border-bottom: 0;
-        }
-
-        .use-grid,
-        .process-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .process-step {
-          border-right: 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-          min-height: 190px;
-        }
-
-        .process-step:last-child {
+        .method-step:last-child {
           border-bottom: 0;
         }
       }
@@ -563,13 +527,19 @@ const pageDescription =
         }
 
         .nav {
-          height: auto;
-          padding: 18px 0;
+          min-height: auto;
           align-items: flex-start;
+          padding: 16px 0;
+        }
+
+        .brand {
+          flex-direction: column;
+          gap: 3px;
         }
 
         .brand-line {
-          max-width: 220px;
+          max-width: 250px;
+          font-size: 12px;
         }
 
         .nav-links {
@@ -577,397 +547,379 @@ const pageDescription =
         }
 
         .hero {
-          padding: 62px 0 56px;
+          padding: 42px 0 34px;
         }
 
         h1 {
-          font-size: clamp(46px, 14vw, 72px);
+          font-size: clamp(42px, 13vw, 62px);
         }
 
         .hero-copy {
-          font-size: 17px;
+          font-size: 16px;
         }
 
         .section {
-          padding: 62px 0;
+          padding: 42px 0;
         }
 
-        .build-card,
-        .system-card,
-        .use-case {
-          padding: 24px;
+        .section-grid {
+          gap: 24px;
+        }
+
+        .capability-row {
+          grid-template-columns: 1fr;
+          gap: 10px;
+          padding: 18px 0;
+        }
+
+        .usecase-panel {
+          grid-template-columns: 1fr;
+        }
+
+        .usecase,
+        .usecase:nth-child(2n),
+        .usecase:nth-last-child(-n + 2) {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .usecase:last-child {
+          border-bottom: 0;
         }
 
         .contact {
-          padding: 68px 0;
+          padding: 42px 0 50px;
         }
 
-        .contact-card {
-          border-radius: 24px;
-          padding: 28px;
+        .contact-panel {
+          padding: 26px;
         }
 
-        .contact-row {
-          align-items: flex-start;
-          flex-direction: column;
-          gap: 4px;
+        .contact-item {
+          grid-template-columns: 1fr;
+          gap: 3px;
         }
       }
     </style>
   </head>
 
   <body>
-    <div class="site">
-      <header class="header">
-        <div class="wrap nav">
-          <a class="brand" href="/" aria-label="AG Systems home">
-            <span class="brand-name">AG Systems</span>
-            <span class="brand-line">A technology systems company by Aryadhar Gupta.</span>
-          </a>
+    <header class="topbar">
+      <div class="wrap nav">
+        <a class="brand" href="/" aria-label="AG Systems home">
+          <span class="brand-name">AG Systems</span>
+          <span class="brand-line">A technology systems company by Aryadhar Gupta.</span>
+        </a>
 
-          <nav class="nav-links" aria-label="Primary navigation">
-            <a href="#build">What We Build</a>
-            <a href="#systems">Working Systems</a>
-            <a href="#process">Process</a>
-            <a class="nav-cta" href="#contact">Start a Project</a>
-          </nav>
-        </div>
-      </header>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#capabilities">Capabilities</a>
+          <a href="#systems">Working Systems</a>
+          <a href="#method">Method</a>
+          <a class="nav-action" href="#contact">Start a Project</a>
+        </nav>
+      </div>
+    </header>
 
-      <main>
-        <section class="hero">
-          <div class="wrap hero-grid">
+    <main>
+      <section class="hero">
+        <div class="wrap hero-layout">
+          <div>
+            <p class="label">Operational technology / dashboards / connected systems</p>
+            <h1>Custom technology systems for physical operations.</h1>
+            <p class="hero-copy">
+              AG Systems builds practical software, dashboards, connected hardware workflows, and data systems for
+              businesses where real-world operations need better visibility, control, and structure.
+            </p>
+
+            <div class="hero-actions">
+              <a class="button button-dark" href="#systems">View Working Systems</a>
+              <a class="button" href="#contact">Start a Project</a>
+            </div>
+          </div>
+
+          <aside class="hero-note">
             <div>
-              <div class="eyebrow">Founder-led technology systems company</div>
-              <h1>Custom technology systems for physical operations.</h1>
-              <p class="hero-copy">
-                AG Systems designs and builds practical technology systems for businesses that need software,
-                dashboards, automation, connected hardware, and data workflows around real-world operations.
+              <h2>Founder-led systems work for businesses with specific operational problems.</h2>
+              <p class="note-text">
+                Built by Aryadhar Gupta for use cases where off-the-shelf software does not fit the process cleanly.
               </p>
-
-              <div class="hero-actions">
-                <a class="button button-primary" href="#systems">View Working Systems</a>
-                <a class="button button-secondary" href="#contact">Start a Project</a>
-              </div>
             </div>
 
-            <aside class="hero-panel" aria-label="Company focus">
-              <strong>Built around operations, not templates.</strong>
-              <p>
-                We work on systems where physical processes, business workflows, hardware, data, and decision-making
-                need to connect into one reliable operating layer.
-              </p>
-            </aside>
+            <ul class="scope-list" aria-label="AG Systems focus areas">
+              <li><span>Focus</span><strong>Physical operations</strong></li>
+              <li><span>Output</span><strong>Working systems</strong></li>
+              <li><span>Includes</span><strong>Software + hardware</strong></li>
+              <li><span>Base</span><strong>Delhi, India</strong></li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="capabilities">
+        <div class="wrap section-grid">
+          <div>
+            <p class="label">Capabilities</p>
           </div>
-        </section>
 
-        <section class="section" id="build">
-          <div class="wrap">
-            <div class="section-head">
-              <p class="section-kicker">What We Build</p>
-              <div>
-                <h2>Technology infrastructure for businesses that operate in the real world.</h2>
-                <p class="section-copy">
-                  From connected devices to owner dashboards, AG Systems builds tools that sit close to the operation:
-                  collecting data, controlling hardware, tracking activity, and making performance visible.
+          <div>
+            <h2 class="section-title">Systems that connect business workflows with live operational data.</h2>
+            <p class="section-intro">
+              The work sits between software development, hardware communication, data workflows, dashboards, and
+              operational design.
+            </p>
+
+            <div class="capabilities">
+              <article class="capability-row">
+                <h3>Owner dashboards</h3>
+                <p>
+                  Live dashboards for revenue, devices, teams, locations, feedback, environmental data, and operational
+                  activity.
                 </p>
-              </div>
-            </div>
-
-            <div class="build-grid">
-              <article class="build-card">
-                <span class="card-number">01</span>
-                <div>
-                  <h3>IoT & Connected Hardware</h3>
-                  <p>
-                    Sensor-backed systems, device communication, remote control interfaces, and hardware-to-cloud
-                    workflows.
-                  </p>
-                </div>
               </article>
 
-              <article class="build-card">
-                <span class="card-number">02</span>
-                <div>
-                  <h3>Owner Dashboards</h3>
-                  <p>
-                    Executive dashboards for live visibility across revenue, operations, devices, locations, and teams.
-                  </p>
-                </div>
+              <article class="capability-row">
+                <h3>IoT and connected hardware</h3>
+                <p>
+                  Sensor systems, remote control interfaces, device polling, hardware-to-cloud communication, and
+                  physical output control.
+                </p>
               </article>
 
-              <article class="build-card">
-                <span class="card-number">03</span>
-                <div>
-                  <h3>Internal Tools</h3>
-                  <p>
-                    Custom web platforms for teams that need software designed around their actual operating process.
-                  </p>
-                </div>
+              <article class="capability-row">
+                <h3>Internal tools</h3>
+                <p>
+                  Custom web tools for businesses whose process is too specific for generic SaaS platforms or manual
+                  spreadsheets.
+                </p>
               </article>
 
-              <article class="build-card">
-                <span class="card-number">04</span>
-                <div>
-                  <h3>Tracking & Workflow Systems</h3>
-                  <p>
-                    Systems for product movement, task status, transaction records, service flows, and operational logs.
-                  </p>
-                </div>
+              <article class="capability-row">
+                <h3>Tracking and workflow systems</h3>
+                <p>
+                  Transaction-linked workflows, product movement, task status, staff activity, service records, and
+                  operational logs.
+                </p>
               </article>
 
-              <article class="build-card">
-                <span class="card-number">05</span>
-                <div>
-                  <h3>Monitoring Systems</h3>
-                  <p>
-                    Live monitoring interfaces for environmental data, facilities, machines, activity, and field
-                    conditions.
-                  </p>
-                </div>
+              <article class="capability-row">
+                <h3>Monitoring and reporting</h3>
+                <p>
+                  Systems for facilities, environmental conditions, machines, field data, performance reporting, and
+                  exception visibility.
+                </p>
               </article>
 
-              <article class="build-card">
-                <span class="card-number">06</span>
-                <div>
-                  <h3>Automation & Data Pipelines</h3>
-                  <p>
-                    Data collection, API connections, automated reporting, alerts, and system-to-system workflows.
-                  </p>
-                </div>
+              <article class="capability-row">
+                <h3>Automation and integrations</h3>
+                <p>
+                  API connections, automated reporting, alerts, backend logic, data cleanup, and system-to-system
+                  workflows.
+                </p>
               </article>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section class="section" id="systems">
-          <div class="wrap">
-            <div class="section-head">
-              <p class="section-kicker">Working Systems</p>
-              <div>
-                <h2>Proof through working builds.</h2>
-                <p class="section-copy">
-                  These systems are shown as proof-of-capability: live interfaces, connected workflows, and operational
-                  concepts that can be adapted into commercial deployments.
-                </p>
-              </div>
-            </div>
+      <section class="section" id="systems">
+        <div class="wrap section-grid">
+          <div>
+            <p class="label">Working Systems</p>
+          </div>
 
-            <div class="systems-grid">
-              <article class="system-card">
+          <div>
+            <h2 class="section-title">Selected working systems and proof-of-capability builds.</h2>
+            <p class="section-intro">
+              These systems demonstrate the type of operational infrastructure AG Systems can design, build, and adapt
+              into client-specific deployments.
+            </p>
+
+            <div class="systems">
+              <article class="system-row">
+                <div class="system-type">Revenue / feedback</div>
                 <div>
-                  <div class="system-meta">
-                    <span>Revenue / Feedback / Incentives</span>
-                    <span class="system-status">Working Demo</span>
-                  </div>
                   <h3>ServiceLoop</h3>
                   <p>
-                    A revenue, feedback, and incentive workflow system built for customer-facing businesses that need
-                    employee-level service visibility.
+                    A customer feedback and employee incentive workflow for customer-facing venues, designed to connect
+                    transactions, reviews, staff mapping, and owner visibility.
                   </p>
                 </div>
-                <a class="system-link" href="/serviceloop/">
-                  Open System
-                  <span>→</span>
-                </a>
+                <a href="/serviceloop/">Open System</a>
               </article>
 
-              <article class="system-card">
+              <article class="system-row">
+                <div class="system-type">Connected hardware</div>
                 <div>
-                  <div class="system-meta">
-                    <span>Connected Hardware</span>
-                    <span class="system-status">Live Control</span>
-                  </div>
                   <h3>Traffic Control</h3>
                   <p>
-                    An internet-connected hardware control system proving remote control, device polling, live state,
-                    and physical output through a web interface.
+                    A web-controlled hardware system demonstrating live state, device polling, remote commands, and
+                    physical output through internet-connected control.
                   </p>
                 </div>
-                <a class="system-link" href="/traffic-control/">
-                  Open System
-                  <span>→</span>
-                </a>
+                <a href="/traffic-control/">Open System</a>
               </article>
 
-              <article class="system-card">
+              <article class="system-row">
+                <div class="system-type">Environmental data</div>
                 <div>
-                  <div class="system-meta">
-                    <span>Environmental Monitoring</span>
-                    <span class="system-status">Live Dashboard</span>
-                  </div>
                   <h3>Air Quality Monitoring</h3>
                   <p>
-                    A live environmental monitoring dashboard showing how sensor readings can become a clean
-                    owner-facing system for facilities and public spaces.
+                    A live air-quality monitoring dashboard showing how sensor data can be converted into a usable
+                    interface for facilities, schools, malls, and public environments.
                   </p>
                 </div>
-                <a class="system-link" href="https://nirvanayours.com/" target="_blank" rel="noreferrer">
-                  Open Live Dashboard
-                  <span>→</span>
-                </a>
+                <a href="https://nirvanayours.com/" target="_blank" rel="noreferrer">Open Dashboard</a>
               </article>
             </div>
           </div>
-        </section>
-
-        <section class="section" id="use-cases">
-          <div class="wrap">
-            <div class="section-head">
-              <p class="section-kicker">Use Cases</p>
-              <div>
-                <h2>Built for operations where generic software does not fit.</h2>
-                <p class="section-copy">
-                  AG Systems is suited for businesses where the workflow is specific, the data is fragmented, or the
-                  system needs to connect software with what is happening on the ground.
-                </p>
-              </div>
-            </div>
-
-            <div class="use-grid">
-              <article class="use-case">
-                <h3>Malls & Venues</h3>
-                <p>Revenue visibility, feedback systems, footfall workflows, team performance, and owner dashboards.</p>
-              </article>
-
-              <article class="use-case">
-                <h3>Facilities</h3>
-                <p>Monitoring systems, maintenance workflows, sensor dashboards, and operational reporting.</p>
-              </article>
-
-              <article class="use-case">
-                <h3>Environmental Projects</h3>
-                <p>Air quality, field sensors, reporting interfaces, live dashboards, and data collection systems.</p>
-              </article>
-
-              <article class="use-case">
-                <h3>Logistics</h3>
-                <p>Tracking workflows, movement logs, dispatch visibility, and status dashboards.</p>
-              </article>
-
-              <article class="use-case">
-                <h3>Custom Operations</h3>
-                <p>Internal platforms for businesses whose processes cannot be solved cleanly by standard tools.</p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <div class="process" id="process">
-          <section class="section">
-            <div class="wrap">
-              <div class="section-head">
-                <p class="section-kicker">Process</p>
-                <div>
-                  <h2>From operational problem to deployed system.</h2>
-                  <p class="section-copy">
-                    The work starts by understanding the real process, then turning it into a system that can be used,
-                    tested, improved, and scaled.
-                  </p>
-                </div>
-              </div>
-
-              <div class="process-grid">
-                <article class="process-step">
-                  <span>01</span>
-                  <div>
-                    <h3>Understand</h3>
-                    <p>Map the workflow, users, data sources, devices, constraints, and commercial outcome.</p>
-                  </div>
-                </article>
-
-                <article class="process-step">
-                  <span>02</span>
-                  <div>
-                    <h3>Design</h3>
-                    <p>Define the system architecture, dashboard structure, hardware flow, and user experience.</p>
-                  </div>
-                </article>
-
-                <article class="process-step">
-                  <span>03</span>
-                  <div>
-                    <h3>Build</h3>
-                    <p>Develop the software, backend, interfaces, device communication, and required integrations.</p>
-                  </div>
-                </article>
-
-                <article class="process-step">
-                  <span>04</span>
-                  <div>
-                    <h3>Deploy</h3>
-                    <p>Move the system into a real environment with testing, security, monitoring, and documentation.</p>
-                  </div>
-                </article>
-
-                <article class="process-step">
-                  <span>05</span>
-                  <div>
-                    <h3>Improve</h3>
-                    <p>Use live feedback and operational data to refine the system into a stronger production tool.</p>
-                  </div>
-                </article>
-              </div>
-            </div>
-          </section>
         </div>
+      </section>
 
-        <section class="contact" id="contact">
-          <div class="wrap">
-            <div class="contact-card">
-              <div>
-                <p class="section-kicker">Start a Project</p>
-                <h2>Build a custom system around your operation.</h2>
-                <p>
-                  For dashboards, connected hardware, monitoring systems, internal tools, automation, or operational
-                  software, contact AG Systems with the process you want to improve.
-                </p>
+      <section class="section" id="use-cases">
+        <div class="wrap section-grid">
+          <div>
+            <p class="label">Use Cases</p>
+          </div>
 
-                <div class="hero-actions">
-                  <a class="button button-primary" href="mailto:me@aryadhargupta.com">Start a Project</a>
-                  <a class="button button-secondary" href="#systems">View Working Systems</a>
-                </div>
+          <div>
+            <h2 class="section-title">For operations where the software has to match the ground reality.</h2>
+            <p class="section-intro">
+              The strongest fit is a business with a real process, fragmented data, manual tracking, connected hardware,
+              or a workflow that needs to become measurable.
+            </p>
+
+            <div class="usecase-panel">
+              <article class="usecase">
+                <h3>Malls and entertainment venues</h3>
+                <p>Revenue visibility, customer feedback, staff-linked incentives, footfall workflows, and owner views.</p>
+              </article>
+
+              <article class="usecase">
+                <h3>Facilities and buildings</h3>
+                <p>Monitoring, maintenance workflows, sensor dashboards, equipment visibility, and reporting layers.</p>
+              </article>
+
+              <article class="usecase">
+                <h3>Environmental projects</h3>
+                <p>Air-quality systems, field sensors, public dashboards, data logging, and reporting infrastructure.</p>
+              </article>
+
+              <article class="usecase">
+                <h3>Logistics and movement</h3>
+                <p>Tracking workflows, dispatch visibility, status logs, product movement, and exception reporting.</p>
+              </article>
+
+              <article class="usecase">
+                <h3>Internal operations</h3>
+                <p>Tools for teams, approvals, task states, data entry, records, process control, and management views.</p>
+              </article>
+
+              <article class="usecase">
+                <h3>Custom hardware workflows</h3>
+                <p>Interfaces that connect devices, control outputs, collect readings, and expose live system state.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="method">
+        <div class="wrap section-grid">
+          <div>
+            <p class="label">Method</p>
+          </div>
+
+          <div>
+            <h2 class="section-title">A practical build process from workflow to deployed system.</h2>
+            <p class="section-intro">
+              The goal is not to add software for the sake of software. The goal is to make the operation clearer,
+              faster, more measurable, or easier to control.
+            </p>
+
+            <div class="method">
+              <article class="method-step">
+                <span>01</span>
+                <h3>Map</h3>
+                <p>Understand the process, users, data, devices, and commercial objective.</p>
+              </article>
+
+              <article class="method-step">
+                <span>02</span>
+                <h3>Design</h3>
+                <p>Define the system flow, interfaces, data structure, and operating logic.</p>
+              </article>
+
+              <article class="method-step">
+                <span>03</span>
+                <h3>Build</h3>
+                <p>Develop the software, backend, dashboards, integrations, and device communication.</p>
+              </article>
+
+              <article class="method-step">
+                <span>04</span>
+                <h3>Deploy</h3>
+                <p>Put the system into a real environment with testing, security, and documentation.</p>
+              </article>
+
+              <article class="method-step">
+                <span>05</span>
+                <h3>Improve</h3>
+                <p>Use live feedback and operational data to refine the system after deployment.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact" id="contact">
+        <div class="wrap">
+          <div class="contact-panel">
+            <div>
+              <p class="label">Start a Project</p>
+              <h2>Build a system around your operation.</h2>
+              <p>
+                For dashboards, internal tools, monitoring systems, connected hardware, automation, or custom operational
+                software, send the process you want to improve.
+              </p>
+              <a class="button" href="mailto:me@aryadhargupta.com">Start a Project</a>
+            </div>
+
+            <div class="contact-list">
+              <div class="contact-item">
+                <span>Email</span>
+                <a href="mailto:me@aryadhargupta.com">me@aryadhargupta.com</a>
               </div>
 
-              <div class="contact-list">
-                <div class="contact-row">
-                  <span>Email</span>
-                  <a href="mailto:me@aryadhargupta.com">me@aryadhargupta.com</a>
-                </div>
+              <div class="contact-item">
+                <span>Phone</span>
+                <a href="tel:+919560082697">+91 95600 82697</a>
+              </div>
 
-                <div class="contact-row">
-                  <span>Phone</span>
-                  <a href="tel:+919560082697">+91 95600 82697</a>
-                </div>
+              <div class="contact-item">
+                <span>Location</span>
+                <strong>Delhi, India</strong>
+              </div>
 
-                <div class="contact-row">
-                  <span>Location</span>
-                  <a href="https://www.google.com/maps/search/Delhi,+India" target="_blank" rel="noreferrer">
-                    Delhi, India
-                  </a>
-                </div>
+              <div class="contact-item">
+                <span>GitHub</span>
+                <a href="https://github.com/aryadharg-max" target="_blank" rel="noreferrer">@aryadharg-max</a>
+              </div>
 
-                <div class="contact-row">
-                  <span>GitHub</span>
-                  <a href="https://github.com/aryadharg-max" target="_blank" rel="noreferrer">@aryadharg-max</a>
-                </div>
-
-                <div class="contact-row">
-                  <span>Instagram</span>
-                  <a href="https://instagram.com/aryadhargupta" target="_blank" rel="noreferrer">@aryadhargupta</a>
-                </div>
+              <div class="contact-item">
+                <span>Instagram</span>
+                <a href="https://instagram.com/aryadhargupta" target="_blank" rel="noreferrer">@aryadhargupta</a>
               </div>
             </div>
           </div>
-        </section>
-      </main>
-
-      <footer class="footer">
-        <div class="wrap footer-inner">
-          <span>© {new Date().getFullYear()} AG Systems.</span>
-          <span>A technology systems company by Aryadhar Gupta.</span>
         </div>
-      </footer>
-    </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <span>© {new Date().getFullYear()} AG Systems.</span>
+        <span>A technology systems company by Aryadhar Gupta.</span>
+      </div>
+    </footer>
   </body>
 </html>
