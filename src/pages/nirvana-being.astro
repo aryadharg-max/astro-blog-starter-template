@@ -1,0 +1,242 @@
+---
+const pageTitle = "Nirvana Being — Air Quality Monitoring | AG Systems";
+const pageDescription =
+  "Case study: a ground-up air quality monitoring system built by AG Systems for Nirvana Being — device concept, backend, and live environmental dashboard.";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={pageDescription} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+
+    <style>
+      :root {
+        --paper: #f3eee5;
+        --ink: #15130f;
+        --body: #3b372f;
+        --muted: #70675b;
+        --quiet: #9b9080;
+        --rule: rgba(21, 19, 15, 0.15);
+        --rule-strong: rgba(21, 19, 15, 0.34);
+        --black: #15130f;
+        --white: #fffaf0;
+        --max: 900px;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        background: linear-gradient(180deg, var(--paper), #f6f1e8 46%, var(--paper));
+        color: var(--ink);
+        font-family: "Segoe UI", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      .wrap { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; }
+
+      .topbar {
+        position: sticky; top: 0; z-index: 30;
+        border-bottom: 1px solid var(--rule);
+        background: rgba(243, 238, 229, 0.9);
+        backdrop-filter: blur(16px);
+      }
+      .nav {
+        min-height: 64px; display: flex; justify-content: space-between; align-items: center;
+      }
+      .brand-name { font-size: 18px; font-weight: 760; letter-spacing: -0.045em; }
+      .backlink { font-size: 13px; color: var(--muted); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+      .backlink:hover { color: var(--ink); border-color: var(--ink); }
+
+      .label {
+        margin: 0 0 16px; color: var(--muted);
+        font-size: 12px; letter-spacing: 0.07em; text-transform: uppercase;
+      }
+      .label::before {
+        content: ""; display: inline-block; width: 28px; height: 1px;
+        margin-right: 10px; vertical-align: middle; background: var(--rule-strong);
+      }
+
+      h1, h2 { font-family: Georgia, "Times New Roman", ui-serif, serif; font-weight: 520; }
+
+      .hero { padding: 56px 0 40px; border-bottom: 1px solid var(--rule); }
+      h1 {
+        margin: 0; font-size: clamp(38px, 5vw, 64px);
+        line-height: 0.98; letter-spacing: -0.055em; max-width: 760px;
+      }
+      .hero-copy {
+        max-width: 680px; margin: 20px 0 0; color: var(--body);
+        font-size: 18px; line-height: 1.55; letter-spacing: -0.015em;
+      }
+
+      .facts {
+        margin: 32px 0 0; padding: 0; list-style: none;
+        border-top: 1px solid var(--rule); max-width: 680px;
+      }
+      .facts li {
+        display: grid; grid-template-columns: 130px 1fr; gap: 18px;
+        padding: 10px 0; border-bottom: 1px solid var(--rule); font-size: 14px;
+      }
+      .facts span { color: var(--muted); }
+      .facts strong { font-weight: 650; }
+
+      .section { padding: 44px 0; border-bottom: 1px solid var(--rule); }
+      h2 { margin: 0 0 16px; font-size: clamp(26px, 3vw, 38px); letter-spacing: -0.05em; line-height: 1.02; }
+      .section p { max-width: 680px; margin: 0 0 14px; color: var(--body); font-size: 16px; line-height: 1.6; }
+
+      .layer-list { border-top: 1px solid var(--rule-strong); margin-top: 24px; }
+      .layer {
+        display: grid; grid-template-columns: 0.4fr 1fr; gap: 32px;
+        padding: 18px 0; border-bottom: 1px solid var(--rule);
+      }
+      .layer h3 { margin: 0; font-size: 18px; letter-spacing: -0.035em; font-weight: 690; }
+      .layer p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+
+      .quote {
+        margin: 24px 0 0; padding: 26px;
+        background: var(--black); color: var(--white); max-width: 680px;
+      }
+      .quote p {
+        margin: 0; font-family: Georgia, ui-serif, serif;
+        font-size: 20px; line-height: 1.4; color: var(--white);
+      }
+      .quote footer { margin-top: 14px; font-size: 13px; color: rgba(255, 250, 240, 0.6); }
+
+      .cta { padding: 48px 0 64px; }
+      .cta p { max-width: 620px; margin: 0 0 22px; color: var(--body); font-size: 16px; line-height: 1.6; }
+      .button {
+        min-height: 40px; display: inline-flex; align-items: center; justify-content: center;
+        padding: 0 16px; border: 1px solid var(--black); background: var(--black); color: var(--white);
+        font-size: 13px; font-weight: 650;
+      }
+      .button:hover { opacity: 0.86; }
+      .button-ghost { background: transparent; color: var(--ink); border-color: var(--rule-strong); margin-left: 8px; }
+      .button-ghost:hover { background: var(--black); color: var(--white); border-color: var(--black); opacity: 1; }
+
+      .footer { padding: 22px 0; border-top: 1px solid var(--rule); color: var(--muted); font-size: 12px; }
+      .footer-inner { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+
+      @media (max-width: 720px) {
+        .wrap { width: min(100% - 28px, var(--max)); }
+        .layer { grid-template-columns: 1fr; gap: 8px; }
+        .facts li { grid-template-columns: 1fr; gap: 3px; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div class="wrap nav">
+        <a class="brand-name" href="/">AG Systems</a>
+        <a class="backlink" href="/#systems">← Back to Working Systems</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap">
+          <p class="label">Case study — Client deployment</p>
+          <h1>Air quality monitoring for Nirvana Being.</h1>
+          <p class="hero-copy">
+            Nirvana Being needed live air-quality visibility tied to their brand — not an off-the-shelf monitor
+            with someone else's app. AG Systems built the system end to end: the monitoring concept, the data
+            flow, the backend, and the public-facing dashboard.
+          </p>
+
+          <ul class="facts" aria-label="Project facts">
+            <li><span>Client</span><strong>Nirvana Being</strong></li>
+            <li><span>Type</span><strong>Connected product + live dashboard</strong></li>
+            <li><span>Scope</span><strong>Device concept, backend, web layer</strong></li>
+            <li><span>Status</span><strong>Deployed — <a href="https://nirvanayours.com/" target="_blank" rel="noreferrer" style="border-bottom:1px solid var(--rule-strong)">live dashboard</a></strong></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap">
+          <h2>The problem</h2>
+          <p>
+            Air quality is central to Nirvana Being's offering, but the data behind it lived in disconnected
+            tools. There was no single live view that the business owned, matched their brand, and could be
+            shown to customers.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap">
+          <h2>What was built</h2>
+          <div class="layer-list">
+            <div class="layer">
+              <h3>Monitoring concept</h3>
+              <p>The physical air-quality measurement approach — what to measure, where, and how readings flow out of the device layer.</p>
+            </div>
+            <div class="layer">
+              <h3>Data flow and backend</h3>
+              <p>Sensor readings collected, structured, and stored so the dashboard always reflects current conditions.</p>
+            </div>
+            <div class="layer">
+              <h3>Live dashboard</h3>
+              <p>A public environmental dashboard on the client's own domain, presenting the readings in their brand.</p>
+            </div>
+            <div class="layer">
+              <h3>Web layer</h3>
+              <p>The commercial-facing site structure around the dashboard, built for the client to operate.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TODO: fill in real numbers before publishing this section, or delete it.
+           Examples of numbers worth using: readings logged per day, days of continuous
+           uptime, number of monitored locations. Do not publish placeholder numbers. -->
+      <!--
+      <section class="section">
+        <div class="wrap">
+          <h2>In numbers</h2>
+          <p>[X] readings per day · [X] days continuous operation · [X] locations monitored</p>
+        </div>
+      </section>
+      -->
+
+      <!-- TODO: ask Nirvana Being for a one-line quote and their preferred attribution,
+           then uncomment. A real named quote is the strongest element on this page. -->
+      <!--
+      <section class="section">
+        <div class="wrap">
+          <h2>From the client</h2>
+          <div class="quote">
+            <p>"[Client quote here.]"</p>
+            <footer>[Name, role] — Nirvana Being</footer>
+          </div>
+        </div>
+      </section>
+      -->
+
+      <section class="cta">
+        <div class="wrap">
+          <h2>Need a system like this?</h2>
+          <p>
+            The same method applies to any business that needs a connected product, a live dashboard,
+            or an operational backend built around how it actually runs.
+          </p>
+          <a class="button" href="mailto:me@aryadhargupta.com">Start a Project</a>
+          <a class="button button-ghost" href="/#systems">See other systems</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <span>© {new Date().getFullYear()} AG Systems.</span>
+        <span>A technology systems company by Aryadhar Gupta.</span>
+      </div>
+    </footer>
+  </body>
+</html>
