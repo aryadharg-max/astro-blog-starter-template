@@ -1,0 +1,53 @@
+---
+const pageTitle = "Page not found | AG Systems";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <style>
+      :root {
+        --paper: #f3eee5;
+        --ink: #15130f;
+        --body: #3b372f;
+        --muted: #70675b;
+        --rule: rgba(21, 19, 15, 0.15);
+        --rule-strong: rgba(21, 19, 15, 0.34);
+        --black: #15130f;
+        --white: #fffaf0;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; min-height: 100vh; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; padding: 24px;
+        background: linear-gradient(180deg, var(--paper), #f6f1e8);
+        color: var(--ink);
+        font-family: "Segoe UI", Inter, ui-sans-serif, system-ui, sans-serif;
+        text-align: center;
+      }
+      .code { color: var(--muted); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 14px; }
+      h1 {
+        font-family: Georgia, ui-serif, serif; font-weight: 520;
+        font-size: clamp(34px, 6vw, 56px); letter-spacing: -0.05em;
+        line-height: 1; margin: 0 0 16px; max-width: 560px;
+      }
+      p { color: var(--body); font-size: 16px; line-height: 1.55; margin: 0 0 26px; max-width: 460px; }
+      a.button {
+        display: inline-flex; align-items: center; justify-content: center;
+        min-height: 40px; padding: 0 16px;
+        background: var(--black); color: var(--white); text-decoration: none;
+        font-size: 13px; font-weight: 650; border: 1px solid var(--black);
+      }
+      a.button:hover { opacity: 0.86; }
+    </style>
+  </head>
+  <body>
+    <p class="code">404</p>
+    <h1>This page doesn't exist.</h1>
+    <p>The address may be wrong, or the page may have moved. Everything current is on the homepage.</p>
+    <a class="button" href="/">Go to homepage</a>
+  </body>
+</html>
